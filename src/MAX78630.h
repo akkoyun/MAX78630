@@ -40,6 +40,10 @@ class MAX78630 {
 
 		bool Begin(void);
 
+		bool Set_VScale(uint32_t _VScale);
+		bool Set_IScale(uint32_t _VScale);
+		bool Set_Harmonic(uint32_t _Harmonic);
+
 		float IC_Temperature(void);
 		float Firmware(void);
 
@@ -48,7 +52,6 @@ class MAX78630 {
 		float Voltage_Instantaneous(char Phase);
 		float Voltage_Fundamental(char Phase);
 		float Voltage_Harmonic(char Phase);
-		float Voltage_V_Target(void);
 		float Voltage_RMS_Min(void);
 		float Voltage_RMS_Max(void);
 		float Voltage_SAG_Limit(void);
@@ -56,22 +59,32 @@ class MAX78630 {
 		// Current Measurements
 		float Current_RMS(char Phase);
 		float Current_Instantaneous(char Phase);
+		float Current_Peak(char Phase);
 		float Current_Fundamental(char Phase);
 		float Current_Harmonic(char Phase);
-		float Current_I_Target(void);
 		float Current_RMS_Max(void);
 
-		float Phase_Compensation(char Phase);
+		float Active_Power(char Phase);
+		float ReActive_Power(char Phase);
+		float Apparent_Power(char Phase);
+		float Fundamental_Power(char Phase);
+		float Harmonic_Power(char Phase);
+		float Power_Factor(char Phase);
 
-		bool Set_VScale(uint32_t _VScale);
-		bool Set_IScale(uint32_t _VScale);
+		float Frequency(void);
+
+
+
+
+
 
 		void VT100_Base(void);
 
 	private:
 
-		double 		_Register_Pointer_Read(Register _Command);
-		void		_Clear_Buffer(void);
+		double _Register_Pointer_Read(Register _Command);
+		void _Clear_Buffer(void);
+		bool _Register_Pointer_Set(Register _Command, uint32_t _Data);
 
 		uint32_t 	_VScale	= 0;
 		uint32_t 	_IScale	= 0;

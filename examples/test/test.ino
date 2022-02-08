@@ -53,10 +53,6 @@ void loop() {
 
 
 
-  VT100.setTextColor(VT_CYAN); VT100.setCursor(25, 30); Serial.print(Energy_Analayser.Phase_Compensation('R'));
-  VT100.setTextColor(VT_CYAN); VT100.setCursor(26, 30); Serial.print(Energy_Analayser.Phase_Compensation('S'));
-  VT100.setTextColor(VT_CYAN); VT100.setCursor(27, 30); Serial.print(Energy_Analayser.Phase_Compensation('T'));
-
 
 
 /*
