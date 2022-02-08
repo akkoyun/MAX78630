@@ -6,6 +6,7 @@
 
 | Register | Açıklama                                 |       |
 |----------|------------------------------------------|-------|
+| T        | Çip sıcaklığı kalibre değeri.            |       |
 | T_OFFS   | Çip sıcaklığı offset kalibrasyon değeri. | $T_o$ |
 | T_GAIN   | Çip sıcaklığı kazanç kalibrasyon değeri. | $T_g$ |
 
