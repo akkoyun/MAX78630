@@ -1,19 +1,83 @@
-#ifndef __Defination__
-#define __Defination__
+#ifndef __MAX78630_DEFINATION__
+#define __MAX78630_DEFINATION__
 
-// Define LED Variables
-#define		__RED__							0
-#define		__GREEN__						1
-#define		__BLUE__						2
-
-struct Struct {
-
-	// Library firmware variable
-	const char	Firmware[9];
-
-	// Hardware firmware variable
-	const char	Hardware[9];
-
+struct Register {
+	const uint8_t High_Address;
+	const uint8_t Low_Address;
+	const uint8_t Data_Type;
+	const bool NonVolatile;
 };
+
+
+
+// --------------------------------------------------------------------------------------------------------------------------
+// Master Packets
+// --------------------------------------------------------------------------------------------------------------------------
+// Master packets always start with the 1-byte header (0xAA) for synchronization purposes. The master 
+// then sends the byte count of the entire packet (up to 255 byte packets) followed by the payload 
+// (up to 253 bytes) and a 1-byte modulo-256 checksum of all packet bytes for data integrity checking.
+//
+// [Header 0xAA] - [Byte Count] - [Payload] - [CheckSum]
+//
+// The payload can contain either a single command or multiple commands if the target is already selected. 
+// It can also include device addresses, register addresses, and data. All multi-byte payloads are sent 
+// and received least-significant-byte first.
+// 
+// |-------------|--------------------------|--------------------------------------------------|
+// | Command     | Parameters               | Description                                      |
+// |-------------|--------------------------|--------------------------------------------------|
+// | 0x00 - 0x7F |                          | Invalid                                          |
+// | 0x80 - 0x9F |                          | Not Used                                         |
+// |    0xA0     |                          | Clear Address                                    |
+// |    0xA1     | [Byte Low]               | Set Read/Write address bits [7:0]                |
+// |    0xA2     | [Byte High]              | Set Read/Write address bits [15:8]               |
+// |    0xA3     | [Byte High] - [Byte Low] | Set Read/Write address bits [15:0]               |
+// | 0xA4 - 0xAF |                          | Reserved for larger address targets              |
+// | 0xB0 - 0xBF |                          | Not Used                                         |
+// |    0xC0     |                          | De-select Target (target will Acknowledge)       |
+// | 0xC1 - 0xCE |                          | Select target 1 to 14 (target will Acknowledge)  |
+// |    0xCF     | [Byte]                   | Select target 0 to 255 (target will Acknowledge) |
+// |    0xD0     | [Data..]                 | Write bytes set by remainder of Byte Count       |
+// | 0xD1 - 0xDF | [Data..]                 | Write 1 to 15 bytes                              |
+// |    0xE0     | [Byte]                   | Read 0 to 255 bytes                              |
+// | 0xE1 - 0xEF |                          | Read 1 to 15 bytes                               |
+// | 0xF0 - 0xFF |                          | Not Used                                         |
+// |-------------|--------------------------|--------------------------------------------------|
+//
+// Users only need to implement commands they actually need or intend to use. For example, only one address 
+// command is required – either 0xA1 for systems with 8 address bits or less or 0xA3 for systems with 9 to 
+// 16 address bits. Likewise, only one write, read, or select target command needs to be implemented. Select 
+// Target is not needed in systems with only one target.
+//
+// Command Payload Examples
+//
+// Device Selection
+// [0xCF] - [SSI ID]
+//
+// Register Address Pointer Selection
+// [0xA3] - [Register Address (2 Bytes)]
+//
+// Small Read Command (3 bytes)
+// [0xE3]
+//
+// Large Read Command (30 bytes)
+// [0xE0] - [0x1E]
+//
+// Small Write Command (3 bytes)
+// [0xD3] - [3 Bytes of Data]
+//
+// Large Write Command (30 bytes)
+// [0x21] - [0xD0] - [30 Bytes of Data]
+//
+// --------------------------------------------------------------------------------------------------------------------------
+
+// Pack Byte Definations
+#define Pack_Header			(uint8_t)0xAA
+#define Pack_Device_Select	(uint8_t)0xCF
+#define Pack_Register		(uint8_t)0xA3
+#define Pack_Small_Read		(uint8_t)0xE3
+#define Pack_Large_Read		(uint8_t)0xE0
+#define Pack_Small_Write	(uint8_t)0xD3
+#define Pack_Lager_Write	(uint8_t)0x21
 
 #endif
