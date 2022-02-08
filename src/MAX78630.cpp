@@ -377,27 +377,35 @@ float MAX78630::Voltage_Instantaneous(char Phase) {
 	return(_Result * _VScale);
 
 }
-float MAX78630::Voltage_Fundamental(char Phase) {
+float MAX78630::Voltage_Fundamental(const char _Phase, const uint8_t _Harmonic) {
+
+	// Set Harmonic
+	Set_Harmonic(_Harmonic);
 
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(VFUND_A); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(VFUND_B); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(VFUND_C); // Measure Phase T
-	
+	// Get Measured Data
+	if (_Phase == 'R') _Result = _Register_Pointer_Read(VFUND_A); // Measure Phase R
+	if (_Phase == 'S') _Result = _Register_Pointer_Read(VFUND_B); // Measure Phase S
+	if (_Phase == 'T') _Result = _Register_Pointer_Read(VFUND_C); // Measure Phase T
+
 	// End Function
 	return(_Result * _VScale);
 
 }
-float MAX78630::Voltage_Harmonic(char Phase) {
+float MAX78630::Voltage_Harmonic(const char _Phase, const uint8_t _Harmonic) {
+
+	// Set Harmonic
+	Set_Harmonic(_Harmonic);
 
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(VHARM_A); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(VHARM_B); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(VHARM_C); // Measure Phase T
+	// Get Measured Data
+	if (_Phase == 'R') _Result = _Register_Pointer_Read(VHARM_A); // Measure Phase R
+	if (_Phase == 'S') _Result = _Register_Pointer_Read(VHARM_B); // Measure Phase S
+	if (_Phase == 'T') _Result = _Register_Pointer_Read(VHARM_C); // Measure Phase T
 	
 	// End Function
 	return(_Result * _VScale);

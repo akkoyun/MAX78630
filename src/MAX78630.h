@@ -50,8 +50,8 @@ class MAX78630 {
 		// Voltage Measurements
 		float Voltage_RMS(char Phase);
 		float Voltage_Instantaneous(char Phase);
-		float Voltage_Fundamental(char Phase);
-		float Voltage_Harmonic(char Phase);
+		float Voltage_Fundamental(const char _Phase, const uint8_t _Harmonic);
+		float Voltage_Harmonic(const char _Phase, const uint8_t _Harmonic);
 		float Voltage_RMS_Min(void);
 		float Voltage_RMS_Max(void);
 		float Voltage_SAG_Limit(void);
