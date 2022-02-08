@@ -217,6 +217,7 @@ Register DEVADDR		{0x00, 0x4E, 0, true};		// High order address bits for I2C and
 Register BAUD			{0x00, 0x51, 0, true};		// Baud rate for UART interface
 Register SYSSTAT		{0x02, 0x43, 0, false};		// Bit 23 is a sticky register with status of any SPI Errors
 
+// Begin Functions
 bool MAX78630::Begin(void) {
 
 	// Start Serial Communication
@@ -319,6 +320,35 @@ bool MAX78630::Begin(void) {
 
 }
 
+// Set Scale Registers
+bool MAX78630::Set_VScale(uint32_t _VScale) {
+
+	// Set Register
+	_Register_Pointer_Set(VSCALE, _VScale);
+
+	// End Function
+	return(true);
+
+}
+bool MAX78630::Set_IScale(uint32_t _IScale) {
+
+	// Set Register
+	_Register_Pointer_Set(IFSCALE, _IScale);
+
+	// End Function
+	return(true);
+
+}
+bool MAX78630::Set_Harmonic(uint32_t _Harmonic) {
+
+	// Set Register
+	_Register_Pointer_Set(HARM, _Harmonic);
+
+	// End Function
+	return(true);
+
+}
+
 // Voltage Measurements
 float MAX78630::Voltage_RMS(char Phase) {
 
@@ -328,6 +358,7 @@ float MAX78630::Voltage_RMS(char Phase) {
 	if (Phase == 'R') _Result = _Register_Pointer_Read(VA_RMS); // Measure Phase R
 	if (Phase == 'S') _Result = _Register_Pointer_Read(VB_RMS); // Measure Phase S
 	if (Phase == 'T') _Result = _Register_Pointer_Read(VC_RMS); // Measure Phase T
+	if (Phase == 'A') _Result = _Register_Pointer_Read(VT_RMS); // Measure Phase Average
 	
 	// End Function
 	return(_Result * _VScale);
@@ -367,17 +398,6 @@ float MAX78630::Voltage_Harmonic(char Phase) {
 	if (Phase == 'R') _Result = _Register_Pointer_Read(VHARM_A); // Measure Phase R
 	if (Phase == 'S') _Result = _Register_Pointer_Read(VHARM_B); // Measure Phase S
 	if (Phase == 'T') _Result = _Register_Pointer_Read(VHARM_C); // Measure Phase T
-	
-	// End Function
-	return(_Result * _VScale);
-
-}
-float MAX78630::Voltage_V_Target(void) {
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(V_TARGET); // Measure Phase R
 	
 	// End Function
 	return(_Result * _VScale);
@@ -426,6 +446,7 @@ float MAX78630::Current_RMS(char Phase) {
 	if (Phase == 'R') _Result = _Register_Pointer_Read(IA_RMS); // Measure Phase R
 	if (Phase == 'S') _Result = _Register_Pointer_Read(IA_RMS); // Measure Phase S
 	if (Phase == 'T') _Result = _Register_Pointer_Read(IA_RMS); // Measure Phase T
+	if (Phase == 'A') _Result = _Register_Pointer_Read(IT_RMS); // Measure Phase Average
 	
 	// End Function
 	return(_Result * _IScale);
@@ -439,6 +460,19 @@ float MAX78630::Current_Instantaneous(char Phase) {
 	if (Phase == 'R') _Result = _Register_Pointer_Read(IA); // Measure Phase R
 	if (Phase == 'S') _Result = _Register_Pointer_Read(IB); // Measure Phase S
 	if (Phase == 'T') _Result = _Register_Pointer_Read(IC); // Measure Phase T
+	
+	// End Function
+	return(_Result * _IScale);
+
+}
+float MAX78630::Current_Peak(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(IA_PEAK); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(IB_PEAK); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(IC_PEAK); // Measure Phase T
 	
 	// End Function
 	return(_Result * _IScale);
@@ -470,17 +504,6 @@ float MAX78630::Current_Harmonic(char Phase) {
 	return(_Result * _IScale);
 
 }
-float MAX78630::Current_I_Target(void) {
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(I_TARGET); // Measure Phase R
-	
-	// End Function
-	return(_Result * _IScale);
-
-}
 float MAX78630::Current_RMS_Max(void) {
 
 	// Declare Variable
@@ -493,11 +516,91 @@ float MAX78630::Current_RMS_Max(void) {
 
 }
 
-/**
- * @brief Read IC Temperature
- * @version 01.00.00
- * @return float IC Temperature in Celcius
- */
+// Power Measurements
+float MAX78630::Active_Power(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(WATT_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(WATT_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(WATT_C); // Measure Phase T
+	if (Phase == 'A') _Result = _Register_Pointer_Read(WATT_T); // Measure Phase Average
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::ReActive_Power(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(VAR_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(VAR_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(VAR_C); // Measure Phase T
+	if (Phase == 'A') _Result = _Register_Pointer_Read(VAR_T); // Measure Phase Average
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::Apparent_Power(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(VA_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(VA_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(VA_C); // Measure Phase T
+	if (Phase == 'A') _Result = _Register_Pointer_Read(VA_T); // Measure Phase Average
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::Fundamental_Power(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(PFUND_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(PFUND_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(PFUND_C); // Measure Phase T
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::Harmonic_Power(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(PHARM_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(PHARM_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(PHARM_C); // Measure Phase T
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::Power_Factor(char Phase) {
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(PFA); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(PFB); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(PFC); // Measure Phase T
+	if (Phase == 'A') _Result = _Register_Pointer_Read(PF_T); // Measure Phase Average
+	
+	// End Function
+	return(_Result);
+	
+}
+
+// Temperature Measurements
 float MAX78630::IC_Temperature(void) {
 
 	// Declare Variable
@@ -511,15 +614,15 @@ float MAX78630::IC_Temperature(void) {
 	
 }
 
-float MAX78630::Phase_Compensation(char Phase) {
+// Frequency Measurements
+float MAX78630::Frequency(void) {
 
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(PHASECOMP1); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(PHASECOMP2); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(PHASECOMP3); // Measure Phase T
-	
+	// Get Data
+	_Result = _Register_Pointer_Read(FREQ);
+
 	// End Function
 	return(_Result);
 	
@@ -535,29 +638,21 @@ float MAX78630::Phase_Compensation(char Phase) {
 
 
 
-bool MAX78630::Set_VScale(uint32_t _VScale) {
 
-	// Header 						(0xAA)
-	// Total Sended Byte 			(0x0A)
-	// Pointer Selection Command 	(0xA3)
-	// Parameter 1 					(0x44)
-	// Parameter 2 					(0x01)
-	// Small Write Command 			(0xD3)
-	// Parameter 1 					(0x)
-	// Parameter 2 					(0x)
-	// Parameter 3 					(0x)
-	// CheckSum 					(chk)
+
+
+bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
+
+	// Clear Buffer
+	_Clear_Buffer();
 
 	// Convert Parameters
-	char _Parameter1 = _VScale>>16;
-	char _Parameter2 = _VScale>>8;
-	char _Parameter3 = _VScale;
-	
-	// Clear Buffer
-	//ClearBuffer();
-	
+	char _Parameter1 = _Data;
+	char _Parameter2 = _Data>>8;
+	char _Parameter3 = _Data>>16;
+
 	// Calculate CheckSum
-	uint8_t ChkS = 0x100 - ((0xAA + 0x0A + 0xA3 + 0x44 + 0x01 + 0xD3 + _Parameter1 + _Parameter2 + _Parameter3) % 256); // Calculate checksum
+	uint8_t ChkS = 0x100 - ((0xAA + 0x0A + 0xA3 + _Command.Low_Address + _Command.High_Address + 0xD3 + _Parameter1 + _Parameter2 + _Parameter3) % 256); // Calculate checksum
 
 	// Clear Serial Buffer
 	_Clear_Buffer();
@@ -566,12 +661,12 @@ bool MAX78630::Set_VScale(uint32_t _VScale) {
 	Energy_Serial.write(0xAA);
 	Energy_Serial.write(0x0A);
 	Energy_Serial.write(0xA3);
-	Energy_Serial.write(0x44);
-	Energy_Serial.write(0x01);
+	Energy_Serial.write(_Command.Low_Address);
+	Energy_Serial.write(_Command.High_Address);
 	Energy_Serial.write(0xD3);
-	Energy_Serial.write(_Parameter3);
-	Energy_Serial.write(_Parameter2);
 	Energy_Serial.write(_Parameter1);
+	Energy_Serial.write(_Parameter2);
+	Energy_Serial.write(_Parameter3);
 	Energy_Serial.write(ChkS);
 
 	// Command Delay
@@ -579,58 +674,8 @@ bool MAX78630::Set_VScale(uint32_t _VScale) {
 
 	// End Function
 	return(true);
+
 }
-bool MAX78630::Set_IScale(uint32_t _IScale) {
-
-	// Header 						(0xAA)
-	// Total Sended Byte 			(0x0A)
-	// Pointer Selection Command 	(0xA3)
-	// Parameter 1 					(0x44)
-	// Parameter 2 					(0x01)
-	// Small Write Command 			(0xD3)
-	// Parameter 1 					(0x)
-	// Parameter 2 					(0x)
-	// Parameter 3 					(0x)
-	// CheckSum 					(chk)
-
-	// Convert Parameters
-	char _Parameter1 = _IScale>>16;
-	char _Parameter2 = _IScale>>8;
-	char _Parameter3 = _IScale;
-	
-	// Clear Buffer
-	//ClearBuffer();
-	
-	// Calculate CheckSum
-	uint8_t ChkS = 0x100 - ((0xAA + 0x0A + 0xA3 + 0x41 + 0x01 + 0xD3 + _Parameter1 + _Parameter2 + _Parameter3) % 256); // Calculate checksum
-
-	// Clear Serial Buffer
-	_Clear_Buffer();
-
-	// Send Command
-	Energy_Serial.write(0xAA);
-	Energy_Serial.write(0x0A);
-	Energy_Serial.write(0xA3);
-	Energy_Serial.write(0x41);
-	Energy_Serial.write(0x01);
-	Energy_Serial.write(0xD3);
-	Energy_Serial.write(_Parameter3);
-	Energy_Serial.write(_Parameter2);
-	Energy_Serial.write(_Parameter1);
-	Energy_Serial.write(ChkS);
-
-	// Command Delay
-	delay(20);
-
-	// End Function
-	return(true);
-}
-
-/**
- * @brief Register pointer read function
- * @param _Command Command type
- * @return double Register data
- */
 double MAX78630::_Register_Pointer_Read(Register _Command) {
 	
 	/*
@@ -726,17 +771,12 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	return(_Data_SUM);
 
 }
-
-/**
- * @brief Clear serial buffer
- */
 void MAX78630::_Clear_Buffer(void) {
 
 	// Clear UART Buffer
 	Energy_Serial.flush(); while(Energy_Serial.available() > 0) Energy_Serial.read(); delay(5);
 
 }
-
 void MAX78630::VT100_Base(void) {
 
 	VT100.setTextColor(VT_WHITE); 
@@ -820,15 +860,6 @@ void MAX78630::VT100_Base(void) {
 	VT100.setCursor(54, 102); UART_Terminal.print(F("C"));
 */
 }
-
-
-
-
-
-
-
-
-
 
 // Define Library Class
 MAX78630 Energy_Analayser;
