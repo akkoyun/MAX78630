@@ -1,19 +1,15 @@
-#ifndef __Defination__
-#define __Defination__
+#ifndef __MAX78630_CONFIG__
+#define __MAX78630_CONFIG__
 
-// Define LED Variables
-#define		__RED__							0
-#define		__GREEN__						1
-#define		__BLUE__						2
+// Define Serial Port
+#define Energy_Serial		       	Serial2
+#define Energy_Serial_Baud	        38400
 
-struct Struct {
+// Define Version
+#define Version				        "04.00.01"
 
-	// Library firmware variable
-	const char	Firmware[9];
-
-	// Hardware firmware variable
-	const char	Hardware[9];
-
-};
+// Define Default Read Count
+#define Read_Count                  3
+#define Read_Average_Type           1
 
 #endif
