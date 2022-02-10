@@ -9,6 +9,17 @@ void setup() {
   // Start Analayser
 	Energy_Analayser.Begin();
 
+
+  VT100.setCursor(26, 54); Serial.print(Energy_Analayser.Get_Limit(1));
+  VT100.setCursor(25, 54); Serial.print(Energy_Analayser.Get_Limit(2));
+  VT100.setCursor(26, 21); Serial.print(Energy_Analayser.Get_Limit(3));
+  VT100.setCursor(25, 21); Serial.print(Energy_Analayser.Get_Limit(4));
+  VT100.setCursor(21, 21); Serial.print(Energy_Analayser.Get_Limit(5));
+  VT100.setCursor(20, 21); Serial.print(Energy_Analayser.Get_Limit(6));
+  VT100.setCursor(21, 55); Serial.print(Energy_Analayser.Get_Limit(7));
+  VT100.setCursor(28, 21); Serial.print(Energy_Analayser.Get_Limit(9));
+  VT100.setCursor(29, 21); Serial.print(Energy_Analayser.Get_Limit(10));
+
 }
 
 void loop() {
@@ -17,25 +28,30 @@ void loop() {
 
   VT100.setTextColor(VT_CYAN); 
 
-  VT100.setCursor(9, 21); Serial.print(Energy_Analayser.Voltage_RMS('R'));
-  VT100.setCursor(10, 21); Serial.print(Energy_Analayser.Voltage_RMS('S'));
-  VT100.setCursor(11, 21); Serial.print(Energy_Analayser.Voltage_RMS('T'));
+  VT100.setCursor(9, 21); Serial.print(Energy_Analayser.Voltage_RMS('R'), 3);
+  VT100.setCursor(10, 21); Serial.print(Energy_Analayser.Voltage_RMS('S'), 3);
+  VT100.setCursor(11, 21); Serial.print(Energy_Analayser.Voltage_RMS('T'), 3);
 
-  VT100.setCursor(20, 21); Serial.print(Energy_Analayser.Get_Limit(6));
-  VT100.setCursor(21, 21); Serial.print(Energy_Analayser.Get_Limit(5));
+  VT100.setCursor(6, 55); Serial.print(abs(Energy_Analayser.Current_Instantaneous('R')), 3);
+  VT100.setCursor(7, 55); Serial.print(abs(Energy_Analayser.Current_Instantaneous('S')), 3);
+  VT100.setCursor(8, 55); Serial.print(abs(Energy_Analayser.Current_Instantaneous('T')), 3);
 
-  VT100.setCursor(21, 55); Serial.print(Energy_Analayser.Get_Limit(7));
+  VT100.setCursor(12, 55); Serial.print(Energy_Analayser.Current_RMS('R'), 3);
+  VT100.setCursor(13, 55); Serial.print(Energy_Analayser.Current_RMS('S'), 3);
+  VT100.setCursor(14, 55); Serial.print(Energy_Analayser.Current_RMS('T'), 3);
 
   VT100.setCursor(24, 21); Serial.print(Energy_Analayser.Frequency());
-  VT100.setCursor(25, 21); Serial.print(Energy_Analayser.Get_Limit(4));
-  VT100.setCursor(26, 21); Serial.print(Energy_Analayser.Get_Limit(3));
-
-  VT100.setCursor(28, 21); Serial.print(Energy_Analayser.Get_Limit(9));
-  VT100.setCursor(29, 21); Serial.print(Energy_Analayser.Get_Limit(10));
-
+  
   VT100.setCursor(24, 54); Serial.print(Energy_Analayser.IC_Temperature());
-  VT100.setCursor(25, 54); Serial.print(Energy_Analayser.Get_Limit(2));
-  VT100.setCursor(26, 54); Serial.print(Energy_Analayser.Get_Limit(1));
+
+  VT100.setCursor(32, 21); Serial.print(Energy_Analayser.Get_Bucket_HIGH(), HEX);
+  VT100.setCursor(33, 21); Serial.print(Energy_Analayser.Get_Bucket_LOW(), HEX);
+
+  VT100.setCursor(35, 21); Serial.print(Energy_Analayser.Active_Energy_Recieved('R'), 10);
+  VT100.setCursor(36, 21); Serial.print(Energy_Analayser.Active_Energy_Delivered('R'), 10);
+
+  VT100.setCursor(38, 21); Serial.print(Energy_Analayser.Get_Samples());
+
 
   VT100.setCursor(6, 95); if (Energy_Analayser.Limit.Current_Imbalance) {VT100.setTextColor(VT_RED); Serial.print("X");} else {VT100.setTextColor(VT_CYAN); Serial.print("-");}
   VT100.setCursor(7, 95); if (Energy_Analayser.Limit.Voltage_Imbalance) {VT100.setTextColor(VT_RED); Serial.print("X");} else {VT100.setTextColor(VT_CYAN); Serial.print("-");}

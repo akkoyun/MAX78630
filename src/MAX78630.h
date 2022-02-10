@@ -37,14 +37,31 @@ class MAX78630 {
 
 		bool Begin(void);
 
+		// Hardware Functions
+		uint32_t Get_Baud(void);
+		bool Set_Baud(uint32_t _Baud);
+		uint32_t Get_Device_Address(void);
+		uint32_t Get_System_Stat(void);
+
 		// Scale Functions
 		uint16_t VScale(uint32_t _VScale);
 		uint16_t IScale(uint32_t _VScale);
 		uint8_t Harmonic(uint32_t _Harmonic);
 		
+		// Bucket Functions
+		bool Set_Bucket(void);
+		uint32_t Get_Bucket_LOW(void);
+		uint32_t Get_Bucket_HIGH(void);
+
 		// Limit Functions
 		bool Set_Limit(uint8_t _Limit_ID, float _Value);
 		float Get_Limit(uint8_t _Limit_ID);
+
+		// Data Refresh Functions	
+		uint32_t Get_Frame(void);
+		uint32_t Get_Cycle(void);
+		uint32_t Get_Divisor(void);
+		uint32_t Get_Samples(void);
 
 		// Calibration Functions
 		float Get_Voltage_Gain(char Phase);
@@ -56,6 +73,8 @@ class MAX78630 {
 		float Get_Temperature_Offset(void);
 		float Get_Active_Power_Offset(char Phase);
 		float Get_ReActive_Power_Offset(char Phase);
+		float Get_Voltage_HPF_COEF(void);
+		float Get_Current_HPF_COEF(void);
 
 		// Temperature Functions
 		float IC_Temperature(void);
@@ -70,6 +89,9 @@ class MAX78630 {
 
 		// Frequency Measurements
 		float Frequency(void);
+
+		// Phase Compansation
+		float Phase_Compansation(const char _Phase);
 
 		// Current Measurements
 		float Current_RMS(char Phase);
@@ -88,6 +110,21 @@ class MAX78630 {
 		float Fundamental_ReActive_Power(char Phase);
 		float Harmonic_ReActive_Power(char Phase);
 		float Fundamental_VA_Power(char Phase);
+
+		// Energy Functions
+		float Active_Energy_Recieved(char Phase);
+		float Active_Energy_Delivered(char Phase);
+		float ReActive_Energy_Recieved(char Phase);
+		float ReActive_Energy_Delivered(char Phase);
+
+		// Min Max Tracking Functions
+		bool Set_Min_Max_Address(uint8_t _MM_ADDR, uint32_t _Mask);
+		float Get_Min_Value(uint8_t _MM_ADDR);
+		float Get_Max_Value(uint8_t _MM_ADDR);
+
+		// TODO: Working on functions
+		bool Alarm(void);
+		bool DIO(void);
 
 		// Limit Functions
 		void Control_Limits(void);
