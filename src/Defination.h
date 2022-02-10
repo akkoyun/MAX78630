@@ -8,6 +8,29 @@ struct Register {
 	const bool NonVolatile;
 };
 
+struct Limits {
+	bool Current_Imbalance;
+	bool Voltage_Imbalance;
+	bool Sag_VR;
+	bool Sag_VS;
+	bool Sag_VT;
+	bool Current_Over_Limit_VR;
+	bool Current_Over_Limit_VS;
+	bool Current_Over_Limit_VT;
+	bool Power_Factor_Under_Limit_VR;
+	bool Power_Factor_Under_Limit_VS;
+	bool Power_Factor_Under_Limit_VT;
+	bool Voltage_Under_Limit_VR;
+	bool Voltage_Under_Limit_VS;
+	bool Voltage_Under_Limit_VT;
+	bool Voltage_Over_Limit_VR;
+	bool Voltage_Over_Limit_VS;
+	bool Voltage_Over_Limit_VT;
+	bool Temperature_Under_Limit;
+	bool Temperature_Over_Limit;
+	bool Frequency_Under_Limit;
+	bool Frequency_Over_Limit;
+};
 
 
 // --------------------------------------------------------------------------------------------------------------------------
@@ -79,5 +102,32 @@ struct Register {
 #define Pack_Large_Read		(uint8_t)0xE0
 #define Pack_Small_Write	(uint8_t)0xD3
 #define Pack_Lager_Write	(uint8_t)0x21
+
+enum STATUS_Bits {
+	RESET 			= 0,
+	XSTATE			= 1,
+	I_IMBAL			= 2,
+	V_IMBAL			= 3,
+	VA_SAG			= 4,
+	VB_SAG			= 5,
+	VC_SAG			= 6,
+	OV_IRMSA		= 7,
+	OV_IRMSB		= 8,
+	OV_IRMSC		= 9,
+	UN_PFA			= 10,
+	UN_PFB			= 11,
+	UN_PFC			= 12,
+	UN_VRMSA		= 13,
+	OV_VRMSA		= 14,
+	UN_VRMSB		= 15,
+	OV_VRMSB		= 16,
+	UN_VRMSC		= 17,
+	OV_VRMSC		= 18,
+	UN_TEMP			= 19,
+	OV_TEMP			= 20,
+	UN_FREQ			= 21,
+	OV_FREQ			= 22,
+	DRDY			= 23
+};
 
 #endif
