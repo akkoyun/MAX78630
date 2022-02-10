@@ -27,3 +27,5 @@ In this Arduino Library we can read all data of energy parameters.
 * IC Temperature
 
 Also set limits for alarm monitoring.
+
+![Terminal](/Documents/Terminal.png)
