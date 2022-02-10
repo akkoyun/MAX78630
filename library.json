@@ -30,7 +30,12 @@
 				"<Sample_Name>.ino"
 			]
 		}
-	]
+	],
+	"dependencies":
+	{
+    	"name": "VT100",
+        "version": "https://github.com/kcl93/VT100.git"
+	}
 }
 
 
