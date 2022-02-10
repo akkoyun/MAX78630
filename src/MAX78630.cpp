@@ -20,87 +20,15 @@
 Register COMMAND 		{0x00, 0x00, 0, true};		// Selects modes, functions, or options
 Register FW_VERSION 	{0x00, 0x03, 0, false};		// Hardware and firmware version
 Register CONFIG			{0x00, 0x06, 0, true};		// Selects input configuration
-Register SAMPLES 		{0x00, 0x09, 0, true};		// Minimum high-rate samples per accumulation interval
-Register DIVISOR 		{0x00, 0x0C, 0, false};		// Actual samples in previous accumulation interval
-Register CYCLE 			{0x00, 0x0F, 0, false};		// High-rate sample counter
-Register FRAME 			{0x00, 0x12, 0, false};		// Low-rate sample counter
-
-// Alarm Registers
-Register STATUS_SET		{0x00, 0x1B, 0, false};		// Used to set/force alarm/status bits
-Register MASK1			{0x00, 0x1E, 0, true};		// Alarm/status mask for AL1 output pin
-Register MASK2			{0x00, 0x21, 0, true};		// Alarm/status mask for AL2 output pin
-Register MASK3			{0x00, 0x24, 0, true};		// Alarm/status mask for AL3 output pin
-Register MASK4			{0x00, 0x27, 0, true};		// Alarm/status mask for AL4 output pin
-Register MASK5			{0x00, 0x2A, 0, true};		// Alarm/status mask for AL5 output pin
-Register STICKY			{0x00, 0x2D, 0, true};		// Alarm/status bits to hold until cleared by host
-
-// DIO Registers
-Register DIO_STATE		{0x00, 0x30, 0, false};		// State of DIO pins
-Register DIO_DIR		{0x00, 0x33, 0, true};		// Direction of DIO pins. 1=Input ; 0=Output
-Register DIO_POL		{0x00, 0x36, 0, true};		// Polarity of DIO pins. 1=Active High ; 0=Active Low
-
-// Phase Compensation Registers
-Register PHASECOMP1		{0x00, 0x42, 21, true};		// Phase compensation A
-Register PHASECOMP2		{0x00, 0x45, 21, true};		// Phase compensation B
-Register PHASECOMP3		{0x00, 0x48, 21, true};		// Phase compensation C
 
 // Calibration Registers
 Register VSAG_INT		{0x00, 0x7E, 0, true};		// Voltage sag detect interval
 Register CALCYCS		{0x00, 0x39, 0, true};		// Number of calibration cycles to average
-Register HPF_COEF_I		{0x00, 0x3C, 23, true};		// Current input HPF coefficient
-Register HPF_COEF_V		{0x00, 0x3F, 23, true};		// Voltage input HPF coefficient
 
 // Target Registers
 Register V_TARGET		{0x00, 0xAE, 23, true};		// Calibration Target for Voltages
 Register I_TARGET		{0x00, 0xF6, 23, true};		// Calibration Target for Currents
 Register T_TARGET		{0x01, 0x77, 10, true};		// Temperature calibration target
-
-// Energy Registers
-Register BUCKET_LOW		{0x01, 0xD1, 0, true};		// Energy Bucket Size – Low word
-Register BUCKET_HIGH	{0x01, 0xD4, 0, true};		// Energy Bucket Size – High word
-Register WHA_POS		{0x01, 0xDD, 0, false};		// Received Active Energy Counter A
-Register WHA_NEG		{0x01, 0xE6, 0, false};		// Delivered Active Energy Counter A
-Register WHB_POS		{0x01, 0xEF, 0, false};		// Received Active Energy Counter B
-Register WHB_NEG		{0x01, 0xF8, 0, false};		// Delivered Active Energy Counter B
-Register WHC_POS		{0x02, 0x01, 0, false};		// Received Active Energy Counter C
-Register WHC_NEG		{0x02, 0x0A, 0, false};		// Delivered Active Energy Counter C
-Register VARHA_POS		{0x02, 0x13, 0, false};		// Reactive Energy Leading Counter A
-Register VARHA_NEG		{0x02, 0x1C, 0, false};		// Reactive Energy Lagging Counter A
-Register VARHB_POS		{0x02, 0x25, 0, false};		// Reactive Energy Leading Counter B
-Register VARHB_NEG		{0x02, 0x2E, 0, false};		// Reactive Energy Lagging Counter B
-Register VARHC_POS		{0x02, 0x37, 0, false};		// Reactive Energy Leading Counter C
-Register VARHC_NEG		{0x02, 0x40, 0, false};		// Reactive Energy Lagging Counter C
-
-// Recorded MIN/MAX Registers
-Register MMADDR0		{0x01, 0xB9, 0, true};		// Min/Max Monitor address 1
-Register MIN0			{0x01, 0x89, 0, false};		// Minimum Recorded Value 1
-Register MAX0			{0x01, 0xA1, 0, false};		// Maximum Recorded Value 1
-Register MMADDR1		{0x01, 0xBC, 0, true};		// Min/Max Monitor address 2
-Register MIN1			{0x01, 0x8C, 0, false};		// Minimum Recorded Value 2
-Register MAX1			{0x01, 0xA4, 0, false};		// Maximum Recorded Value 2
-Register MMADDR2		{0x01, 0xBF, 0, true};		// Min/Max Monitor address 3
-Register MIN2			{0x01, 0x8F, 0, false};		// Minimum Recorded Value 3
-Register MAX2			{0x01, 0xA7, 0, false};		// Maximum Recorded Value 3
-Register MMADDR3		{0x01, 0xC2, 0, true};		// Min/Max Monitor address 4
-Register MIN3			{0x01, 0x92, 0, false};		// Minimum Recorded Value 4
-Register MAX3			{0x01, 0xAA, 0, false};		// Maximum Recorded Value 4
-Register MMADDR4		{0x01, 0xC5, 0, true};		// Min/Max Monitor address 5
-Register MIN4			{0x01, 0x95, 0, false};		// Minimum Recorded Value 5
-Register MAX4			{0x01, 0xAD, 0, false};		// Maximum Recorded Value 5
-Register MMADDR5		{0x01, 0xC8, 0, true};		// Min/Max Monitor address 6
-Register MIN5			{0x01, 0x98, 0, false};		// Minimum Recorded Value 6
-Register MAX5			{0x01, 0xB0, 0, false};		// Maximum Recorded Value 6
-Register MMADDR6		{0x01, 0xCB, 0, true};		// Min/Max Monitor address 7
-Register MIN6			{0x01, 0x9B, 0, false};		// Minimum Recorded Value 7
-Register MAX6			{0x01, 0xB3, 0, false};		// Maximum Recorded Value 7
-Register MMADDR7		{0x01, 0xCE, 0, true};		// Min/Max Monitor address 8
-Register MIN7			{0x01, 0x9E, 0, false};		// Minimum Recorded Value 8
-Register MAX7			{0x01, 0xB6, 0, false};		// Maximum Recorded Value 8
-
-// Device Registers
-Register DEVADDR		{0x00, 0x4E, 0, true};		// High order address bits for I2C and UART interfaces
-Register BAUD			{0x00, 0x51, 0, true};		// Baud rate for UART interface
-Register SYSSTAT		{0x02, 0x43, 0, false};		// Bit 23 is a sticky register with status of any SPI Errors
 
 // Begin Functions
 bool MAX78630::Begin(void) {
@@ -188,6 +116,9 @@ bool MAX78630::Begin(void) {
 	// IScale Set Command - 7
 	IScale(_C_Scale);
 
+	// Bucket Set Command
+	Set_Bucket();
+
 	// Set Limit Parameters
 	Set_Limit(1, _Temp_Max);
 	Set_Limit(2, _Temp_Min);
@@ -213,6 +144,68 @@ bool MAX78630::Begin(void) {
 	// Print Diagnostic Abstract
 	VT100.clearAll();
 	VT100_Base();
+
+}
+
+// Device Functions
+uint32_t MAX78630::Get_Baud(void) {
+
+	// Define Objects
+	Register BAUD			{0x00, 0x51, 0, true};		// Baud rate for UART interface
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(BAUD);
+	
+	// End Function
+	return(_Result);
+
+}
+bool MAX78630::Set_Baud(uint32_t _Baud) {
+
+	// Define Objects
+	Register BAUD			{0x00, 0x51, 0, true};		// Baud rate for UART interface
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Set Command
+	_Result = _Register_Pointer_Set(BAUD, _Baud);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Device_Address(void) {
+
+	// Define Objects
+	Register DEVADDR		{0x00, 0x4E, 0, true};		// High order address bits for I2C and UART interfaces
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(DEVADDR);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_System_Stat(void) {
+
+	// Define Objects
+	Register SYSSTAT		{0x02, 0x43, 0, false};		// Bit 23 is a sticky register with status of any SPI Errors
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(SYSSTAT);
+	
+	// End Function
+	return(_Result);
 
 }
 
@@ -317,6 +310,56 @@ uint8_t MAX78630::Harmonic(uint32_t _Harmonic) {
 
 }
 
+// Bucket Functions
+bool MAX78630::Set_Bucket(void) {
+
+	// Define Objects
+	Register BUCKET_LOW		{0x01, 0xD1, 0, true};		// Energy Bucket Size – Low word
+	Register BUCKET_HIGH	{0x01, 0xD4, 0, true};		// Energy Bucket Size – High word
+
+	// Declare Variable
+	bool _Result_LOW = false;
+	bool _Result_HIGH = false;
+
+	// Set Command
+	_Result_LOW = _Register_Pointer_Set(BUCKET_LOW, _BUCKET_LOW);
+	_Result_HIGH = _Register_Pointer_Set(BUCKET_HIGH, _BUCKET_HIGH);
+	
+	// End Function
+	return(_Result_LOW & _Result_HIGH);
+
+}
+uint32_t MAX78630::Get_Bucket_LOW(void) {
+
+	// Define Objects
+	Register BUCKET_LOW		{0x01, 0xD1, 0, true};		// Energy Bucket Size – Low word
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(BUCKET_LOW);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Bucket_HIGH(void) {
+
+	// Define Objects
+	Register BUCKET_HIGH	{0x01, 0xD4, 0, true};		// Energy Bucket Size – High word
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(BUCKET_HIGH);
+	
+	// End Function
+	return(_Result);
+
+}
+
 // Set Limit Registers
 bool MAX78630::Set_Limit(uint8_t _Limit_ID, float _Value) {
 
@@ -394,6 +437,68 @@ float MAX78630::Get_Limit(uint8_t _Limit_ID) {
 	if (_Limit_ID == 8) _Result = _Register_Pointer_Read(PF_MIN);
 	if (_Limit_ID == 9) _Result = _Register_Pointer_Read(V_IMB_MAX) * 100;
 	if (_Limit_ID == 10) _Result = _Register_Pointer_Read(I_IMB_MAX) * 100;
+	
+	// End Function
+	return(_Result);
+
+}
+
+// Data Refresh Functions
+uint32_t MAX78630::Get_Frame(void) {
+
+	// Define Objects
+	Register FRAME 			{0x00, 0x12, 0, false};		// Low-rate sample counter
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(FRAME);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Cycle(void) {
+
+	// Define Objects
+	Register CYCLE 			{0x00, 0x0F, 0, false};		// High-rate sample counter
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(CYCLE);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Divisor(void) {
+
+	// Define Objects
+	Register DIVISOR 		{0x00, 0x0C, 0, false};		// Actual samples in previous accumulation interval
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(DIVISOR);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Samples(void) {
+
+	// Define Objects
+	Register SAMPLES 		{0x00, 0x09, 0, true};		// Minimum high-rate samples per accumulation interval
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(SAMPLES);
 	
 	// End Function
 	return(_Result);
@@ -555,6 +660,34 @@ float MAX78630::Get_ReActive_Power_Offset(char Phase) {
 	return(_Result);
 
 }
+float MAX78630::Get_Voltage_HPF_COEF(void) {
+
+	// Define Objects
+	Register HPF_COEF_V		{0x00, 0x3F, 23, true};		// Voltage input HPF coefficient
+
+	// Declare Variable
+	float _Result = 0;
+
+	_Result = _Register_Pointer_Read(HPF_COEF_V); // Measure Phase R
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Current_HPF_COEF(void) {
+
+	// Define Objects
+	Register HPF_COEF_I		{0x00, 0x3C, 23, true};		// Current input HPF coefficient
+
+	// Declare Variable
+	float _Result = 0;
+
+	_Result = _Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
+	
+	// End Function
+	return(_Result);
+
+}
 
 // Voltage Measurements
 float MAX78630::Voltage_RMS(char Phase) {
@@ -645,6 +778,27 @@ float MAX78630::Voltage_SAG_Limit(void) {
 	
 	// End Function
 	return(_Result * _VScale);
+
+}
+
+// Phase Compansation
+float MAX78630::Phase_Compansation(const char _Phase) {
+
+	// Define Objects
+	Register PHASECOMP1		{0x00, 0x42, 21, true};		// Phase compensation A
+	Register PHASECOMP2		{0x00, 0x45, 21, true};		// Phase compensation B
+	Register PHASECOMP3		{0x00, 0x48, 21, true};		// Phase compensation C
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Get Measured Data
+	if (_Phase == 'R') _Result = _Register_Pointer_Read(PHASECOMP1); // Measure Phase R
+	if (_Phase == 'S') _Result = _Register_Pointer_Read(PHASECOMP2); // Measure Phase S
+	if (_Phase == 'T') _Result = _Register_Pointer_Read(PHASECOMP3); // Measure Phase T
+	
+	// End Function
+	return(_Result);
 
 }
 
@@ -914,6 +1068,80 @@ float MAX78630::Fundamental_VA_Power(char Phase) {
 	
 }
 
+// Energy Measurements
+float MAX78630::Active_Energy_Recieved(char Phase) {
+
+	// Define Objects
+	Register WHA_POS		{0x01, 0xDD, 0, false};		// Received Active Energy Counter A
+	Register WHB_POS		{0x01, 0xEF, 0, false};		// Received Active Energy Counter B
+	Register WHC_POS		{0x02, 0x01, 0, false};		// Received Active Energy Counter C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(WHA_POS); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(WHB_POS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(WHC_POS); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+	
+}
+float MAX78630::Active_Energy_Delivered(char Phase) {
+
+	// Define Objects
+	Register WHA_NEG		{0x01, 0xE6, 0, false};		// Delivered Active Energy Counter A
+	Register WHB_NEG		{0x01, 0xF8, 0, false};		// Delivered Active Energy Counter B
+	Register WHC_NEG		{0x02, 0x0A, 0, false};		// Delivered Active Energy Counter C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(WHA_NEG); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(WHB_NEG); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(WHC_NEG); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+	
+}
+float MAX78630::ReActive_Energy_Recieved(char Phase) {
+
+	// Define Objects
+	Register VARHA_POS		{0x02, 0x13, 0, false};		// Reactive Energy Leading Counter A
+	Register VARHB_POS		{0x02, 0x25, 0, false};		// Reactive Energy Leading Counter B
+	Register VARHC_POS		{0x02, 0x37, 0, false};		// Reactive Energy Leading Counter C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(VARHA_POS); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(VARHB_POS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(VARHC_POS); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+	
+}
+float MAX78630::ReActive_Energy_Delivered(char Phase) {
+
+	// Define Objects
+	Register VARHA_NEG		{0x02, 0x1C, 0, false};		// Reactive Energy Lagging Counter A
+	Register VARHB_NEG		{0x02, 0x2E, 0, false};		// Reactive Energy Lagging Counter B
+	Register VARHC_NEG		{0x02, 0x40, 0, false};		// Reactive Energy Lagging Counter C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(VARHA_NEG); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(VARHB_NEG); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(VARHC_NEG); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+	
+}
+
 // Temperature Measurements
 float MAX78630::IC_Temperature(void) {
 
@@ -946,6 +1174,116 @@ float MAX78630::Frequency(void) {
 	// End Function
 	return(_Result);
 	
+}
+
+// Min Max Tracking Functions
+bool MAX78630::Set_Min_Max_Address(uint8_t _MM_ADDR, uint32_t _Mask) {
+
+	// Recorded MIN/MAX Registers
+	Register MMADDR0		{0x01, 0xB9, 0, true};		// Min/Max Monitor address 1
+	Register MMADDR1		{0x01, 0xBC, 0, true};		// Min/Max Monitor address 2
+	Register MMADDR2		{0x01, 0xBF, 0, true};		// Min/Max Monitor address 3
+	Register MMADDR3		{0x01, 0xC2, 0, true};		// Min/Max Monitor address 4
+	Register MMADDR4		{0x01, 0xC5, 0, true};		// Min/Max Monitor address 5
+	Register MMADDR5		{0x01, 0xC8, 0, true};		// Min/Max Monitor address 6
+	Register MMADDR6		{0x01, 0xCB, 0, true};		// Min/Max Monitor address 7
+	Register MMADDR7		{0x01, 0xCE, 0, true};		// Min/Max Monitor address 8
+
+	// Define Result Variable
+	bool _Result = false;
+
+	// Decide Command
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Set(MMADDR0, _Mask);
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Set(MMADDR1, _Mask);
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Set(MMADDR2, _Mask);
+	if (_MM_ADDR == 4) _Result = _Register_Pointer_Set(MMADDR3, _Mask);
+	if (_MM_ADDR == 5) _Result = _Register_Pointer_Set(MMADDR4, _Mask);
+	if (_MM_ADDR == 6) _Result = _Register_Pointer_Set(MMADDR5, _Mask);
+	if (_MM_ADDR == 7) _Result = _Register_Pointer_Set(MMADDR6, _Mask);
+	if (_MM_ADDR == 8) _Result = _Register_Pointer_Set(MMADDR7, _Mask);
+
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Min_Value(uint8_t _MM_ADDR) {
+
+	// Define Objects
+	Register MIN0			{0x01, 0x89, 0, false};		// Minimum Recorded Value 1
+	Register MIN1			{0x01, 0x8C, 0, false};		// Minimum Recorded Value 2
+	Register MIN2			{0x01, 0x8F, 0, false};		// Minimum Recorded Value 3
+	Register MIN3			{0x01, 0x92, 0, false};		// Minimum Recorded Value 4
+	Register MIN4			{0x01, 0x95, 0, false};		// Minimum Recorded Value 5
+	Register MIN5			{0x01, 0x98, 0, false};		// Minimum Recorded Value 6
+	Register MIN6			{0x01, 0x9B, 0, false};		// Minimum Recorded Value 7
+	Register MIN7			{0x01, 0x9E, 0, false};		// Minimum Recorded Value 8
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MIN0); // Measure Phase R
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MIN1); // Measure Phase R
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MIN2); // Measure Phase R
+	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MIN3); // Measure Phase R
+	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MIN4); // Measure Phase R
+	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MIN5); // Measure Phase R
+	if (_MM_ADDR == 7) _Result = _Register_Pointer_Read(MIN6); // Measure Phase R
+	if (_MM_ADDR == 8) _Result = _Register_Pointer_Read(MIN7); // Measure Phase R
+
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Max_Value(uint8_t _MM_ADDR) {
+
+	// Define Objects
+	Register MAX0			{0x01, 0xA1, 0, false};		// Maximum Recorded Value 1
+	Register MAX1			{0x01, 0xA4, 0, false};		// Maximum Recorded Value 2
+	Register MAX2			{0x01, 0xA7, 0, false};		// Maximum Recorded Value 3
+	Register MAX3			{0x01, 0xAA, 0, false};		// Maximum Recorded Value 4
+	Register MAX4			{0x01, 0xAD, 0, false};		// Maximum Recorded Value 5
+	Register MAX5			{0x01, 0xB0, 0, false};		// Maximum Recorded Value 6
+	Register MAX6			{0x01, 0xB3, 0, false};		// Maximum Recorded Value 7
+	Register MAX7			{0x01, 0xB6, 0, false};		// Maximum Recorded Value 8
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MAX0); // Measure Phase R
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MAX1); // Measure Phase R
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MAX2); // Measure Phase R
+	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MAX3); // Measure Phase R
+	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MAX4); // Measure Phase R
+	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MAX5); // Measure Phase R
+	if (_MM_ADDR == 7) _Result = _Register_Pointer_Read(MAX6); // Measure Phase R
+	if (_MM_ADDR == 8) _Result = _Register_Pointer_Read(MAX7); // Measure Phase R
+
+	// End Function
+	return(_Result);
+
+}
+
+// TODO: Working on functions
+bool MAX78630::Alarm(void) {
+
+	// Alarm Registers
+	Register STATUS_SET		{0x00, 0x1B, 0, false};		// Used to set/force alarm/status bits
+	Register MASK1			{0x00, 0x1E, 0, true};		// Alarm/status mask for AL1 output pin
+	Register MASK2			{0x00, 0x21, 0, true};		// Alarm/status mask for AL2 output pin
+	Register MASK3			{0x00, 0x24, 0, true};		// Alarm/status mask for AL3 output pin
+	Register MASK4			{0x00, 0x27, 0, true};		// Alarm/status mask for AL4 output pin
+	Register MASK5			{0x00, 0x2A, 0, true};		// Alarm/status mask for AL5 output pin
+	Register STICKY			{0x00, 0x2D, 0, true};		// Alarm/status bits to hold until cleared by host
+
+}
+bool MAX78630::DIO(void) {
+
+	// DIO Registers
+	Register DIO_STATE		{0x00, 0x30, 0, false};		// State of DIO pins
+	Register DIO_DIR		{0x00, 0x33, 0, true};		// Direction of DIO pins. 1=Input ; 0=Output
+	Register DIO_POL		{0x00, 0x36, 0, true};		// Polarity of DIO pins. 1=Active High ; 0=Active Low
+
+
 }
 
 // Control Functions

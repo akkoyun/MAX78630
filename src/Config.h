@@ -3,7 +3,7 @@
 
 // Define Serial Port
 #define Energy_Serial		       	Serial2
-#define Energy_Serial_Baud	        38400
+#define Energy_Serial_Baud          38400
 
 // Define Version
 #define Version				        "04.00.04"
@@ -25,5 +25,9 @@
 #define _V_Max_Imb					0.06
 #define _C_Max_Imb					0.06
 #define _PF_Min	    				0.8
+
+// Wh Bucket Defination
+#define _BUCKET_LOW                 0xD0F4C2
+#define _BUCKET_HIGH                0x000821
 
 #endif
