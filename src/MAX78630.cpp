@@ -26,8 +26,6 @@ Register CYCLE 			{0x00, 0x0F, 0, false};		// High-rate sample counter
 Register FRAME 			{0x00, 0x12, 0, false};		// Low-rate sample counter
 
 // Alarm Registers
-Register STATUS			{0x00, 0x15, 0, false};		// Alarm and device status bits
-Register STATUS_CLEAR	{0x00, 0x18, 0, false};		// Used to reset alarm/status bits
 Register STATUS_SET		{0x00, 0x1B, 0, false};		// Used to set/force alarm/status bits
 Register MASK1			{0x00, 0x1E, 0, true};		// Alarm/status mask for AL1 output pin
 Register MASK2			{0x00, 0x21, 0, true};		// Alarm/status mask for AL2 output pin
@@ -47,128 +45,15 @@ Register PHASECOMP2		{0x00, 0x45, 21, true};		// Phase compensation B
 Register PHASECOMP3		{0x00, 0x48, 21, true};		// Phase compensation C
 
 // Calibration Registers
-Register I1_GAIN		{0x00, 0x54, 21, true};		// Current Gain Calibration
-Register I2_GAIN		{0x00, 0x57, 21, true};		// Current Gain Calibration
-Register I3_GAIN		{0x00, 0x5A, 21, true};		// Current Gain Calibration
-Register V1_GAIN		{0x00, 0x5D, 21, true};		// Voltage Gain Calibration
-Register V2_GAIN		{0x00, 0x60, 21, true};		// Voltage Gain Calibration
-Register V3_GAIN		{0x00, 0x63, 21, true};		// Voltage Gain Calibration
-Register I1_OFFS		{0x00, 0x66, 23, true};		// Current Offset Calibration
-Register I2_OFFS		{0x00, 0x69, 23, true};		// Current Offset Calibration
-Register I3_OFFS		{0x00, 0x6C, 23, true};		// Current Offset Calibration
-Register V1_OFFS		{0x00, 0x6F, 23, true};		// Voltage Offset Calibration
-Register V2_OFFS		{0x00, 0x72, 23, true};		// Voltage Offset Calibration
-Register V3_OFFS		{0x00, 0x75, 23, true};		// Voltage Offset Calibration
-Register T_GAIN			{0x00, 0x78, 0, true};		// Temperature Slope Calibration
-Register T_OFFS			{0x00, 0x7B, 0, true};		// Temperature Offset Calibration
 Register VSAG_INT		{0x00, 0x7E, 0, true};		// Voltage sag detect interval
-Register V_IMB_MAX		{0x00, 0x81, 23, true};		// Voltage imbalance alarm limit
-Register I_IMB_MAX		{0x00, 0x84, 23, true};		// Current imbalance alarm limit
 Register CALCYCS		{0x00, 0x39, 0, true};		// Number of calibration cycles to average
 Register HPF_COEF_I		{0x00, 0x3C, 23, true};		// Current input HPF coefficient
 Register HPF_COEF_V		{0x00, 0x3F, 23, true};		// Voltage input HPF coefficient
 
-// Scale Registers
-Register IFSCALE		{0x01, 0x41, 0, true};		// Current Scale
-Register VSCALE			{0x01, 0x44, 0, true};		// Voltage Scale
-
-// Harmonic Selection Registers
-Register HARM			{0x00, 0x4B, 0, true};		// Harmonic Selector, default: 1 
-
-// Voltage Registers
-Register VA				{0x00, 0x87, 23, false};	// Instantaneous Voltage A
-Register VB				{0x00, 0x8A, 23, false};	// Instantaneous Voltage B
-Register VC				{0x00, 0x8D, 23, false};	// Instantaneous Voltage C
-Register VA_RMS			{0x00, 0x90, 23, false};	// RMS Voltage A
-Register VB_RMS			{0x00, 0x93, 23, false};	// RMS Voltage B
-Register VC_RMS			{0x00, 0x96, 23, false};	// RMS Voltage C
-Register VT_RMS			{0x00, 0x99, 23, false};	// RMS Voltage average
-Register VFUND_A		{0x00, 0x9C, 23, false};	// Fundamental Voltage A
-Register VFUND_B		{0x00, 0x9F, 23, false};	// Fundamental Voltage B
-Register VFUND_C		{0x00, 0xA2, 23, false};	// Fundamental Voltage C
-Register VHARM_A		{0x00, 0xA5, 23, false};	// Harmonic Voltage A
-Register VHARM_B		{0x00, 0xA8, 23, false};	// Harmonic Voltage B
-Register VHARM_C		{0x00, 0xAB, 23, false};	// Harmonic Voltage C
+// Target Registers
 Register V_TARGET		{0x00, 0xAE, 23, true};		// Calibration Target for Voltages
-Register VRMS_MIN		{0x00, 0xB1, 23, true};		// Voltage lower alarm limit
-Register VRMS_MAX		{0x00, 0xB4, 23, true};		// Voltage upper alarm limit
-Register VSAG_LIM		{0x00, 0xB7, 23, true};		// RMS Voltage Sag threshold
-
-// Frequency Registers
-Register FREQ			{0x01, 0x80, 16, false};	// Line Frequency
-Register F_MIN			{0x01, 0x83, 16, true};		// Frequency Alarm Lower Limit
-Register F_MAX			{0x01, 0x86, 16, true};		// Frequency Alarm Upper Limit
-
-// Current Registers
-Register IA				{0x00, 0xBA, 23, false};	// Instantaneous Current A
-Register IB				{0x00, 0xBD, 23, false};	// Instantaneous Current B
-Register IC				{0x00, 0xC0, 23, false};	// Instantaneous Current C
-Register IARMS_OFF		{0x00, 0xC3, 23, true};		// RMS Current dynamic offset adjust A
-Register IBRMS_OFF		{0x00, 0xC6, 23, true};		// RMS Current dynamic offset adjust B
-Register ICRMS_OFF		{0x00, 0xC9, 23, true};		// RMS Current dynamic offset adjust C
-Register IA_PEAK		{0x00, 0xCC, 23, false};	// Peak Current A
-Register IB_PEAK		{0x00, 0xCF, 23, false};	// Peak Current B
-Register IC_PEAK		{0x00, 0xD2, 23, false};	// Peak Current C
-Register IA_RMS			{0x00, 0xD5, 23, false};	// RMS Current A
-Register IB_RMS			{0x00, 0xD8, 23, false};	// RMS Current B
-Register IC_RMS			{0x00, 0xDB, 23, false};	// RMS Current C
-Register IT_RMS			{0x00, 0xDE, 23, false};	// RMS Current average
-Register IFUND_A		{0x00, 0xE1, 23, false};	// Fundamental Current A
-Register IFUND_B		{0x00, 0xE4, 23, false};	// Fundamental Current B
-Register IFUND_C		{0x00, 0xE7, 23, false};	// Fundamental Current C
-Register IHARM_A		{0x00, 0xEA, 23, false};	// Harmonic Current A
-Register IHARM_B		{0x00, 0xED, 23, false};	// Harmonic Current B
-Register IHARM_C		{0x00, 0xF0, 23, false};	// Harmonic Current C
-Register IRMS_MAX		{0x00, 0xF3, 23, true};		// Current upper alarm limit
 Register I_TARGET		{0x00, 0xF6, 23, true};		// Calibration Target for Currents
-
-// Power Registers
-Register QFUND_A		{0x00, 0xF9, 23, false};	// Fundamental Reactive Power A
-Register QFUND_B		{0x00, 0xFC, 23, false};	// Fundamental Reactive Power B
-Register QFUND_C		{0x00, 0xFF, 23, false};	// Fundamental Reactive Power C
-Register QHARM_A		{0x01, 0x02, 23, false};	// Harmonic Reactive Power A
-Register QHARM_B		{0x01, 0x05, 23, false};	// Harmonic Reactive Power B
-Register QHARM_C		{0x01, 0x08, 23, false};	// Harmonic Reactive Power C
-Register QA_OFFS		{0x01, 0x0B, 23, true};		// Reactive Power dynamic offset adjust A
-Register QB_OFFS		{0x01, 0x0E, 23, true};		// Reactive Power dynamic offset adjust B
-Register QC_OFFS		{0x01, 0x11, 23, true};		// Reactive Power dynamic offset adjust C
-Register PA_OFFS		{0x01, 0x14, 23, true};		// Active Power dynamic offset adjust A
-Register PB_OFFS		{0x01, 0x17, 23, true};		// Active Power dynamic offset adjust B
-Register PC_OFFS		{0x01, 0x1A, 23, true};		// Active Power dynamic offset adjust C
-Register WATT_A			{0x01, 0x1D, 23, false};	// Active Power A
-Register WATT_B			{0x01, 0x20, 23, false};	// Active Power B
-Register WATT_C			{0x01, 0x23, 23, false};	// Active Power C
-Register VAR_A			{0x01, 0x26, 23, false};	// Reactive Power A
-Register VAR_B			{0x01, 0x29, 23, false};	// Reactive Power B
-Register VAR_C			{0x01, 0x2C, 23, false};	// Reactive Power C
-Register VA_A			{0x01, 0x2F, 23, false};	// Apparent Power A
-Register VA_B			{0x01, 0x32, 23, false};	// Apparent Power B
-Register VA_C			{0x01, 0x35, 23, false};	// Apparent Power C
-Register WATT_T			{0x01, 0x38, 23, false};	// Active Power average
-Register VAR_T			{0x01, 0x3B, 23, false};	// Reactive Power average
-Register VA_T			{0x01, 0x3E, 23, false};	// Apparent Power average
-Register PFUND_A		{0x01, 0x4A, 23, false};	// Fundamental Power A
-Register PFUND_B		{0x01, 0x4D, 23, false};	// Fundamental Power B
-Register PFUND_C		{0x01, 0x50, 23, false};	// Fundamental Power C
-Register PHARM_A		{0x01, 0x53, 23, false};	// Harmonic Power A
-Register PHARM_B		{0x01, 0x56, 23, false};	// Harmonic Power B
-Register PHARM_C		{0x01, 0x59, 23, false};	// Harmonic Power C
-Register VAFUNDA		{0x01, 0x5C, 23, false};	// Fundamental Volt Amperes A
-Register VAFUNDB		{0x01, 0x5F, 23, false};	// Fundamental Volt Amperes B
-Register VAFUNDC		{0x01, 0x62, 23, false};	// Fundamental Volt Amperes C
-
-// Power Factor Registers
-Register PFA			{0x01, 0x65, 22, false};	// Power Factor A
-Register PFB			{0x01, 0x68, 22, false};	// Power Factor B
-Register PFC			{0x01, 0x6B, 22, false};	// Power Factor C
-Register PF_T			{0x01, 0x6E, 22, false};	// T otal Power Factor
-Register PF_MIN			{0x01, 0x71, 22, true};		// Power Factor lower alarm limit
-
-// Temperature Registetrs
-Register TEMPC			{0x01, 0x74, 10, false};	// Chip Temperature
 Register T_TARGET		{0x01, 0x77, 10, true};		// Temperature calibration target
-Register T_MIN			{0x01, 0x7A, 10, true};		// Temperature Alarm Lower Limit
-Register T_MAX			{0x01, 0x7D, 10, true};		// Temperature Alarm Upper Limit
 
 // Energy Registers
 Register BUCKET_LOW		{0x01, 0xD1, 0, true};		// Energy Bucket Size – Low word
@@ -297,15 +182,26 @@ bool MAX78630::Begin(void) {
 	// Command Delay
 	delay(10);
 
-	// VScale Set Command
-	Set_VScale(667);
+	// VScale Set Command - 667
+	VScale(_V_Scale);
 
-	// IScale Set Command
-	Set_IScale(7.16);
+	// IScale Set Command - 7
+	IScale(_C_Scale);
 
-	// Get Scales
-	_VScale = _Register_Pointer_Read(VSCALE);
-	_IScale = _Register_Pointer_Read(IFSCALE);
+	// Set Limit Parameters
+	Set_Limit(1, _Temp_Max);
+	Set_Limit(2, _Temp_Min);
+	Set_Limit(3, _Fq_Max);
+	Set_Limit(4, _Fq_Min);
+	Set_Limit(5, (_V_RMS_Max));
+	Set_Limit(6, (_V_RMS_Min));
+	Set_Limit(7, _C_Max);
+	Set_Limit(8, _PF_Min);
+	Set_Limit(9, _V_Max_Imb);
+	Set_Limit(10, _C_Max_Imb);
+
+	// Control for Limits
+	Control_Limits();
 
 	// Close UART Connection
 	Energy_Serial.end();
@@ -321,36 +217,353 @@ bool MAX78630::Begin(void) {
 }
 
 // Set Scale Registers
-bool MAX78630::Set_VScale(uint32_t _VScale) {
+uint16_t MAX78630::VScale(uint32_t _Voltage_Scale) {
 
-	// Set Register
-	_Register_Pointer_Set(VSCALE, _VScale);
+	// Define Objects
+	Register VSCALE			{0x01, 0x44, 0, true};		// Voltage Scale
 
+	// Decide Action
+	if (_Voltage_Scale == 0) {
+		
+		// Read Register
+		_VScale = _Register_Pointer_Read(VSCALE);
+
+	} else {
+
+		// Set Register
+		if (_Register_Pointer_Set(VSCALE, _Voltage_Scale)) {
+			
+			// Set Variable
+			_VScale = _Voltage_Scale;
+
+		} else {
+
+			// Set Variable
+			_VScale = 0;
+
+		}
+
+	}
+	
 	// End Function
-	return(true);
+	return(_VScale);
 
 }
-bool MAX78630::Set_IScale(uint32_t _IScale) {
+uint16_t MAX78630::IScale(uint32_t _Current_Scale) {
 
-	// Set Register
-	_Register_Pointer_Set(IFSCALE, _IScale);
+	// Define Objects
+	Register IFSCALE		{0x01, 0x41, 0, true};		// Current Scale
 
+	// Decide Action
+	if (_Current_Scale == 0) {
+		
+		// Read Register
+		_IScale = _Register_Pointer_Read(IFSCALE);
+
+	} else {
+
+		// Set Register
+		if (_Register_Pointer_Set(IFSCALE, _Current_Scale)) {
+			
+			// Set Variable
+			_IScale = _Current_Scale;
+			
+		} else {
+
+			// Set Variable
+			_IScale = 0;
+
+		}
+
+	}
+	
 	// End Function
-	return(true);
+	return(_IScale);
 
 }
-bool MAX78630::Set_Harmonic(uint32_t _Harmonic) {
+uint8_t MAX78630::Harmonic(uint32_t _Harmonic) {
 
-	// Set Register
-	_Register_Pointer_Set(HARM, _Harmonic);
+	// Define Objects
+	Register HARM			{0x00, 0x4B, 0, true};		// Harmonic Selector, default: 1 
 
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Action
+	if (_Harmonic == 0) {
+		
+		// Read Register
+		_Result = _Register_Pointer_Read(HARM);
+
+	} else {
+
+		// Set Register
+		if (_Register_Pointer_Set(HARM, _Harmonic)) {
+			
+			// Set Variable
+			_Result = _Harmonic;
+			
+		} else {
+
+			// Set Variable
+			_Result = 255;
+
+		}
+
+	}
+	
 	// End Function
-	return(true);
+	return(_Result);
+
+}
+
+// Set Limit Registers
+bool MAX78630::Set_Limit(uint8_t _Limit_ID, float _Value) {
+
+	// Define Objects
+	Register VRMS_MIN		{0x00, 0xB1, 23, true};		// Voltage lower alarm limit
+	Register VRMS_MAX		{0x00, 0xB4, 23, true};		// Voltage upper alarm limit
+	Register T_MIN			{0x01, 0x7A, 10, true};		// Temperature Alarm Lower Limit
+	Register T_MAX			{0x01, 0x7D, 10, true};		// Temperature Alarm Upper Limit
+	Register F_MIN			{0x01, 0x83, 16, true};		// Frequency Alarm Lower Limit
+	Register F_MAX			{0x01, 0x86, 16, true};		// Frequency Alarm Upper Limit
+	Register IRMS_MAX		{0x00, 0xF3, 23, true};		// Current upper alarm limit
+	Register PF_MIN			{0x01, 0x71, 22, true};		// Power Factor lower alarm limit
+	Register V_IMB_MAX		{0x00, 0x81, 23, true};		// Voltage imbalance alarm limit
+	Register I_IMB_MAX		{0x00, 0x84, 23, true};		// Current imbalance alarm limit
+
+	// Declare Data Variable
+	uint32_t _Data = 0x00;
+
+	// Decide Command
+	if (_Limit_ID == 1) _Data = _FtoS(_Value, T_MAX.Data_Type);
+	if (_Limit_ID == 2) _Data = _FtoS(_Value, T_MIN.Data_Type);
+	if (_Limit_ID == 3) _Data = _FtoS(_Value, F_MAX.Data_Type);
+	if (_Limit_ID == 4) _Data = _FtoS(_Value, F_MIN.Data_Type);
+	if (_Limit_ID == 5) _Data = _FtoS(_Value / _VScale, VRMS_MAX.Data_Type);
+	if (_Limit_ID == 6) _Data = _FtoS(_Value / _VScale, VRMS_MIN.Data_Type);
+	if (_Limit_ID == 7) _Data = _FtoS(_Value / _IScale, IRMS_MAX.Data_Type);
+	if (_Limit_ID == 8) _Data = _FtoS(_Value, PF_MIN.Data_Type);
+	if (_Limit_ID == 9) _Data = _FtoS(_Value / 100, V_IMB_MAX.Data_Type);
+	if (_Limit_ID == 10) _Data = _FtoS(_Value / 100, I_IMB_MAX.Data_Type);
+	
+	// Define Result Variable
+	bool _Result = false;
+
+	// Decide Command
+	if (_Limit_ID == 1) _Result = _Register_Pointer_Set(T_MAX, _Data);
+	if (_Limit_ID == 2) _Result = _Register_Pointer_Set(T_MIN, _Data);
+	if (_Limit_ID == 3) _Result = _Register_Pointer_Set(F_MAX, _Data);
+	if (_Limit_ID == 4) _Result = _Register_Pointer_Set(F_MIN, _Data);
+	if (_Limit_ID == 5) _Result = _Register_Pointer_Set(VRMS_MAX, _Data);
+	if (_Limit_ID == 6) _Result = _Register_Pointer_Set(VRMS_MIN, _Data);
+	if (_Limit_ID == 7) _Result = _Register_Pointer_Set(IRMS_MAX, _Data);
+	if (_Limit_ID == 8) _Result = _Register_Pointer_Set(PF_MIN, _Data);
+	if (_Limit_ID == 9) _Result = _Register_Pointer_Set(V_IMB_MAX, _Data);
+	if (_Limit_ID == 10) _Result = _Register_Pointer_Set(I_IMB_MAX, _Data);
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Limit(uint8_t _Limit_ID) {
+
+	// Define Objects
+	Register VRMS_MIN		{0x00, 0xB1, 23, true};		// Voltage lower alarm limit
+	Register VRMS_MAX		{0x00, 0xB4, 23, true};		// Voltage upper alarm limit
+	Register T_MIN			{0x01, 0x7A, 10, true};		// Temperature Alarm Lower Limit
+	Register T_MAX			{0x01, 0x7D, 10, true};		// Temperature Alarm Upper Limit
+	Register F_MIN			{0x01, 0x83, 16, true};		// Frequency Alarm Lower Limit
+	Register F_MAX			{0x01, 0x86, 16, true};		// Frequency Alarm Upper Limit
+	Register IRMS_MAX		{0x00, 0xF3, 23, true};		// Current upper alarm limit
+	Register PF_MIN			{0x01, 0x71, 22, true};		// Power Factor lower alarm limit
+	Register V_IMB_MAX		{0x00, 0x81, 23, true};		// Voltage imbalance alarm limit
+	Register I_IMB_MAX		{0x00, 0x84, 23, true};		// Current imbalance alarm limit
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Decide Command
+	if (_Limit_ID == 1) _Result = _Register_Pointer_Read(T_MAX);
+	if (_Limit_ID == 2) _Result = _Register_Pointer_Read(T_MIN);
+	if (_Limit_ID == 3) _Result = _Register_Pointer_Read(F_MAX);
+	if (_Limit_ID == 4) _Result = _Register_Pointer_Read(F_MIN);
+	if (_Limit_ID == 5) _Result = _Register_Pointer_Read(VRMS_MAX) * _VScale;
+	if (_Limit_ID == 6) _Result = _Register_Pointer_Read(VRMS_MIN) * _VScale;
+	if (_Limit_ID == 7) _Result = _Register_Pointer_Read(IRMS_MAX) * _IScale;
+	if (_Limit_ID == 8) _Result = _Register_Pointer_Read(PF_MIN);
+	if (_Limit_ID == 9) _Result = _Register_Pointer_Read(V_IMB_MAX) * 100;
+	if (_Limit_ID == 10) _Result = _Register_Pointer_Read(I_IMB_MAX) * 100;
+	
+	// End Function
+	return(_Result);
+
+}
+
+// Calibration Functions
+float MAX78630::Get_Voltage_Gain(char Phase) {
+
+	// Define Objects
+	Register V1_GAIN		{0x00, 0x5D, 21, true};		// Voltage Gain Calibration
+	Register V2_GAIN		{0x00, 0x60, 21, true};		// Voltage Gain Calibration
+	Register V3_GAIN		{0x00, 0x63, 21, true};		// Voltage Gain Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(V1_GAIN); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(V2_GAIN); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(V3_GAIN); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Current_Gain(char Phase) {
+
+	// Define Objects
+	Register I1_GAIN		{0x00, 0x54, 21, true};		// Current Gain Calibration
+	Register I2_GAIN		{0x00, 0x57, 21, true};		// Current Gain Calibration
+	Register I3_GAIN		{0x00, 0x5A, 21, true};		// Current Gain Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(I1_GAIN); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(I2_GAIN); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(I3_GAIN); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Temperature_Gain(void) {
+
+	// Define Objects
+	Register T_GAIN			{0x00, 0x78, 0, true};		// Temperature Slope Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	_Result = _Register_Pointer_Read(T_GAIN); // Measure Phase R
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Voltage_Offset(char Phase) {
+
+	// Define Objects
+	Register V1_OFFS		{0x00, 0x6F, 23, true};		// Voltage Offset Calibration
+	Register V2_OFFS		{0x00, 0x72, 23, true};		// Voltage Offset Calibration
+	Register V3_OFFS		{0x00, 0x75, 23, true};		// Voltage Offset Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(V1_OFFS); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(V2_OFFS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(V3_OFFS); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Current_Offset(char Phase) {
+
+	// Define Objects
+	Register I1_OFFS		{0x00, 0x66, 23, true};		// Current Offset Calibration
+	Register I2_OFFS		{0x00, 0x69, 23, true};		// Current Offset Calibration
+	Register I3_OFFS		{0x00, 0x6C, 23, true};		// Current Offset Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(I1_OFFS); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(I2_OFFS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(I3_OFFS); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Temperature_Offset(void) {
+
+	// Define Objects
+	Register T_OFFS			{0x00, 0x7B, 0, true};		// Temperature Offset Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	_Result = _Register_Pointer_Read(T_OFFS); // Measure Phase R
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Voltage_RMS_Offset(char Phase) {
+
+	// Define Objects
+	Register IARMS_OFF		{0x00, 0xC3, 23, true};		// RMS Current dynamic offset adjust A
+	Register IBRMS_OFF		{0x00, 0xC6, 23, true};		// RMS Current dynamic offset adjust B
+	Register ICRMS_OFF		{0x00, 0xC9, 23, true};		// RMS Current dynamic offset adjust C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(IARMS_OFF); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_Active_Power_Offset(char Phase) {
+
+	// Define Objects
+	Register PA_OFFS		{0x01, 0x14, 23, true};		// Active Power dynamic offset adjust A
+	Register PB_OFFS		{0x01, 0x17, 23, true};		// Active Power dynamic offset adjust B
+	Register PC_OFFS		{0x01, 0x1A, 23, true};		// Active Power dynamic offset adjust C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(PA_OFFS); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(PB_OFFS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(PC_OFFS); // Measure Phase T
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Get_ReActive_Power_Offset(char Phase) {
+
+	// Define Objects
+	Register QA_OFFS		{0x01, 0x0B, 23, true};		// Reactive Power dynamic offset adjust A
+	Register QB_OFFS		{0x01, 0x0E, 23, true};		// Reactive Power dynamic offset adjust B
+	Register QC_OFFS		{0x01, 0x11, 23, true};		// Reactive Power dynamic offset adjust C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(QA_OFFS); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(QB_OFFS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(QC_OFFS); // Measure Phase T
+	
+	// End Function
+	return(_Result);
 
 }
 
 // Voltage Measurements
 float MAX78630::Voltage_RMS(char Phase) {
+
+	// Define Objects
+	Register VA_RMS			{0x00, 0x90, 23, false};	// RMS Voltage A
+	Register VB_RMS			{0x00, 0x93, 23, false};	// RMS Voltage B
+	Register VC_RMS			{0x00, 0x96, 23, false};	// RMS Voltage C
+	Register VT_RMS			{0x00, 0x99, 23, false};	// RMS Voltage average
 
 	// Declare Variable
 	float _Result = 0;
@@ -366,6 +579,11 @@ float MAX78630::Voltage_RMS(char Phase) {
 }
 float MAX78630::Voltage_Instantaneous(char Phase) {
 
+	// Define Objects
+	Register VA				{0x00, 0x87, 23, false};	// Instantaneous Voltage A
+	Register VB				{0x00, 0x8A, 23, false};	// Instantaneous Voltage B
+	Register VC				{0x00, 0x8D, 23, false};	// Instantaneous Voltage C
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -377,10 +595,12 @@ float MAX78630::Voltage_Instantaneous(char Phase) {
 	return(_Result * _VScale);
 
 }
-float MAX78630::Voltage_Fundamental(const char _Phase, const uint8_t _Harmonic) {
+float MAX78630::Voltage_Fundamental(const char _Phase) {
 
-	// Set Harmonic
-	Set_Harmonic(_Harmonic);
+	// Define Objects
+	Register VFUND_A		{0x00, 0x9C, 23, false};	// Fundamental Voltage A
+	Register VFUND_B		{0x00, 0x9F, 23, false};	// Fundamental Voltage B
+	Register VFUND_C		{0x00, 0xA2, 23, false};	// Fundamental Voltage C
 
 	// Declare Variable
 	float _Result = 0;
@@ -394,10 +614,12 @@ float MAX78630::Voltage_Fundamental(const char _Phase, const uint8_t _Harmonic) 
 	return(_Result * _VScale);
 
 }
-float MAX78630::Voltage_Harmonic(const char _Phase, const uint8_t _Harmonic) {
+float MAX78630::Voltage_Harmonic(const char _Phase) {
 
-	// Set Harmonic
-	Set_Harmonic(_Harmonic);
+	// Define Objects
+	Register VHARM_A		{0x00, 0xA5, 23, false};	// Harmonic Voltage A
+	Register VHARM_B		{0x00, 0xA8, 23, false};	// Harmonic Voltage B
+	Register VHARM_C		{0x00, 0xAB, 23, false};	// Harmonic Voltage C
 
 	// Declare Variable
 	float _Result = 0;
@@ -411,29 +633,10 @@ float MAX78630::Voltage_Harmonic(const char _Phase, const uint8_t _Harmonic) {
 	return(_Result * _VScale);
 
 }
-float MAX78630::Voltage_RMS_Min(void) {
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(VRMS_MIN); // Measure Phase R
-	
-	// End Function
-	return(_Result * _VScale);
-
-}
-float MAX78630::Voltage_RMS_Max(void) {
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(VRMS_MAX); // Measure Phase R
-	
-	// End Function
-	return(_Result * _VScale);
-
-}
 float MAX78630::Voltage_SAG_Limit(void) {
+
+	// Define Objects
+	Register VSAG_LIM		{0x00, 0xB7, 23, true};		// RMS Voltage Sag threshold
 
 	// Declare Variable
 	float _Result = 0;
@@ -447,6 +650,12 @@ float MAX78630::Voltage_SAG_Limit(void) {
 
 // Current Measurements
 float MAX78630::Current_RMS(char Phase) {
+
+	// Define Objects
+	Register IA_RMS			{0x00, 0xD5, 23, false};	// RMS Current A
+	Register IB_RMS			{0x00, 0xD8, 23, false};	// RMS Current B
+	Register IC_RMS			{0x00, 0xDB, 23, false};	// RMS Current C
+	Register IT_RMS			{0x00, 0xDE, 23, false};	// RMS Current average
 
 	// Declare Variable
 	float _Result = 0;
@@ -462,6 +671,11 @@ float MAX78630::Current_RMS(char Phase) {
 }
 float MAX78630::Current_Instantaneous(char Phase) {
 
+	// Define Objects
+	Register IA				{0x00, 0xBA, 23, false};	// Instantaneous Current A
+	Register IB				{0x00, 0xBD, 23, false};	// Instantaneous Current B
+	Register IC				{0x00, 0xC0, 23, false};	// Instantaneous Current C
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -474,6 +688,11 @@ float MAX78630::Current_Instantaneous(char Phase) {
 
 }
 float MAX78630::Current_Peak(char Phase) {
+
+	// Define Objects
+	Register IA_PEAK		{0x00, 0xCC, 23, false};	// Peak Current A
+	Register IB_PEAK		{0x00, 0xCF, 23, false};	// Peak Current B
+	Register IC_PEAK		{0x00, 0xD2, 23, false};	// Peak Current C
 
 	// Declare Variable
 	float _Result = 0;
@@ -488,6 +707,11 @@ float MAX78630::Current_Peak(char Phase) {
 }
 float MAX78630::Current_Fundamental(char Phase) {
 
+	// Define Objects
+	Register IFUND_A		{0x00, 0xE1, 23, false};	// Fundamental Current A
+	Register IFUND_B		{0x00, 0xE4, 23, false};	// Fundamental Current B
+	Register IFUND_C		{0x00, 0xE7, 23, false};	// Fundamental Current C
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -501,6 +725,11 @@ float MAX78630::Current_Fundamental(char Phase) {
 }
 float MAX78630::Current_Harmonic(char Phase) {
 
+	// Define Objects
+	Register IHARM_A		{0x00, 0xEA, 23, false};	// Harmonic Current A
+	Register IHARM_B		{0x00, 0xED, 23, false};	// Harmonic Current B
+	Register IHARM_C		{0x00, 0xF0, 23, false};	// Harmonic Current C
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -512,20 +741,15 @@ float MAX78630::Current_Harmonic(char Phase) {
 	return(_Result * _IScale);
 
 }
-float MAX78630::Current_RMS_Max(void) {
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(IRMS_MAX); // Measure Phase R
-	
-	// End Function
-	return(_Result * _IScale);
-
-}
 
 // Power Measurements
 float MAX78630::Active_Power(char Phase) {
+
+	// Define Objects
+	Register WATT_A			{0x01, 0x1D, 23, false};	// Active Power A
+	Register WATT_B			{0x01, 0x20, 23, false};	// Active Power B
+	Register WATT_C			{0x01, 0x23, 23, false};	// Active Power C
+	Register WATT_T			{0x01, 0x38, 23, false};	// Active Power average
 
 	// Declare Variable
 	float _Result = 0;
@@ -541,6 +765,12 @@ float MAX78630::Active_Power(char Phase) {
 }
 float MAX78630::ReActive_Power(char Phase) {
 
+	// Define Objects
+	Register VAR_A			{0x01, 0x26, 23, false};	// Reactive Power A
+	Register VAR_B			{0x01, 0x29, 23, false};	// Reactive Power B
+	Register VAR_C			{0x01, 0x2C, 23, false};	// Reactive Power C
+	Register VAR_T			{0x01, 0x3B, 23, false};	// Reactive Power average
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -554,6 +784,12 @@ float MAX78630::ReActive_Power(char Phase) {
 	
 }
 float MAX78630::Apparent_Power(char Phase) {
+
+	// Define Objects
+	Register VA_A			{0x01, 0x2F, 23, false};	// Apparent Power A
+	Register VA_B			{0x01, 0x32, 23, false};	// Apparent Power B
+	Register VA_C			{0x01, 0x35, 23, false};	// Apparent Power C
+	Register VA_T			{0x01, 0x3E, 23, false};	// Apparent Power average
 
 	// Declare Variable
 	float _Result = 0;
@@ -569,6 +805,11 @@ float MAX78630::Apparent_Power(char Phase) {
 }
 float MAX78630::Fundamental_Power(char Phase) {
 
+	// Define Objects
+	Register PFUND_A		{0x01, 0x4A, 23, false};	// Fundamental Power A
+	Register PFUND_B		{0x01, 0x4D, 23, false};	// Fundamental Power B
+	Register PFUND_C		{0x01, 0x50, 23, false};	// Fundamental Power C
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -581,6 +822,11 @@ float MAX78630::Fundamental_Power(char Phase) {
 	
 }
 float MAX78630::Harmonic_Power(char Phase) {
+
+	// Define Objects
+	Register PHARM_A		{0x01, 0x53, 23, false};	// Harmonic Power A
+	Register PHARM_B		{0x01, 0x56, 23, false};	// Harmonic Power B
+	Register PHARM_C		{0x01, 0x59, 23, false};	// Harmonic Power C
 
 	// Declare Variable
 	float _Result = 0;
@@ -595,6 +841,12 @@ float MAX78630::Harmonic_Power(char Phase) {
 }
 float MAX78630::Power_Factor(char Phase) {
 
+	// Define Objects
+	Register PFA			{0x01, 0x65, 22, false};	// Power Factor A
+	Register PFB			{0x01, 0x68, 22, false};	// Power Factor B
+	Register PFC			{0x01, 0x6B, 22, false};	// Power Factor C
+	Register PF_T			{0x01, 0x6E, 22, false};	// T otal Power Factor
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -607,9 +859,66 @@ float MAX78630::Power_Factor(char Phase) {
 	return(_Result);
 	
 }
+float MAX78630::Fundamental_ReActive_Power(char Phase) {
+
+	// Define Objects
+	Register QFUND_A		{0x00, 0xF9, 23, false};	// Fundamental Reactive Power A
+	Register QFUND_B		{0x00, 0xFC, 23, false};	// Fundamental Reactive Power B
+	Register QFUND_C		{0x00, 0xFF, 23, false};	// Fundamental Reactive Power C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(QFUND_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(QFUND_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(QFUND_C); // Measure Phase T
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::Harmonic_ReActive_Power(char Phase) {
+
+	// Define Objects
+	Register QHARM_A		{0x01, 0x02, 23, false};	// Harmonic Reactive Power A
+	Register QHARM_B		{0x01, 0x05, 23, false};	// Harmonic Reactive Power B
+	Register QHARM_C		{0x01, 0x08, 23, false};	// Harmonic Reactive Power C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(QHARM_A); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(QHARM_B); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(QHARM_C); // Measure Phase T
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
+float MAX78630::Fundamental_VA_Power(char Phase) {
+
+	// Define Objects
+	Register VAFUNDA		{0x01, 0x5C, 23, false};	// Fundamental Volt Amperes A
+	Register VAFUNDB		{0x01, 0x5F, 23, false};	// Fundamental Volt Amperes B
+	Register VAFUNDC		{0x01, 0x62, 23, false};	// Fundamental Volt Amperes C
+
+	// Declare Variable
+	float _Result = 0;
+
+	if (Phase == 'R') _Result = _Register_Pointer_Read(VAFUNDA); // Measure Phase R
+	if (Phase == 'S') _Result = _Register_Pointer_Read(VAFUNDB); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(VAFUNDC); // Measure Phase T
+	
+	// End Function
+	return(_Result * _IScale * _VScale);
+	
+}
 
 // Temperature Measurements
 float MAX78630::IC_Temperature(void) {
+
+	// Define Objects
+	Register TEMPC			{0x01, 0x74, 10, false};	// Chip Temperature
 
 	// Declare Variable
 	float _Result = 0;
@@ -625,6 +934,9 @@ float MAX78630::IC_Temperature(void) {
 // Frequency Measurements
 float MAX78630::Frequency(void) {
 
+	// Define Objects
+	Register FREQ			{0x01, 0x80, 16, false};	// Line Frequency
+
 	// Declare Variable
 	float _Result = 0;
 
@@ -636,20 +948,81 @@ float MAX78630::Frequency(void) {
 	
 }
 
+// Control Functions
+void MAX78630::Control_Limits(void) {
 
+	// Define Objects
+	Register STATUS			{0x00, 0x15, 0, false};		// Alarm and device status bits
 
+	// Read Status Register
+	uint32_t _Status = _Register_Pointer_Read(STATUS);
 
+	// Clear Variables
+	Limit.Current_Imbalance = false;
+	Limit.Voltage_Imbalance = false;
+	Limit.Sag_VR = false;
+	Limit.Sag_VS = false;
+	Limit.Sag_VT = false;
+	Limit.Current_Over_Limit_VR = false;
+	Limit.Current_Over_Limit_VS = false;
+	Limit.Current_Over_Limit_VT = false;
+	Limit.Power_Factor_Under_Limit_VR = false;
+	Limit.Power_Factor_Under_Limit_VS = false;
+	Limit.Power_Factor_Under_Limit_VT = false;
+	Limit.Voltage_Under_Limit_VR = false;
+	Limit.Voltage_Over_Limit_VR = false;
+	Limit.Voltage_Under_Limit_VS = false;
+	Limit.Voltage_Over_Limit_VS = false;
+	Limit.Voltage_Under_Limit_VT = false;
+	Limit.Voltage_Over_Limit_VT = false;
+	Limit.Temperature_Under_Limit = false;
+	Limit.Temperature_Over_Limit = false;
+	Limit.Frequency_Under_Limit = false;
+	Limit.Frequency_Over_Limit = false;
 
+	// Read Bit
+	if (bitRead(_Status, I_IMBAL)) Limit.Current_Imbalance = true;
+	if (bitRead(_Status, V_IMBAL)) Limit.Voltage_Imbalance = true;
+	if (bitRead(_Status, VA_SAG)) Limit.Sag_VR = true;
+	if (bitRead(_Status, VB_SAG)) Limit.Sag_VS = true;
+	if (bitRead(_Status, VC_SAG)) Limit.Sag_VT = true;
+	if (bitRead(_Status, OV_IRMSA)) Limit.Current_Over_Limit_VR = true;
+	if (bitRead(_Status, OV_IRMSB)) Limit.Current_Over_Limit_VS = true;
+	if (bitRead(_Status, OV_IRMSC)) Limit.Current_Over_Limit_VT = true;
+	if (bitRead(_Status, UN_PFA)) Limit.Power_Factor_Under_Limit_VR = true;
+	if (bitRead(_Status, UN_PFB)) Limit.Power_Factor_Under_Limit_VS = true;
+	if (bitRead(_Status, UN_PFC)) Limit.Power_Factor_Under_Limit_VT = true;
+	if (bitRead(_Status, UN_VRMSA)) Limit.Voltage_Under_Limit_VR = true;
+	if (bitRead(_Status, OV_VRMSA)) Limit.Voltage_Over_Limit_VR = true;
+	if (bitRead(_Status, UN_VRMSB)) Limit.Voltage_Under_Limit_VS = true;
+	if (bitRead(_Status, OV_VRMSB)) Limit.Voltage_Over_Limit_VS = true;
+	if (bitRead(_Status, UN_VRMSC)) Limit.Voltage_Under_Limit_VT = true;
+	if (bitRead(_Status, OV_VRMSC)) Limit.Voltage_Over_Limit_VT = true;
+	if (bitRead(_Status, UN_TEMP)) Limit.Temperature_Under_Limit = true;
+	if (bitRead(_Status, OV_TEMP)) Limit.Temperature_Over_Limit = true;
+	if (bitRead(_Status, UN_FREQ)) Limit.Frequency_Under_Limit = true;
+	if (bitRead(_Status, OV_FREQ)) Limit.Frequency_Over_Limit = true;
 
+	// Clear Control Bits
+	Control_Clear();
 
+}
+void MAX78630::Control_Clear(void) {
 
+	// Define Objects
+	Register STATUS			{0x00, 0x15, 0, false};		// Alarm and device status bits
+//	Register STATUS_CLEAR	{0x00, 0x18, 0, false};		// Used to reset alarm/status bits
 
+	// Read Status Register
+	_Register_Pointer_Set(STATUS, 0x00);
+	
+}
 
-
-
-
-
+// Library Specified Functions
 bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
+
+	// Start Serial Connection
+	Energy_Serial.begin(Energy_Serial_Baud);
 
 	// Clear Buffer
 	_Clear_Buffer();
@@ -680,8 +1053,33 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 	// Command Delay
 	delay(20);
 
+	// Declare Variable
+	uint8_t _Response[1];
+	memset(_Response, '\0', 1);
+	uint8_t _Response_Order = 0;
+
+	// Read UART Response
+	while(Energy_Serial.available() > 0) {
+
+		// Read Serial Char
+		_Response[_Response_Order] = Energy_Serial.read();
+		
+		// Increase Read Order
+		_Response_Order++;
+		
+		// Stream Delay
+		delay(5);
+		
+	}
+
+	// Close UART Connection
+	Energy_Serial.end();
+
 	// End Function
-	return(true);
+	if (_Response[0 == 0xAD]) return(true);
+
+	// End Function
+	return(false);
 
 }
 double MAX78630::_Register_Pointer_Read(Register _Command) {
@@ -779,6 +1177,39 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	return(_Data_SUM);
 
 }
+uint32_t MAX78630::_FtoS(double _Variable, uint8_t _Data_Type) {
+
+	// Declare Data Variable
+	uint32_t _Data = 0x00;
+
+	// Convert Loop
+	for (uint8_t i = 0; i < 24; i++) {
+		
+		// Calculate Bit Multiplier
+		double _Bit_Multiplier = pow(2, (-_Data_Type - (i - 23)));
+
+		// Control for Bit
+		if (_Variable >= _Bit_Multiplier) {
+			
+			// Set Bit Control
+			bitSet(_Data, 23 - i);
+
+			// Handle Data
+			_Variable -= _Bit_Multiplier;
+
+		} else {
+
+			// Set Bit Control
+			bitClear(_Data, 23 - i);
+
+		}
+
+	}
+
+	// End Function
+	return(_Data);
+
+}
 void MAX78630::_Clear_Buffer(void) {
 
 	// Clear UART Buffer
@@ -789,84 +1220,92 @@ void MAX78630::VT100_Base(void) {
 
 	VT100.setTextColor(VT_WHITE); 
 
-	VT100.setCursor(1, 1); Serial.print("|");
-	for (size_t i = 2; i < 126; i++) {VT100.setCursor(1, i); Serial.print(F("-"));}
-	VT100.setCursor(1, 126); Serial.print("|");
-
-	VT100.setCursor(2, 1); Serial.print(F("|"));
-	VT100.setCursor(2, 126); Serial.print(F("|"));
-
-	VT100.setCursor(3, 1); Serial.print("|");
-	for (size_t i = 2; i < 126; i++) {VT100.setCursor(3, i); Serial.print(F("-"));}
-	VT100.setCursor(3, 126); Serial.print("|");
-
-	VT100.setCursor(2, 51); Serial.print("3 Phase Power Analayser");
-
-	for (size_t i = 2; i < 126; i++) {VT100.setCursor(5, i); Serial.print(F("-"));}
-
-	for (size_t i = 3; i < 22; i++) {
+	for (size_t i = 1; i < 100; i++) {VT100.setCursor(1, i); Serial.print(F("-"));}
+	for (size_t i = 1; i < 100; i++) {VT100.setCursor(3, i); Serial.print(F("-"));}
+	for (size_t i = 1; i < 100; i++) {VT100.setCursor(5, i); Serial.print(F("-"));}
+	for (size_t i = 1; i < 63; i++) {VT100.setCursor(23, i); Serial.print(F("-"));}
+	for (size_t i = 1; i < 28; i++) {
 		VT100.setCursor(i, 1); Serial.print(F("|"));
-		VT100.setCursor(i, 126); Serial.print(F("|"));		
+		VT100.setCursor(i, 99); Serial.print(F("|"));		
 	}
-
-	for (size_t i = 3; i < 22; i++) {
-		VT100.setCursor(i, 40); Serial.print(F("|"));
+	for (size_t i = 3; i < 28; i++) {
+		VT100.setCursor(i, 32); Serial.print(F("|"));
+		VT100.setCursor(i, 63); Serial.print(F("|"));		
 	}
+	
+	VT100.setCursor(2, 38); Serial.print("3 Phase Power Analayser");
 
-	VT100.setCursor(4, 3); Serial.print("Voltage Measurements");
+	VT100.setCursor(4, 3); Serial.print("Voltage Parameters");
+	VT100.setCursor(4, 34); Serial.print("Current Parameters");
+	VT100.setCursor(4, 65); Serial.print("Control Parameters");
 
-	VT100.setCursor(6, 3); Serial.print("R Phase Instant Voltage..[        V]");
-	VT100.setCursor(7, 3); Serial.print("S Phase Instant Voltage..[        V]");
-	VT100.setCursor(8, 3); Serial.print("T Phase Instant Voltage..[        V]");
-	for (size_t i = 2; i < 40; i++) {VT100.setCursor(9, i); Serial.print(F("-"));}
-	VT100.setCursor(10, 3); Serial.print("R Phase RMS Voltage......[        V]");
-	VT100.setCursor(11, 3); Serial.print("S Phase RMS Voltage......[        V]");
-	VT100.setCursor(12, 3); Serial.print("T Phase RMS Voltage......[        V]");
-	for (size_t i = 2; i < 40; i++) {VT100.setCursor(13, i); Serial.print(F("-"));}
-	VT100.setCursor(14, 3); Serial.print("R Phase Fund Voltage.....[        V]");
-	VT100.setCursor(15, 3); Serial.print("S Phase Fund Voltage.....[        V]");
-	VT100.setCursor(16, 3); Serial.print("T Phase Fund Voltage.....[        V]");
-	for (size_t i = 2; i < 40; i++) {VT100.setCursor(17, i); Serial.print(F("-"));}
-	VT100.setCursor(18, 3); Serial.print("R Phase Harm Voltage.....[        V]");
-	VT100.setCursor(19, 3); Serial.print("S Phase Harm Voltage.....[        V]");
-	VT100.setCursor(20, 3); Serial.print("T Phase Harm Voltage.....[        V]");
-	for (size_t i = 2; i < 40; i++) {VT100.setCursor(21, i); Serial.print(F("-"));}
+	VT100.setCursor(6, 3); Serial.print("VA...............[        V]");
+	VT100.setCursor(7, 3); Serial.print("VB...............[        V]");
+	VT100.setCursor(8, 3); Serial.print("VC...............[        V]");
+	VT100.setCursor(9, 3); Serial.print("VA_RMS...........[        V]");
+	VT100.setCursor(10, 3); Serial.print("VB_RMS...........[        V]");
+	VT100.setCursor(11, 3); Serial.print("VC_RMS...........[        V]");
+	VT100.setCursor(12, 3); Serial.print("VT_RMS...........[        V]");
+	VT100.setCursor(13, 3); Serial.print("VFUND_A..........[        V]");
+	VT100.setCursor(14, 3); Serial.print("VFUND_B..........[        V]");
+	VT100.setCursor(15, 3); Serial.print("VFUND_C..........[        V]");
+	VT100.setCursor(16, 3); Serial.print("VHARM_A..........[        V]");
+	VT100.setCursor(17, 3); Serial.print("VHARM_B..........[        V]");
+	VT100.setCursor(18, 3); Serial.print("VHARM_C..........[        V]");
+	VT100.setCursor(19, 3); Serial.print("V_TARGET.........[        V]");
+	VT100.setCursor(20, 3); Serial.print("VRMS_MIN.........[        V]");
+	VT100.setCursor(21, 3); Serial.print("VRMS_MAX.........[        V]");
+	VT100.setCursor(22, 3); Serial.print("VSAG_LIM.........[        V]");
 
-	VT100.setCursor(4, 42); Serial.print("Current Measurements");
+	VT100.setCursor(24, 3); Serial.print("FREQ.............[       Hz]");
+	VT100.setCursor(25, 3); Serial.print("F_MIN............[       Hz]");
+	VT100.setCursor(26, 3); Serial.print("F_MAX............[       Hz]");
 
-	VT100.setCursor(6, 43); Serial.print("R Phase Instant Current..[        A]");
-	VT100.setCursor(7, 43); Serial.print("S Phase Instant Current..[        A]");
-	VT100.setCursor(8, 43); Serial.print("T Phase Instant Current..[        A]");
-	for (size_t i = 41; i < 80; i++) {VT100.setCursor(9, i); Serial.print(F("-"));}
-	VT100.setCursor(10, 43); Serial.print("R Phase RMS Current......[        A]");
-	VT100.setCursor(11, 43); Serial.print("S Phase RMS Current......[        A]");
-	VT100.setCursor(12, 43); Serial.print("T Phase RMS Current......[        A]");
-	for (size_t i = 41; i < 80; i++) {VT100.setCursor(13, i); Serial.print(F("-"));}
-	VT100.setCursor(14, 43); Serial.print("R Phase Fund Current.....[        A]");
-	VT100.setCursor(15, 43); Serial.print("S Phase Fund Current.....[        A]");
-	VT100.setCursor(16, 43); Serial.print("T Phase Fund Current.....[        A]");
-	for (size_t i = 41; i < 80; i++) {VT100.setCursor(17, i); Serial.print(F("-"));}
-	VT100.setCursor(18, 43); Serial.print("R Phase Harm Current.....[        A]");
-	VT100.setCursor(19, 43); Serial.print("S Phase Harm Current.....[        A]");
-	VT100.setCursor(20, 43); Serial.print("T Phase Harm Current.....[        A]");
-	for (size_t i = 41; i < 80; i++) {VT100.setCursor(21, i); Serial.print(F("-"));}
+	VT100.setCursor(6, 34); Serial.print("IA..................[     A]");
+	VT100.setCursor(7, 34); Serial.print("IB..................[     A]");
+	VT100.setCursor(8, 34); Serial.print("IC..................[     A]");
+	VT100.setCursor(9, 34); Serial.print("IA_PEAK.............[     A]");
+	VT100.setCursor(10, 34); Serial.print("IB_PEAK.............[     A]");
+	VT100.setCursor(11, 34); Serial.print("IC_PEAK.............[     A]");
+	VT100.setCursor(12, 34); Serial.print("IA_RMS..............[     A]");
+	VT100.setCursor(13, 34); Serial.print("IB_RMS..............[     A]");
+	VT100.setCursor(14, 34); Serial.print("IC_RMS..............[     A]");
+	VT100.setCursor(15, 34); Serial.print("IFUND_A.............[     A]");
+	VT100.setCursor(16, 34); Serial.print("IFUND_B.............[     A]");
+	VT100.setCursor(17, 34); Serial.print("IFUND_C.............[     A]");
+	VT100.setCursor(18, 34); Serial.print("IHARM_A.............[     A]");
+	VT100.setCursor(19, 34); Serial.print("IHARM_B.............[     A]");
+	VT100.setCursor(20, 34); Serial.print("IHARM_C.............[     A]");
+	VT100.setCursor(21, 34); Serial.print("IRMS_MAX............[     A]");
+	VT100.setCursor(22, 34); Serial.print("I_TARGET............[     A]");
+
+	VT100.setCursor(24, 34); Serial.print("TEMPC..............[      C]");
+	VT100.setCursor(25, 34); Serial.print("T_MIN..............[      C]");
+	VT100.setCursor(26, 34); Serial.print("T_MAX..............[      C]");
+
+	VT100.setCursor(6, 65); Serial.print("Current Imbalance............[ ]");
+	VT100.setCursor(7, 65); Serial.print("Voltage Imbalance............[ ]");
+	VT100.setCursor(8, 65); Serial.print("Sag VR.......................[ ]");
+	VT100.setCursor(9, 65); Serial.print("Sag VS.......................[ ]");
+	VT100.setCursor(10, 65); Serial.print("Sag VT.......................[ ]");
+	VT100.setCursor(11, 65); Serial.print("Current Over Limit VR........[ ]");
+	VT100.setCursor(12, 65); Serial.print("Current Over Limit VS........[ ]");
+	VT100.setCursor(13, 65); Serial.print("Current Over Limit VT........[ ]");
+	VT100.setCursor(14, 65); Serial.print("PF Under Limit VR............[ ]");
+	VT100.setCursor(15, 65); Serial.print("PF Under Limit VS............[ ]");
+	VT100.setCursor(16, 65); Serial.print("PF Under Limit VT............[ ]");
+	VT100.setCursor(17, 65); Serial.print("Voltage Under Limit VR.......[ ]");
+	VT100.setCursor(18, 65); Serial.print("Voltage Under Limit VS.......[ ]");
+	VT100.setCursor(19, 65); Serial.print("Voltage Under Limit VT.......[ ]");
+	VT100.setCursor(20, 65); Serial.print("Voltage Over Limit VR........[ ]");
+	VT100.setCursor(21, 65); Serial.print("Voltage Over Limit VS........[ ]");
+	VT100.setCursor(22, 65); Serial.print("Voltage Over Limit VT........[ ]");
+	VT100.setCursor(23, 65); Serial.print("Temp Under Limit.............[ ]");
+	VT100.setCursor(24, 65); Serial.print("Temp Over Limit..............[ ]");
+	VT100.setCursor(25, 65); Serial.print("Frequency Under Limit........[ ]");
+	VT100.setCursor(26, 65); Serial.print("Frequency Over Limit.........[ ]");
 
 
-
-/*
-	//VT100.setCursor(52, 77); UART_Terminal.print(F("RTC Interval :"));
-	VT100.setCursor(52, 104); UART_Terminal.print(F("Send Counter :"));
-
-	VT100.setTextColor(VT_YELLOW); 
-	VT100.setCursor(54, 3); UART_Terminal.print(F("[ ] Environment Update / [ ] Battery Update / [ ] Start Pump / [ ] Stop Pump / [ ] Reset Device / [ ] Clear Console"));
-	VT100.setTextColor(VT_MAGENTA); 
-	VT100.setCursor(54, 4); UART_Terminal.print(F("1"));
-	VT100.setCursor(54, 29); UART_Terminal.print(F("2"));
-	VT100.setCursor(54, 50); UART_Terminal.print(F("I"));
-	VT100.setCursor(54, 67); UART_Terminal.print(F("O"));
-	VT100.setCursor(54, 83); UART_Terminal.print(F("R"));
-	VT100.setCursor(54, 102); UART_Terminal.print(F("C"));
-*/
 }
 
 // Define Library Class
