@@ -10,19 +10,9 @@
 #ifndef __MAX78630__
 #define __MAX78630__
 
-// Define Arduino Library
-#ifndef __Arduino__
-#include <Arduino.h>
-#endif
-
 // Define Library Structures
 #ifndef __MAX78630_CONFIG__
 #include <Config.h>
-#endif
-
-// Define Registers
-#ifndef __MAX78630_DEFINATION__
-#include <Defination.h>
 #endif
 
 class MAX78630 {
@@ -36,12 +26,14 @@ class MAX78630 {
 		bool Set_Baud(uint32_t _Baud);
 		uint32_t Get_Device_Address(void);
 		uint32_t Get_System_Stat(void);
+		uint32_t Get_Firmware(void);
 
 		// Scale Functions
 		uint16_t VScale(uint32_t _VScale);
 		uint16_t IScale(uint32_t _VScale);
 		uint8_t Harmonic(uint32_t _Harmonic);
-		
+		uint64_t Bucket(bool _Set, uint32_t _Bucket_L, uint32_t _Bucket_H);
+
 		// Bucket Functions
 		bool Set_Bucket(void);
 		uint32_t Get_Bucket_LOW(void);
@@ -72,7 +64,6 @@ class MAX78630 {
 
 		// Temperature Functions
 		float IC_Temperature(void);
-		float Firmware(void);
 
 		// Voltage Measurements
 		float Voltage_RMS(char Phase);
