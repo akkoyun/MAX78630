@@ -34,3 +34,5 @@ In this Arduino Library we can read all data of energy parameters.
 Also set limits for alarm monitoring.
 
 ![Terminal](/Documents/Terminal.png)
+
+<a href="https://www.tindie.com/stores/akkoyun/?ref=offsite_badges&utm_source=sellers_akkoyun&utm_medium=badges&utm_campaign=badge_large"><img src="https://d2ss6ovg47m0r5.cloudfront.net/badges/tindie-larges.png" alt="I sell on Tindie" width="200" height="104"></a>
