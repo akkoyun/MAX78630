@@ -1,16 +1,82 @@
 #######################################
-# Syntax Coloring Map For <Library_Name>
+# Syntax Coloring Map For MAX78630
 #######################################
 
 #######################################
 # Datatypes (KEYWORD1)
 #######################################
 
+Energy_Analayser               KEYWORD1
+
 #######################################
 # Methods and Functions (KEYWORD2)
 #######################################
+
+Begin                          KEYWORD2
+Get_Baud                       KEYWORD2
+Set_Baud                       KEYWORD2
+Get_Device_Address             KEYWORD2
+Get_System_Stat                KEYWORD2
+VScale                         KEYWORD2
+IScale                         KEYWORD2
+Harmonic                       KEYWORD2
+Set_Bucket                     KEYWORD2
+Get_Bucket_LOW                 KEYWORD2
+Get_Bucket_HIGH                KEYWORD2
+Set_Limit                      KEYWORD2
+Get_Limit                      KEYWORD2
+Get_Frame                      KEYWORD2
+Get_Cycle                      KEYWORD2
+Get_Divisor                    KEYWORD2
+Get_Samples                    KEYWORD2
+Get_Voltage_Gain               KEYWORD2
+Get_Voltage_Offset             KEYWORD2
+Get_Voltage_RMS_Offset         KEYWORD2
+Get_Current_Gain               KEYWORD2
+Get_Current_Offset             KEYWORD2
+Get_Temperature_Gain           KEYWORD2
+Get_Temperature_Offset         KEYWORD2
+Get_Active_Power_Offset        KEYWORD2
+Get_ReActive_Power_Offset      KEYWORD2
+Get_Voltage_HPF_COEF           KEYWORD2
+Get_Current_HPF_COEF           KEYWORD2
+IC_Temperature                 KEYWORD2
+Firmware                       KEYWORD2
+Voltage_RMS                    KEYWORD2
+Voltage_Instantaneous          KEYWORD2
+Voltage_Fundamental            KEYWORD2
+Voltage_Harmonic               KEYWORD2
+Voltage_SAG_Limit              KEYWORD2
+Frequency                      KEYWORD2
+Phase_Compansation             KEYWORD2
+Current_RMS                    KEYWORD2
+Current_Instantaneous          KEYWORD2
+Current_Peak                   KEYWORD2
+Current_Fundamental            KEYWORD2
+Current_Harmonic               KEYWORD2
+Active_Power                   KEYWORD2
+ReActive_Power                 KEYWORD2
+Apparent_Power                 KEYWORD2
+Fundamental_Power              KEYWORD2
+Harmonic_Power                 KEYWORD2
+Power_Factor                   KEYWORD2
+Fundamental_ReActive_Power     KEYWORD2
+Harmonic_ReActive_Power        KEYWORD2
+Fundamental_VA_Power           KEYWORD2
+Active_Energy_Recieved         KEYWORD2
+Active_Energy_Delivered        KEYWORD2
+ReActive_Energy_Recieved       KEYWORD2
+ReActive_Energy_Delivered      KEYWORD2
+Set_Min_Max_Address            KEYWORD2
+Get_Min_Value                  KEYWORD2
+Get_Max_Value                  KEYWORD2
+Control_Limits                 KEYWORD2
+Control_Clear                  KEYWORD2
 
 #######################################
 # Constants (LITERAL1)
 #######################################
 
+_VScale                        LITERAL1
+_IScale                        LITERAL1
+Limit                          LITERAL1
