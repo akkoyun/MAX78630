@@ -25,12 +25,6 @@
 #include <Defination.h>
 #endif
 
-// Define VT100 Terminal
-#ifndef VT100_H_
-#include <VT100.h>
-#endif
-
-
 class MAX78630 {
 
 	public:
@@ -129,8 +123,6 @@ class MAX78630 {
 		// Limit Functions
 		void Control_Limits(void);
 		void Control_Clear(void);
-
-		void VT100_Base(void);
 
 		// Scale Variables
 		float 	_VScale	= 0;

@@ -137,14 +137,6 @@ bool MAX78630::Begin(void) {
 	// Close UART Connection
 	Energy_Serial.end();
 	
-	// Start Console
-	VT100.begin(Serial);
-	VT100.cursorOff();
-
-	// Print Diagnostic Abstract
-	VT100.clearAll();
-	VT100_Base();
-
 }
 
 // Device Functions
@@ -1552,97 +1544,6 @@ void MAX78630::_Clear_Buffer(void) {
 
 	// Clear UART Buffer
 	Energy_Serial.flush(); while(Energy_Serial.available() > 0) Energy_Serial.read(); delay(5);
-
-}
-void MAX78630::VT100_Base(void) {
-
-	VT100.setTextColor(VT_WHITE); 
-
-	for (size_t i = 1; i < 100; i++) {VT100.setCursor(1, i); Serial.print(F("-"));}
-	for (size_t i = 1; i < 100; i++) {VT100.setCursor(3, i); Serial.print(F("-"));}
-	for (size_t i = 1; i < 100; i++) {VT100.setCursor(5, i); Serial.print(F("-"));}
-	for (size_t i = 1; i < 63; i++) {VT100.setCursor(23, i); Serial.print(F("-"));}
-	for (size_t i = 1; i < 28; i++) {
-		VT100.setCursor(i, 1); Serial.print(F("|"));
-		VT100.setCursor(i, 99); Serial.print(F("|"));		
-	}
-	for (size_t i = 3; i < 28; i++) {
-		VT100.setCursor(i, 32); Serial.print(F("|"));
-		VT100.setCursor(i, 63); Serial.print(F("|"));		
-	}
-	
-	VT100.setCursor(2, 38); Serial.print("3 Phase Power Analayser");
-
-	VT100.setCursor(4, 3); Serial.print("Voltage Parameters");
-	VT100.setCursor(4, 34); Serial.print("Current Parameters");
-	VT100.setCursor(4, 65); Serial.print("Control Parameters");
-
-	VT100.setCursor(6, 3); Serial.print("VA...............[        V]");
-	VT100.setCursor(7, 3); Serial.print("VB...............[        V]");
-	VT100.setCursor(8, 3); Serial.print("VC...............[        V]");
-	VT100.setCursor(9, 3); Serial.print("VA_RMS...........[        V]");
-	VT100.setCursor(10, 3); Serial.print("VB_RMS...........[        V]");
-	VT100.setCursor(11, 3); Serial.print("VC_RMS...........[        V]");
-	VT100.setCursor(12, 3); Serial.print("VT_RMS...........[        V]");
-	VT100.setCursor(13, 3); Serial.print("VFUND_A..........[        V]");
-	VT100.setCursor(14, 3); Serial.print("VFUND_B..........[        V]");
-	VT100.setCursor(15, 3); Serial.print("VFUND_C..........[        V]");
-	VT100.setCursor(16, 3); Serial.print("VHARM_A..........[        V]");
-	VT100.setCursor(17, 3); Serial.print("VHARM_B..........[        V]");
-	VT100.setCursor(18, 3); Serial.print("VHARM_C..........[        V]");
-	VT100.setCursor(19, 3); Serial.print("V_TARGET.........[        V]");
-	VT100.setCursor(20, 3); Serial.print("VRMS_MIN.........[        V]");
-	VT100.setCursor(21, 3); Serial.print("VRMS_MAX.........[        V]");
-	VT100.setCursor(22, 3); Serial.print("VSAG_LIM.........[        V]");
-
-	VT100.setCursor(24, 3); Serial.print("FREQ.............[       Hz]");
-	VT100.setCursor(25, 3); Serial.print("F_MIN............[       Hz]");
-	VT100.setCursor(26, 3); Serial.print("F_MAX............[       Hz]");
-
-	VT100.setCursor(6, 34); Serial.print("IA..................[     A]");
-	VT100.setCursor(7, 34); Serial.print("IB..................[     A]");
-	VT100.setCursor(8, 34); Serial.print("IC..................[     A]");
-	VT100.setCursor(9, 34); Serial.print("IA_PEAK.............[     A]");
-	VT100.setCursor(10, 34); Serial.print("IB_PEAK.............[     A]");
-	VT100.setCursor(11, 34); Serial.print("IC_PEAK.............[     A]");
-	VT100.setCursor(12, 34); Serial.print("IA_RMS..............[     A]");
-	VT100.setCursor(13, 34); Serial.print("IB_RMS..............[     A]");
-	VT100.setCursor(14, 34); Serial.print("IC_RMS..............[     A]");
-	VT100.setCursor(15, 34); Serial.print("IFUND_A.............[     A]");
-	VT100.setCursor(16, 34); Serial.print("IFUND_B.............[     A]");
-	VT100.setCursor(17, 34); Serial.print("IFUND_C.............[     A]");
-	VT100.setCursor(18, 34); Serial.print("IHARM_A.............[     A]");
-	VT100.setCursor(19, 34); Serial.print("IHARM_B.............[     A]");
-	VT100.setCursor(20, 34); Serial.print("IHARM_C.............[     A]");
-	VT100.setCursor(21, 34); Serial.print("IRMS_MAX............[     A]");
-	VT100.setCursor(22, 34); Serial.print("I_TARGET............[     A]");
-
-	VT100.setCursor(24, 34); Serial.print("TEMPC..............[      C]");
-	VT100.setCursor(25, 34); Serial.print("T_MIN..............[      C]");
-	VT100.setCursor(26, 34); Serial.print("T_MAX..............[      C]");
-
-	VT100.setCursor(6, 65); Serial.print("Current Imbalance............[ ]");
-	VT100.setCursor(7, 65); Serial.print("Voltage Imbalance............[ ]");
-	VT100.setCursor(8, 65); Serial.print("Sag VR.......................[ ]");
-	VT100.setCursor(9, 65); Serial.print("Sag VS.......................[ ]");
-	VT100.setCursor(10, 65); Serial.print("Sag VT.......................[ ]");
-	VT100.setCursor(11, 65); Serial.print("Current Over Limit VR........[ ]");
-	VT100.setCursor(12, 65); Serial.print("Current Over Limit VS........[ ]");
-	VT100.setCursor(13, 65); Serial.print("Current Over Limit VT........[ ]");
-	VT100.setCursor(14, 65); Serial.print("PF Under Limit VR............[ ]");
-	VT100.setCursor(15, 65); Serial.print("PF Under Limit VS............[ ]");
-	VT100.setCursor(16, 65); Serial.print("PF Under Limit VT............[ ]");
-	VT100.setCursor(17, 65); Serial.print("Voltage Under Limit VR.......[ ]");
-	VT100.setCursor(18, 65); Serial.print("Voltage Under Limit VS.......[ ]");
-	VT100.setCursor(19, 65); Serial.print("Voltage Under Limit VT.......[ ]");
-	VT100.setCursor(20, 65); Serial.print("Voltage Over Limit VR........[ ]");
-	VT100.setCursor(21, 65); Serial.print("Voltage Over Limit VS........[ ]");
-	VT100.setCursor(22, 65); Serial.print("Voltage Over Limit VT........[ ]");
-	VT100.setCursor(23, 65); Serial.print("Temp Under Limit.............[ ]");
-	VT100.setCursor(24, 65); Serial.print("Temp Over Limit..............[ ]");
-	VT100.setCursor(25, 65); Serial.print("Frequency Under Limit........[ ]");
-	VT100.setCursor(26, 65); Serial.print("Frequency Over Limit.........[ ]");
-
 
 }
 
