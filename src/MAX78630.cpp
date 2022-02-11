@@ -18,7 +18,6 @@
 
 // Register Address Definations
 Register COMMAND 		{0x00, 0x00, 0, true};		// Selects modes, functions, or options
-Register FW_VERSION 	{0x00, 0x03, 0, false};		// Hardware and firmware version
 Register CONFIG			{0x00, 0x06, 0, true};		// Selects input configuration
 
 // Calibration Registers
@@ -117,7 +116,7 @@ bool MAX78630::Begin(void) {
 	IScale(_C_Scale);
 
 	// Bucket Set Command
-	Set_Bucket();
+	Bucket(true, _BUCKET_HIGH, _BUCKET_LOW);
 
 	// Set Limit Parameters
 	Set_Limit(1, _Temp_Max);
@@ -195,6 +194,21 @@ uint32_t MAX78630::Get_System_Stat(void) {
 
 	// Decide Command
 	_Result = _Register_Pointer_Read(SYSSTAT);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Firmware(void) {
+
+	// Define Objects
+	Register FW_VERSION 	{0x00, 0x03, 0, false};		// Hardware and firmware version
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(FW_VERSION);
 	
 	// End Function
 	return(_Result);
@@ -301,54 +315,40 @@ uint8_t MAX78630::Harmonic(uint32_t _Harmonic) {
 	return(_Result);
 
 }
-
-// Bucket Functions
-bool MAX78630::Set_Bucket(void) {
+uint64_t MAX78630::Bucket(bool _Set, uint32_t _Bucket_H, uint32_t _Bucket_L) {
 
 	// Define Objects
 	Register BUCKET_LOW		{0x01, 0xD1, 0, true};		// Energy Bucket Size – Low word
 	Register BUCKET_HIGH	{0x01, 0xD4, 0, true};		// Energy Bucket Size – High word
 
-	// Declare Variable
-	bool _Result_LOW = false;
-	bool _Result_HIGH = false;
+	// Control for Set
+	if (_Set == true) {
 
-	// Set Command
-	_Result_LOW = _Register_Pointer_Set(BUCKET_LOW, _BUCKET_LOW);
-	_Result_HIGH = _Register_Pointer_Set(BUCKET_HIGH, _BUCKET_HIGH);
-	
-	// End Function
-	return(_Result_LOW & _Result_HIGH);
+		// Declare Variable
+		bool _Result_LOW = false;
+		bool _Result_HIGH = false;
 
-}
-uint32_t MAX78630::Get_Bucket_LOW(void) {
+		// Set Command
+		_Result_LOW = _Register_Pointer_Set(BUCKET_LOW, _Bucket_L);
+		_Result_HIGH = _Register_Pointer_Set(BUCKET_HIGH, _Bucket_H);
 
-	// Define Objects
-	Register BUCKET_LOW		{0x01, 0xD1, 0, true};		// Energy Bucket Size – Low word
+		// Handle Response
+		if (_Result_LOW & _Result_HIGH) return(0xFF);
+		
+	} else {
 
-	// Declare Variable
-	uint32_t _Result = 0;
+		// Declare Variable
+		uint32_t _Result_LOW = 0x00;
+		uint32_t _Result_HIGH = 0x00;
 
-	// Decide Command
-	_Result = _Register_Pointer_Read(BUCKET_LOW);
-	
-	// End Function
-	return(_Result);
+		// Decide Command
+		_Result_LOW = _Register_Pointer_Read(BUCKET_LOW);
+		_Result_HIGH = _Register_Pointer_Read(BUCKET_HIGH);
 
-}
-uint32_t MAX78630::Get_Bucket_HIGH(void) {
+		// Combine Function
+		uint64_t _Result = (((uint32_t)_Result_HIGH << 24) & ((uint32_t)_Result_LOW));
 
-	// Define Objects
-	Register BUCKET_HIGH	{0x01, 0xD4, 0, true};		// Energy Bucket Size – High word
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(BUCKET_HIGH);
-	
-	// End Function
-	return(_Result);
+	}
 
 }
 

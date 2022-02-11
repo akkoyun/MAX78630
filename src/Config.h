@@ -1,6 +1,16 @@
 #ifndef __MAX78630_CONFIG__
 #define __MAX78630_CONFIG__
 
+// Define Arduino Library
+#ifndef __Arduino__
+#include <Arduino.h>
+#endif
+
+// Define Registers
+#ifndef __MAX78630_DEFINATION__
+#include <Defination.h>
+#endif
+
 // Define Serial Port
 #define Energy_Serial		       	Serial2
 #define Energy_Serial_Baud          38400
@@ -15,11 +25,11 @@
 // Limit Definations
 #define _V_Scale					667
 #define _C_Scale					7
-#define _V_RMS_Min					220
-#define _V_RMS_Max					250
-#define _Fq_Min						48
-#define _Fq_Max						51
-#define _Temp_Min					20
+#define _V_RMS_Min					192
+#define _V_RMS_Max					253
+#define _Fq_Min						47
+#define _Fq_Max						52
+#define _Temp_Min					10
 #define _Temp_Max					40
 #define _C_Max						5
 #define _V_Max_Imb					0.06
