@@ -16,7 +16,7 @@
 #define Energy_Serial_Baud          38400
 
 // Define Version
-#define Version				        "04.00.05"
+#define Version				        "04.00.11"
 
 // Define Default Read Count
 #define Read_Count                  3
