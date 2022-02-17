@@ -1,22 +1,12 @@
 #ifndef __MAX78630_CONFIG__
 #define __MAX78630_CONFIG__
 
-// Define Arduino Library
-#ifndef __Arduino__
-#include <Arduino.h>
-#endif
-
-// Define Registers
-#ifndef __MAX78630_DEFINATION__
-#include <Defination.h>
-#endif
-
 // Define Serial Port
 #define Energy_Serial		       	Serial2
 #define Energy_Serial_Baud          38400
 
 // Define Version
-#define Version				        "04.00.05"
+#define Version				        "04.00.11"
 
 // Define Default Read Count
 #define Read_Count                  3
