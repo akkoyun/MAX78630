@@ -1,37 +1,6 @@
 #ifndef __MAX78630_DEFINATION__
 #define __MAX78630_DEFINATION__
 
-struct Register {
-	const uint8_t High_Address;
-	const uint8_t Low_Address;
-	const uint8_t Data_Type;
-	const bool NonVolatile;
-};
-
-struct Limits {
-	bool Current_Imbalance;
-	bool Voltage_Imbalance;
-	bool Sag_VR;
-	bool Sag_VS;
-	bool Sag_VT;
-	bool Current_Over_Limit_VR;
-	bool Current_Over_Limit_VS;
-	bool Current_Over_Limit_VT;
-	bool Power_Factor_Under_Limit_VR;
-	bool Power_Factor_Under_Limit_VS;
-	bool Power_Factor_Under_Limit_VT;
-	bool Voltage_Under_Limit_VR;
-	bool Voltage_Under_Limit_VS;
-	bool Voltage_Under_Limit_VT;
-	bool Voltage_Over_Limit_VR;
-	bool Voltage_Over_Limit_VS;
-	bool Voltage_Over_Limit_VT;
-	bool Temperature_Under_Limit;
-	bool Temperature_Over_Limit;
-	bool Frequency_Under_Limit;
-	bool Frequency_Over_Limit;
-};
-
 // --------------------------------------------------------------------------------------------------------------------------
 // Master Packets
 // --------------------------------------------------------------------------------------------------------------------------
