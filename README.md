@@ -1,12 +1,13 @@
 # MAX78630 Library <sup>V4.1</sup>
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/MAX78630) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/MAX78630) ![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/MAX78630) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/MAX78630) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
 
-	Polly Phase Energy Meter - 04.01.00
+
+	Polly Phase Energy Meter - 04.01.02
 
 ---
 
-<img src="B201.png" width="800">
+ <center><img src="/Documents/B201.png" width="800"></center></br>
 
 **Abstract**
 
@@ -20,7 +21,7 @@ The B201 is designed to interface to the host processor via the UART interface.
 
 **Module PinOut**
 
-<img src="PinOut.jpg" width="600">
+<center><img src="/Documents/PinOut.jpg" width="600"></center></br>
 
 **Measured Parameters**
 
@@ -51,7 +52,7 @@ In this Arduino Library we can read all data of energy parameters.
 
 Also set limits for alarm monitoring.
 
-<img src="/Documents/Terminal.png" width="800">
+<center><img src="/Documents/Terminal.png" width="800"></center></br>
 
 ---
 
