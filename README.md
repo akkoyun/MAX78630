@@ -3,7 +3,7 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/MAX78630) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/MAX78630) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
 
 
-	Polly Phase Energy Meter - 04.01.02
+	Polly Phase Energy Meter - 04.01.03
 
 ---
 
@@ -58,7 +58,7 @@ Also set limits for alarm monitoring.
 
 **Want to buy ?**
 
-[![Want to buu](https://img.shields.io/badge/I_Sell_on-Tindie-blue.svg)](mailto:akkoyun@me.com)
+[![Want to buu](https://img.shields.io/badge/I_Sell_on-Tindie-blue.svg)](https://www.tindie.com/stores/akkoyun)
 
 ---
 
