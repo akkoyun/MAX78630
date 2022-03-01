@@ -142,6 +142,7 @@ class MAX78630 {
 		float Active_Energy_Delivered(char Phase);
 		float ReActive_Energy_Recieved(char Phase);
 		float ReActive_Energy_Delivered(char Phase);
+		void Active_Energy_Reset(char Phase);
 
 		// Min Max Tracking Functions
 		bool Set_Min_Max_Address(uint8_t _MM_ADDR, uint32_t _Mask);

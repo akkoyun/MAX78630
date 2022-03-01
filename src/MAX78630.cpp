@@ -1074,7 +1074,7 @@ float MAX78630::Active_Energy_Recieved(char Phase) {
 	if (Phase == 'R') _Result = _Register_Pointer_Read(WHA_POS); // Measure Phase R
 	if (Phase == 'S') _Result = _Register_Pointer_Read(WHB_POS); // Measure Phase S
 	if (Phase == 'T') _Result = _Register_Pointer_Read(WHC_POS); // Measure Phase T
-	
+
 	// End Function
 	return(_Result);
 	
@@ -1131,6 +1131,18 @@ float MAX78630::ReActive_Energy_Delivered(char Phase) {
 	
 	// End Function
 	return(_Result);
+	
+}
+void MAX78630::Active_Energy_Reset(char Phase) {
+
+	// Define Objects
+	Register WHA_POS		{0x01, 0xDD, 0, false};		// Received Active Energy Counter A
+	Register WHB_POS		{0x01, 0xEF, 0, false};		// Received Active Energy Counter B
+	Register WHC_POS		{0x02, 0x01, 0, false};		// Received Active Energy Counter C
+
+	if (Phase == 'R') _Register_Pointer_Set(WHA_POS, 0x00); // Measure Phase R
+	if (Phase == 'S') _Register_Pointer_Set(WHB_POS, 0x00); // Measure Phase S
+	if (Phase == 'T') _Register_Pointer_Set(WHC_POS, 0x00); // Measure Phase T
 	
 }
 
