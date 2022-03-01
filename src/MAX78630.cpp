@@ -79,8 +79,8 @@ bool MAX78630::Begin(void) {
 	bool _Config_Reg_Bits[8] = {false, false, false, false, false, false, false, false};
 
 	// Set Configuration
-	_Config_Reg_Bits[7] = false;	// 1= reset all energy accumulators. This bit automatically clears to zero when the reset completes. 
-	_Config_Reg_Bits[6] = false;	// 1= reset the minima and maxima registers for all monitored variables. This bit automatically clears to zero when the reset completes.
+	_Config_Reg_Bits[7] = true;	// 1= reset all energy accumulators. This bit automatically clears to zero when the reset completes. 
+	_Config_Reg_Bits[6] = true;	// 1= reset the minima and maxima registers for all monitored variables. This bit automatically clears to zero when the reset completes.
 	_Config_Reg_Bits[5] = true;		// Line Lock 1= lock to line cycle; 0= independent
 	_Config_Reg_Bits[4] = true;		// Temperature Compensation. Should be set to “1” for proper operation.
 
@@ -123,8 +123,8 @@ bool MAX78630::Begin(void) {
 	Set_Limit(2, _Temp_Min);
 	Set_Limit(3, _Fq_Max);
 	Set_Limit(4, _Fq_Min);
-	Set_Limit(5, (_V_RMS_Max));
-	Set_Limit(6, (_V_RMS_Min));
+	Set_Limit(5, _V_RMS_Max);
+	Set_Limit(6, _V_RMS_Min);
 	Set_Limit(7, _C_Max);
 	Set_Limit(8, _PF_Min);
 	Set_Limit(9, _V_Max_Imb);
@@ -807,8 +807,8 @@ float MAX78630::Current_RMS(char Phase) {
 	float _Result = 0;
 
 	if (Phase == 'R') _Result = _Register_Pointer_Read(IA_RMS); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(IA_RMS); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(IA_RMS); // Measure Phase T
+	if (Phase == 'S') _Result = _Register_Pointer_Read(IB_RMS); // Measure Phase S
+	if (Phase == 'T') _Result = _Register_Pointer_Read(IC_RMS); // Measure Phase T
 	if (Phase == 'A') _Result = _Register_Pointer_Read(IT_RMS); // Measure Phase Average
 	
 	// End Function
@@ -1434,6 +1434,9 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	// Clear Serial Buffer
 	_Clear_Buffer();
 
+	// Command Send Delay
+	delay(5);
+
 	// Calculate CheckSum
 	uint8_t _Request_CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + _Command.Low_Address + _Command.High_Address + 0xE3) % 256);
 
@@ -1483,18 +1486,15 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 
 		// Calculate Response
 		if (_Command.Data_Type == 0) {
-			
+
+			// Handle Response (int)	
 			_Data_SUM = _Data_RAW;
 			
 		} else {
 
 			// Handle Bits
-			for (uint8_t i = 0; i < 23; i++) {
-
-				if (bitRead(_Data_RAW, i) == true) _Data_SUM += pow(2, (i - _Command.Data_Type));
-
-			}
-			if (bitRead(_Data_RAW, 23) == true) _Data_SUM += -1 * pow(2, (23 - _Command.Data_Type));
+			for (uint8_t i = 0; i < 23; i++) if (bitRead(_Data_RAW, i) == true) _Data_SUM += pow(2, (i - _Command.Data_Type));
+			if (bitRead(_Data_RAW, 23) == true) _Data_SUM += (-1 * pow(2, (23 - _Command.Data_Type)));
 
 		}
 
