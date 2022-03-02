@@ -62,7 +62,7 @@
 //
 // --------------------------------------------------------------------------------------------------------------------------
 
-// Pack Byte Definations
+// Pack Byte Definitions
 #define Pack_Header			(uint8_t)0xAA
 #define Pack_Device_Select	(uint8_t)0xCF
 #define Pack_Register		(uint8_t)0xA3
@@ -96,6 +96,37 @@ enum STATUS_Bits {
 	UN_FREQ			= 21,
 	OV_FREQ			= 22,
 	DRDY			= 23
+};
+
+struct Register {
+	const uint8_t High_Address;
+	const uint8_t Low_Address;
+	const uint8_t Data_Type;
+	const bool NonVolatile;
+};
+
+struct System_Limits {
+	bool Current_Imbalance;
+	bool Voltage_Imbalance;
+	bool Sag_VR;
+	bool Sag_VS;
+	bool Sag_VT;
+	bool Current_Over_Limit_VR;
+	bool Current_Over_Limit_VS;
+	bool Current_Over_Limit_VT;
+	bool Power_Factor_Under_Limit_VR;
+	bool Power_Factor_Under_Limit_VS;
+	bool Power_Factor_Under_Limit_VT;
+	bool Voltage_Under_Limit_VR;
+	bool Voltage_Under_Limit_VS;
+	bool Voltage_Under_Limit_VT;
+	bool Voltage_Over_Limit_VR;
+	bool Voltage_Over_Limit_VS;
+	bool Voltage_Over_Limit_VT;
+	bool Temperature_Under_Limit;
+	bool Temperature_Over_Limit;
+	bool Frequency_Under_Limit;
+	bool Frequency_Over_Limit;
 };
 
 #endif

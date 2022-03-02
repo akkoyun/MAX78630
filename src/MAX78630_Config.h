@@ -1,18 +1,14 @@
 #ifndef __MAX78630_CONFIG__
 #define __MAX78630_CONFIG__
 
-// Define Serial Port
-#define Energy_Serial		       	Serial2
-#define Energy_Serial_Baud          38400
-
 // Define Version
-#define MAX78630_Version	        "04.00.11"
+#define MAX78630_Version	        "04.02.03"
 
 // Define Default Read Count
 #define Read_Count                  3
 #define Read_Average_Type           1
 
-// Limit Definations
+// Limit Definition
 #define _V_Scale					667
 #define _C_Scale					7
 #define _V_RMS_Min					192
@@ -26,7 +22,7 @@
 #define _C_Max_Imb					0.06
 #define _PF_Min	    				0.8
 
-// Wh Bucket Defination
+// Wh Bucket Definition
 #define _BUCKET_LOW                 0xD0F4C2
 #define _BUCKET_HIGH                0x000821
 

@@ -25,42 +25,19 @@
 #include <MAX78630_Defination.h>
 #endif
 
-struct Register {
-	const uint8_t High_Address;
-	const uint8_t Low_Address;
-	const uint8_t Data_Type;
-	const bool NonVolatile;
-};
-
-struct System_Limits {
-	bool Current_Imbalance;
-	bool Voltage_Imbalance;
-	bool Sag_VR;
-	bool Sag_VS;
-	bool Sag_VT;
-	bool Current_Over_Limit_VR;
-	bool Current_Over_Limit_VS;
-	bool Current_Over_Limit_VT;
-	bool Power_Factor_Under_Limit_VR;
-	bool Power_Factor_Under_Limit_VS;
-	bool Power_Factor_Under_Limit_VT;
-	bool Voltage_Under_Limit_VR;
-	bool Voltage_Under_Limit_VS;
-	bool Voltage_Under_Limit_VT;
-	bool Voltage_Over_Limit_VR;
-	bool Voltage_Over_Limit_VS;
-	bool Voltage_Over_Limit_VT;
-	bool Temperature_Under_Limit;
-	bool Temperature_Over_Limit;
-	bool Frequency_Under_Limit;
-	bool Frequency_Over_Limit;
-};
-
 class MAX78630 {
 
 	public:
 
-		bool Begin(void);
+		// Scale Variables
+		float 	_VScale	= 0;
+		float 	_IScale	= 0;
+
+		// Set Global Limit Object
+		System_Limits Limit {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
+
+		// Object Declaration Functions
+		bool Begin(Stream &_Serial);
 
 		// Hardware Functions
 		uint32_t Get_Baud(void);
@@ -116,8 +93,8 @@ class MAX78630 {
 		// Frequency Measurements
 		float Frequency(void);
 
-		// Phase Compansation
-		float Phase_Compansation(const char _Phase);
+		// Phase Compensation
+		float Phase_Compensation(const char _Phase);
 
 		// Current Measurements
 		float Current_RMS(char Phase);
@@ -157,17 +134,16 @@ class MAX78630 {
 		void Control_Limits(void);
 		void Control_Clear(void);
 
-		// Scale Variables
-		float 	_VScale	= 0;
-		float 	_IScale	= 0;
-
-		// Set Global Limit Object
-		System_Limits Limit {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
-
 	private:
 
-		double _Register_Pointer_Read(Register _Command);
+		// Stream Object Defination
+		Stream *_Energy_Serial;
+
+		// Stream Functions
 		void _Clear_Buffer(void);
+
+		// Register Functions
+		double _Register_Pointer_Read(Register _Command);
 		bool _Register_Pointer_Set(Register _Command, uint32_t _Data);
 		uint32_t _FtoS(double _Variable, uint8_t _Data_Type);
 
