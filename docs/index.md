@@ -3,11 +3,11 @@
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/MAX78630) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/MAX78630) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
 [![Check Arduino](https://github.com/akkoyun/Statistical/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/akkoyun/Statistical/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/akkoyun/Statistical/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/akkoyun/Statistical/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/akkoyun/Statistical/actions/workflows/spell-check.yml/badge.svg)](https://github.com/akkoyun/Statistical/actions/workflows/spell-check.yml)
 
-	Polly Phase Energy Meter - 04.02.05
+	Polly Phase Energy Meter - 04.02.06
 
 ---
 
- <center><img src="/Documents/B201.png" width="800"></center></br>
+ <center><img src="https://github.com/akkoyun/MAX78630/raw/main/Documents/B201.png" width="800"></center>
 
 **Abstract**
 
@@ -21,7 +21,7 @@ The B201 is designed to interface to the host processor via the UART interface.
 
 **Module PinOut**
 
-<center><img src="/Documents/PinOut.jpg" width="600"></center></br>
+<center><img src="https://github.com/akkoyun/MAX78630/raw/main/Documents/PinOut.jpg" width="600"></center>
 
 **Measured Parameters**
 
@@ -52,7 +52,7 @@ In this Arduino Library we can read all data of energy parameters.
 
 Also set limits for alarm monitoring.
 
-<center><img src="/Documents/Terminal.png" width="800"></center></br>
+<center><img src="https://github.com/akkoyun/MAX78630/raw/main/Documents/Terminal.png" width="800"></center>
 
 ---
 
