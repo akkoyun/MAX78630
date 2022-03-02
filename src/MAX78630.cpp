@@ -8,32 +8,32 @@
 
 #include <MAX78630.h>
 
-// --------------------------------------------------------------------------------------------------------------------------
-// Register Locations
-// --------------------------------------------------------------------------------------------------------------------------
-// Use Word addresses for I2C and SPI interfaces and Byte addresses for the SSI (UART) protocol. 
-// Nonvolatile (NV) register defaults are indicated with a ‘Y’. All other registers are initialized 
-// as described in the Functional Description.
-// --------------------------------------------------------------------------------------------------------------------------
-
-// Register Address Definations
-Register COMMAND 		{0x00, 0x00, 0, true};		// Selects modes, functions, or options
-Register CONFIG			{0x00, 0x06, 0, true};		// Selects input configuration
-
-// Calibration Registers
-Register VSAG_INT		{0x00, 0x7E, 0, true};		// Voltage sag detect interval
-Register CALCYCS		{0x00, 0x39, 0, true};		// Number of calibration cycles to average
-
-// Target Registers
-Register V_TARGET		{0x00, 0xAE, 23, true};		// Calibration Target for Voltages
-Register I_TARGET		{0x00, 0xF6, 23, true};		// Calibration Target for Currents
-Register T_TARGET		{0x01, 0x77, 10, true};		// Temperature calibration target
-
 // Begin Functions
-bool MAX78630::Begin(void) {
+bool MAX78630::Begin(Stream &_Serial) {
 
-	// Start Serial Communication
-	Energy_Serial.begin(Energy_Serial_Baud);
+	//Set serial port
+	_Energy_Serial = &_Serial;
+
+	// --------------------------------------------------------------------------------------------------------------------------
+	// Register Locations
+	// --------------------------------------------------------------------------------------------------------------------------
+	// Use Word addresses for I2C and SPI interfaces and Byte addresses for the SSI (UART) protocol. 
+	// Nonvolatile (NV) register defaults are indicated with a ‘Y’. All other registers are initialized 
+	// as described in the Functional Description.
+	// --------------------------------------------------------------------------------------------------------------------------
+
+	// Register Address Definitions
+	//Register COMMAND 		{0x00, 0x00, 0, true};		// Selects modes, functions, or options
+	//Register CONFIG			{0x00, 0x06, 0, true};		// Selects input configuration
+
+	// Calibration Registers
+	//Register VSAG_INT		{0x00, 0x7E, 0, true};		// Voltage sag detect interval
+	//Register CALCYCS		{0x00, 0x39, 0, true};		// Number of calibration cycles to average
+
+	// Target Registers
+	//Register V_TARGET		{0x00, 0xAE, 23, true};		// Calibration Target for Voltages
+	//Register I_TARGET		{0x00, 0xF6, 23, true};		// Calibration Target for Currents
+	//Register T_TARGET		{0x01, 0x77, 10, true};		// Temperature calibration target
 
 	// Clear Serial Buffer
 	_Clear_Buffer();
@@ -50,10 +50,10 @@ bool MAX78630::Begin(void) {
 	*/		
 
 	// Select IC Command
-	Energy_Serial.write(0xAA);			// Header (0xAA)
-	Energy_Serial.write(0x04);			// Total Sended Byte (0x04)
-	Energy_Serial.write(0xC4);			// Setting Command (0xC4)
-	Energy_Serial.write(0x8E);			// CheckSum (0x8E)
+	_Energy_Serial->write(0xAA);			// Header (0xAA)
+	_Energy_Serial->write(0x04);			// Total Sended Byte (0x04)
+	_Energy_Serial->write(0xC4);			// Setting Command (0xC4)
+	_Energy_Serial->write(0x8E);			// CheckSum (0x8E)
 
 	// Command Delay
 	delay(10);
@@ -72,10 +72,10 @@ bool MAX78630::Begin(void) {
          *----------------------------------- 1= reset all energy accumulators. This bit automatically clears to zero when the reset completes. 
 	*/		
 
-	// User Register Defination
+	// User Register Definition
 	uint8_t _Config_Reg = 0x00;
 	
-	// User Register Bit Definations
+	// User Register Bit Definitions
 	bool _Config_Reg_Bits[8] = {false, false, false, false, false, false, false, false};
 
 	// Set Configuration
@@ -98,13 +98,13 @@ bool MAX78630::Begin(void) {
 	uint8_t _Calibration_CheckSum = 0x100 - ((0xAA + 0x07 + 0xCA + 0x65 + 0xFF + _Config_Reg) % 256);
 
 	// Calibration Command
-	Energy_Serial.write(0xAA);						// Header (0xAA)
-	Energy_Serial.write(0x07);						// Total Sended Byte (0x07)
-	Energy_Serial.write(0xCA);						// Setting Command (0xCA)
-	Energy_Serial.write(_Config_Reg);				// Config Register (0x)
-	Energy_Serial.write(0xFF);						// Calibration Setting (0xFF)
-	Energy_Serial.write(0x65);						// Setting Command (0x65)
-	Energy_Serial.write(_Calibration_CheckSum);		// CheckSum (0xD1)
+	_Energy_Serial->write(0xAA);						// Header (0xAA)
+	_Energy_Serial->write(0x07);						// Total Sended Byte (0x07)
+	_Energy_Serial->write(0xCA);						// Setting Command (0xCA)
+	_Energy_Serial->write(_Config_Reg);				// Config Register (0x)
+	_Energy_Serial->write(0xFF);						// Calibration Setting (0xFF)
+	_Energy_Serial->write(0x65);						// Setting Command (0x65)
+	_Energy_Serial->write(_Calibration_CheckSum);		// CheckSum (0xD1)
 
 	// Command Delay
 	delay(10);
@@ -132,9 +132,6 @@ bool MAX78630::Begin(void) {
 
 	// Control for Limits
 	Control_Limits();
-
-	// Close UART Connection
-	Energy_Serial.end();
 	
 }
 
@@ -348,6 +345,8 @@ uint64_t MAX78630::Bucket(bool _Set, uint32_t _Bucket_H, uint32_t _Bucket_L) {
 		// Combine Function
 		uint64_t _Result = (((uint32_t)_Result_HIGH << 24) & ((uint32_t)_Result_LOW));
 
+		// End Function
+		return(_Result);
 	}
 
 }
@@ -773,8 +772,8 @@ float MAX78630::Voltage_SAG_Limit(void) {
 
 }
 
-// Phase Compansation
-float MAX78630::Phase_Compansation(const char _Phase) {
+// Phase Compensation
+float MAX78630::Phase_Compensation(const char _Phase) {
 
 	// Define Objects
 	Register PHASECOMP1		{0x00, 0x42, 21, true};		// Phase compensation A
@@ -1271,22 +1270,27 @@ float MAX78630::Get_Max_Value(uint8_t _MM_ADDR) {
 bool MAX78630::Alarm(void) {
 
 	// Alarm Registers
-	Register STATUS_SET		{0x00, 0x1B, 0, false};		// Used to set/force alarm/status bits
-	Register MASK1			{0x00, 0x1E, 0, true};		// Alarm/status mask for AL1 output pin
-	Register MASK2			{0x00, 0x21, 0, true};		// Alarm/status mask for AL2 output pin
-	Register MASK3			{0x00, 0x24, 0, true};		// Alarm/status mask for AL3 output pin
-	Register MASK4			{0x00, 0x27, 0, true};		// Alarm/status mask for AL4 output pin
-	Register MASK5			{0x00, 0x2A, 0, true};		// Alarm/status mask for AL5 output pin
-	Register STICKY			{0x00, 0x2D, 0, true};		// Alarm/status bits to hold until cleared by host
+	//Register STATUS_SET		{0x00, 0x1B, 0, false};		// Used to set/force alarm/status bits
+	//Register MASK1			{0x00, 0x1E, 0, true};		// Alarm/status mask for AL1 output pin
+	//Register MASK2			{0x00, 0x21, 0, true};		// Alarm/status mask for AL2 output pin
+	//Register MASK3			{0x00, 0x24, 0, true};		// Alarm/status mask for AL3 output pin
+	//Register MASK4			{0x00, 0x27, 0, true};		// Alarm/status mask for AL4 output pin
+	//Register MASK5			{0x00, 0x2A, 0, true};		// Alarm/status mask for AL5 output pin
+	//Register STICKY			{0x00, 0x2D, 0, true};		// Alarm/status bits to hold until cleared by host
+
+	// End Function
+	return(true);
 
 }
 bool MAX78630::DIO(void) {
 
 	// DIO Registers
-	Register DIO_STATE		{0x00, 0x30, 0, false};		// State of DIO pins
-	Register DIO_DIR		{0x00, 0x33, 0, true};		// Direction of DIO pins. 1=Input ; 0=Output
-	Register DIO_POL		{0x00, 0x36, 0, true};		// Polarity of DIO pins. 1=Active High ; 0=Active Low
+	//Register DIO_STATE		{0x00, 0x30, 0, false};		// State of DIO pins
+	//Register DIO_DIR		{0x00, 0x33, 0, true};		// Direction of DIO pins. 1=Input ; 0=Output
+	//Register DIO_POL		{0x00, 0x36, 0, true};		// Polarity of DIO pins. 1=Active High ; 0=Active Low
 
+	// End Function
+	return(true);
 
 }
 
@@ -1363,9 +1367,6 @@ void MAX78630::Control_Clear(void) {
 // Library Specified Functions
 bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 
-	// Start Serial Connection
-	Energy_Serial.begin(Energy_Serial_Baud);
-
 	// Clear Buffer
 	_Clear_Buffer();
 
@@ -1381,16 +1382,16 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 	_Clear_Buffer();
 
 	// Send Command
-	Energy_Serial.write(0xAA);
-	Energy_Serial.write(0x0A);
-	Energy_Serial.write(0xA3);
-	Energy_Serial.write(_Command.Low_Address);
-	Energy_Serial.write(_Command.High_Address);
-	Energy_Serial.write(0xD3);
-	Energy_Serial.write(_Parameter1);
-	Energy_Serial.write(_Parameter2);
-	Energy_Serial.write(_Parameter3);
-	Energy_Serial.write(ChkS);
+	_Energy_Serial->write(0xAA);
+	_Energy_Serial->write(0x0A);
+	_Energy_Serial->write(0xA3);
+	_Energy_Serial->write(_Command.Low_Address);
+	_Energy_Serial->write(_Command.High_Address);
+	_Energy_Serial->write(0xD3);
+	_Energy_Serial->write(_Parameter1);
+	_Energy_Serial->write(_Parameter2);
+	_Energy_Serial->write(_Parameter3);
+	_Energy_Serial->write(ChkS);
 
 	// Command Delay
 	delay(20);
@@ -1401,10 +1402,10 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 	uint8_t _Response_Order = 0;
 
 	// Read UART Response
-	while(Energy_Serial.available() > 0) {
+	while(_Energy_Serial->available() > 0) {
 
 		// Read Serial Char
-		_Response[_Response_Order] = Energy_Serial.read();
+		_Response[_Response_Order] = _Energy_Serial->read();
 		
 		// Increase Read Order
 		_Response_Order++;
@@ -1413,9 +1414,6 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 		delay(5);
 		
 	}
-
-	// Close UART Connection
-	Energy_Serial.end();
 
 	// End Function
 	if (_Response[0 == 0xAD]) return(true);
@@ -1427,7 +1425,7 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 double MAX78630::_Register_Pointer_Read(Register _Command) {
 	
 	/*
-		MAX78630 Serial Comminication Read Values Structure
+		MAX78630 Serial Communication Read Values Structure
 		---------------------------------------------------
 		Read Request : [1]-[2]-[3]-[4]-[5]-[6]-[7]
 		---------------------------------------------------
@@ -1440,9 +1438,6 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 		7. byte is the CRC correction byte (CHK)
 	*/
 
-	// Start Serial Connection
-	Energy_Serial.begin(Energy_Serial_Baud);
-
 	// Clear Serial Buffer
 	_Clear_Buffer();
 
@@ -1453,13 +1448,13 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	uint8_t _Request_CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + _Command.Low_Address + _Command.High_Address + 0xE3) % 256);
 
 	// Send Command
-	Energy_Serial.write(0xAA);
-	Energy_Serial.write(0x07);
-	Energy_Serial.write(0xA3);
-	Energy_Serial.write(_Command.Low_Address);
-	Energy_Serial.write(_Command.High_Address);
-	Energy_Serial.write(0xE3);
-	Energy_Serial.write(_Request_CheckSum);
+	_Energy_Serial->write(0xAA);
+	_Energy_Serial->write(0x07);
+	_Energy_Serial->write(0xA3);
+	_Energy_Serial->write(_Command.Low_Address);
+	_Energy_Serial->write(_Command.High_Address);
+	_Energy_Serial->write(0xE3);
+	_Energy_Serial->write(_Request_CheckSum);
 
 	// Command Send Delay
 	delay(20);
@@ -1470,10 +1465,10 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	uint8_t _Response_Order = 0;
 
 	// Read UART Response
-	while(Energy_Serial.available() > 0) {
+	while(_Energy_Serial->available() > 0) {
 
 		// Read Serial Char
-		_Response[_Response_Order] = Energy_Serial.read();
+		_Response[_Response_Order] = _Energy_Serial->read();
 		
 		// Increase Read Order
 		_Response_Order++;
@@ -1490,7 +1485,7 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	uint32_t _Data_RAW = 0;
 	double _Data_SUM = 0;
 
-	// Control Recieved Data
+	// Control Received Data
 	if (_Response[0] == 0xAA and _Response[1] == 0x06 and _Response[5] == _Response_CheckSum) {
 
 		// Combine Read Bytes
@@ -1511,9 +1506,6 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 		}
 
 	}
-
-	// Close UART Connection
-	Energy_Serial.end();
 
 	// End Function
 	return(_Data_SUM);
@@ -1555,7 +1547,7 @@ uint32_t MAX78630::_FtoS(double _Variable, uint8_t _Data_Type) {
 void MAX78630::_Clear_Buffer(void) {
 
 	// Clear UART Buffer
-	Energy_Serial.flush(); while(Energy_Serial.available() > 0) Energy_Serial.read(); delay(5);
+	_Energy_Serial->flush(); while(_Energy_Serial->available() > 0) _Energy_Serial->read(); delay(5);
 
 }
 
