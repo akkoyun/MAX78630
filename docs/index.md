@@ -1,37 +1,65 @@
-## Welcome to GitHub Pages
+# MAX78630 Library <sup>V4.2</sup>
 
-You can use the [editor on GitHub](https://github.com/akkoyun/MAX78630/edit/main/docs/index.md) to maintain and preview the content for your website in Markdown files.
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/MAX78630) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/MAX78630) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
+[![Check Arduino](https://github.com/akkoyun/Statistical/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/akkoyun/Statistical/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/akkoyun/Statistical/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/akkoyun/Statistical/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/akkoyun/Statistical/actions/workflows/spell-check.yml/badge.svg)](https://github.com/akkoyun/Statistical/actions/workflows/spell-check.yml)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
+	Polly Phase Energy Meter - 04.02.05
 
-### Markdown
+---
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
+ <center><img src="/Documents/B201.png" width="800"></center></br>
 
-```markdown
-Syntax highlighted code block
+**Abstract**
 
-# Header 1
-## Header 2
-### Header 3
+B201 module is an energy measurement module (EMM) for polyphase power monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. It is available in a 3x4cm size PCB module.
 
-- Bulleted
-- List
+The B201 provides up to six analog inputs for interfacing to voltage and current sensors. Scaled voltages from the sensors are fed to the single converter front-end utilizing a high-resolution delta-sigma converter. Supported current sensors include current transformers (CT), Rogowski coils, and resistive shunts.
 
-1. Numbered
-2. List
+An embedded 24-bit measurement processor and firmware perform all necessary computations and data formatting for accurate reporting to the host. With integrated flash memory for storing nonvolatile calibration coefficients and device configuration settings, the B201 is capable of being a completely autonomous solution.
 
-**Bold** and _Italic_ and `Code` text
+The B201 is designed to interface to the host processor via the UART interface.
 
-[Link](url) and ![Image](src)
-```
+**Module PinOut**
 
-For more details see [Basic writing and formatting syntax](https://docs.github.com/en/github/writing-on-github/getting-started-with-writing-and-formatting-on-github/basic-writing-and-formatting-syntax).
+<center><img src="/Documents/PinOut.jpg" width="600"></center></br>
 
-### Jekyll Themes
+**Measured Parameters**
 
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/akkoyun/MAX78630/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
+In this Arduino Library we can read all data of energy parameters.
 
-### Support or Contact
+| Parameter                  | Phase R | Phase S | Phase T |
+|----------------------------|---------|---------|---------|
+| Instant Voltage            | Yes     | Yes     | Yes     |
+| RMS Voltage                | Yes     | Yes     | Yes     |
+| Fundamental Voltage        | Yes     | Yes     | Yes     |
+| Harmonic Voltage           | Yes     | Yes     | Yes     |
+| Frequency                  | -       | -       | -       |
+| Instant Current            | Yes     | Yes     | Yes     |
+| RMS Current                | Yes     | Yes     | Yes     |
+| Peak Current               | Yes     | Yes     | Yes     |
+| Fundamental Current        | Yes     | Yes     | Yes     |
+| Harmonic Current           | Yes     | Yes     | Yes     |
+| Active Power               | Yes     | Yes     | Yes     |
+| ReActive Power             | Yes     | Yes     | Yes     |
+| Apparent Power             | Yes     | Yes     | Yes     |
+| Fundamental Power          | Yes     | Yes     | Yes     |
+| Harmonic Power             | Yes     | Yes     | Yes     |
+| Power Factor               | Yes     | Yes     | Yes     |
+| Fundamental ReActive Power | Yes     | Yes     | Yes     |
+| Harmonic Reactive Power    | Yes     | Yes     | Yes     |
+| Fundamental VA Power       | Yes     | Yes     | Yes     |
+| IC Temperature             | -       | -       | -       |
 
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
+Also set limits for alarm monitoring.
+
+<center><img src="/Documents/Terminal.png" width="800"></center></br>
+
+---
+
+**Want to buy ?**
+
+[![Want to buu](https://img.shields.io/badge/I_Sell_on-Tindie-blue.svg)](https://www.tindie.com/stores/akkoyun)
+
+---
+
+[![Support me](https://img.shields.io/badge/Support-PATREON-GREEN.svg)](https://www.patreon.com/bePatron?u=62967889) ![Twitter Follow](https://img.shields.io/twitter/follow/gunceakkoyun?style=social) ![YouTube Channel Views](https://img.shields.io/youtube/channel/views/UCIguQGdaBT1GnnVMz5qAZ2Q?style=social) ![Repos Badge](https://badges.pufler.dev/repos/akkoyun) [![E-Mail](https://img.shields.io/badge/E_Mail-Mehmet_Gunce_Akkoyun-blue.svg)](mailto:akkoyun@me.com) ![GitHub](https://img.shields.io/github/license/akkoyun/Statistical) 
