@@ -31,9 +31,6 @@ jobs:
 
       matrix:
         board:
-          - fqbn: arduino:avr:nano
-            platforms: |
-              - name: arduino:avr
           - fqbn: arduino:avr:mega
             platforms: |
               - name: arduino:avr
