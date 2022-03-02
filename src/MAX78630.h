@@ -136,7 +136,7 @@ class MAX78630 {
 
 	private:
 
-		// Stream Object Defination
+		// Stream Object Definition
 		Stream *_Energy_Serial;
 
 		// Stream Functions
