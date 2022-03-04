@@ -9,10 +9,10 @@
 #include <MAX78630.h>
 
 // Begin Functions
-bool MAX78630::Begin(Stream &_Serial) {
+bool MAX78630::Begin(void) {
 
-	//Set serial port
-	_Energy_Serial = &_Serial;
+	// Start Serial Communication
+	Energy_Serial.begin(38400);
 
 	// --------------------------------------------------------------------------------------------------------------------------
 	// Register Locations
@@ -24,7 +24,7 @@ bool MAX78630::Begin(Stream &_Serial) {
 
 	// Register Address Definitions
 	//Register COMMAND 		{0x00, 0x00, 0, true};		// Selects modes, functions, or options
-	//Register CONFIG			{0x00, 0x06, 0, true};		// Selects input configuration
+	//Register CONFIG		{0x00, 0x06, 0, true};		// Selects input configuration
 
 	// Calibration Registers
 	//Register VSAG_INT		{0x00, 0x7E, 0, true};		// Voltage sag detect interval
@@ -50,10 +50,10 @@ bool MAX78630::Begin(Stream &_Serial) {
 	*/		
 
 	// Select IC Command
-	_Energy_Serial->write(0xAA);			// Header (0xAA)
-	_Energy_Serial->write(0x04);			// Total Sended Byte (0x04)
-	_Energy_Serial->write(0xC4);			// Setting Command (0xC4)
-	_Energy_Serial->write(0x8E);			// CheckSum (0x8E)
+	Energy_Serial.write(0xAA);			// Header (0xAA)
+	Energy_Serial.write(0x04);			// Total Sended Byte (0x04)
+	Energy_Serial.write(0xC4);			// Setting Command (0xC4)
+	Energy_Serial.write(0x8E);			// CheckSum (0x8E)
 
 	// Command Delay
 	delay(10);
@@ -79,8 +79,8 @@ bool MAX78630::Begin(Stream &_Serial) {
 	bool _Config_Reg_Bits[8] = {false, false, false, false, false, false, false, false};
 
 	// Set Configuration
-	_Config_Reg_Bits[7] = true;	// 1= reset all energy accumulators. This bit automatically clears to zero when the reset completes. 
-	_Config_Reg_Bits[6] = true;	// 1= reset the minima and maxima registers for all monitored variables. This bit automatically clears to zero when the reset completes.
+	_Config_Reg_Bits[7] = true;		// 1= reset all energy accumulators. This bit automatically clears to zero when the reset completes. 
+	_Config_Reg_Bits[6] = true;		// 1= reset the minima and maxima registers for all monitored variables. This bit automatically clears to zero when the reset completes.
 	_Config_Reg_Bits[5] = true;		// Line Lock 1= lock to line cycle; 0= independent
 	_Config_Reg_Bits[4] = true;		// Temperature Compensation. Should be set to “1” for proper operation.
 
@@ -98,13 +98,13 @@ bool MAX78630::Begin(Stream &_Serial) {
 	uint8_t _Calibration_CheckSum = 0x100 - ((0xAA + 0x07 + 0xCA + 0x65 + 0xFF + _Config_Reg) % 256);
 
 	// Calibration Command
-	_Energy_Serial->write(0xAA);						// Header (0xAA)
-	_Energy_Serial->write(0x07);						// Total Sended Byte (0x07)
-	_Energy_Serial->write(0xCA);						// Setting Command (0xCA)
-	_Energy_Serial->write(_Config_Reg);				// Config Register (0x)
-	_Energy_Serial->write(0xFF);						// Calibration Setting (0xFF)
-	_Energy_Serial->write(0x65);						// Setting Command (0x65)
-	_Energy_Serial->write(_Calibration_CheckSum);		// CheckSum (0xD1)
+	Energy_Serial.write(0xAA);						// Header (0xAA)
+	Energy_Serial.write(0x07);						// Total Sended Byte (0x07)
+	Energy_Serial.write(0xCA);						// Setting Command (0xCA)
+	Energy_Serial.write(_Config_Reg);				// Config Register (0x)
+	Energy_Serial.write(0xFF);						// Calibration Setting (0xFF)
+	Energy_Serial.write(0x65);						// Setting Command (0x65)
+	Energy_Serial.write(_Calibration_CheckSum);		// CheckSum (0xD1)
 
 	// Command Delay
 	delay(10);
@@ -117,6 +117,14 @@ bool MAX78630::Begin(Stream &_Serial) {
 
 	// Bucket Set Command
 	Bucket(true, _BUCKET_HIGH, _BUCKET_LOW);
+
+	// Set Min Max Address
+	Set_Min_Max_Address(1, 0x30); // VR
+	Set_Min_Max_Address(2, 0x31); // VS
+	Set_Min_Max_Address(3, 0x32); // VT
+	Set_Min_Max_Address(4, 0x47); // IR
+	Set_Min_Max_Address(5, 0x48); // IS
+	Set_Min_Max_Address(6, 0x49); // IT
 
 	// Set Limit Parameters
 	Set_Limit(1, _Temp_Max);
@@ -132,7 +140,7 @@ bool MAX78630::Begin(Stream &_Serial) {
 
 	// Control for Limits
 	Control_Limits();
-	
+
 }
 
 // Device Functions
@@ -1168,11 +1176,8 @@ float MAX78630::Frequency(void) {
 	// Define Objects
 	Register FREQ			{0x01, 0x80, 16, false};	// Line Frequency
 
-	// Declare Variable
-	float _Result = 0;
-
 	// Get Data
-	_Result = _Register_Pointer_Read(FREQ);
+	float _Result = _Register_Pointer_Read(FREQ);
 
 	// End Function
 	return(_Result);
@@ -1212,24 +1217,24 @@ bool MAX78630::Set_Min_Max_Address(uint8_t _MM_ADDR, uint32_t _Mask) {
 float MAX78630::Get_Min_Value(uint8_t _MM_ADDR) {
 
 	// Define Objects
-	Register MIN0			{0x01, 0x89, 0, false};		// Minimum Recorded Value 1
-	Register MIN1			{0x01, 0x8C, 0, false};		// Minimum Recorded Value 2
-	Register MIN2			{0x01, 0x8F, 0, false};		// Minimum Recorded Value 3
-	Register MIN3			{0x01, 0x92, 0, false};		// Minimum Recorded Value 4
-	Register MIN4			{0x01, 0x95, 0, false};		// Minimum Recorded Value 5
-	Register MIN5			{0x01, 0x98, 0, false};		// Minimum Recorded Value 6
+	Register MIN0			{0x01, 0x89, 23, false};		// Minimum Recorded Value 1
+	Register MIN1			{0x01, 0x8C, 23, false};		// Minimum Recorded Value 2
+	Register MIN2			{0x01, 0x8F, 23, false};		// Minimum Recorded Value 3
+	Register MIN3			{0x01, 0x92, 23, false};		// Minimum Recorded Value 4
+	Register MIN4			{0x01, 0x95, 23, false};		// Minimum Recorded Value 5
+	Register MIN5			{0x01, 0x98, 23, false};		// Minimum Recorded Value 6
 	Register MIN6			{0x01, 0x9B, 0, false};		// Minimum Recorded Value 7
 	Register MIN7			{0x01, 0x9E, 0, false};		// Minimum Recorded Value 8
 
 	// Declare Variable
 	float _Result = 0;
 
-	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MIN0); // Measure Phase R
-	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MIN1); // Measure Phase R
-	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MIN2); // Measure Phase R
-	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MIN3); // Measure Phase R
-	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MIN4); // Measure Phase R
-	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MIN5); // Measure Phase R
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MIN0) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MIN1) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MIN2) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MIN3) * _IScale; // Measure Phase R
+	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MIN4) * _IScale; // Measure Phase R
+	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MIN5) * _IScale; // Measure Phase R
 	if (_MM_ADDR == 7) _Result = _Register_Pointer_Read(MIN6); // Measure Phase R
 	if (_MM_ADDR == 8) _Result = _Register_Pointer_Read(MIN7); // Measure Phase R
 
@@ -1240,24 +1245,24 @@ float MAX78630::Get_Min_Value(uint8_t _MM_ADDR) {
 float MAX78630::Get_Max_Value(uint8_t _MM_ADDR) {
 
 	// Define Objects
-	Register MAX0			{0x01, 0xA1, 0, false};		// Maximum Recorded Value 1
-	Register MAX1			{0x01, 0xA4, 0, false};		// Maximum Recorded Value 2
-	Register MAX2			{0x01, 0xA7, 0, false};		// Maximum Recorded Value 3
-	Register MAX3			{0x01, 0xAA, 0, false};		// Maximum Recorded Value 4
-	Register MAX4			{0x01, 0xAD, 0, false};		// Maximum Recorded Value 5
-	Register MAX5			{0x01, 0xB0, 0, false};		// Maximum Recorded Value 6
+	Register MAX0			{0x01, 0xA1, 23, false};		// Maximum Recorded Value 1
+	Register MAX1			{0x01, 0xA4, 23, false};		// Maximum Recorded Value 2
+	Register MAX2			{0x01, 0xA7, 23, false};		// Maximum Recorded Value 3
+	Register MAX3			{0x01, 0xAA, 23, false};		// Maximum Recorded Value 4
+	Register MAX4			{0x01, 0xAD, 23, false};		// Maximum Recorded Value 5
+	Register MAX5			{0x01, 0xB0, 23, false};		// Maximum Recorded Value 6
 	Register MAX6			{0x01, 0xB3, 0, false};		// Maximum Recorded Value 7
 	Register MAX7			{0x01, 0xB6, 0, false};		// Maximum Recorded Value 8
 
 	// Declare Variable
 	float _Result = 0;
 
-	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MAX0); // Measure Phase R
-	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MAX1); // Measure Phase R
-	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MAX2); // Measure Phase R
-	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MAX3); // Measure Phase R
-	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MAX4); // Measure Phase R
-	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MAX5); // Measure Phase R
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MAX0) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MAX1) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MAX2) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MAX3) * _IScale; // Measure Phase R
+	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MAX4) * _IScale; // Measure Phase R
+	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MAX5) * _IScale; // Measure Phase R
 	if (_MM_ADDR == 7) _Result = _Register_Pointer_Read(MAX6); // Measure Phase R
 	if (_MM_ADDR == 8) _Result = _Register_Pointer_Read(MAX7); // Measure Phase R
 
@@ -1382,16 +1387,16 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 	_Clear_Buffer();
 
 	// Send Command
-	_Energy_Serial->write(0xAA);
-	_Energy_Serial->write(0x0A);
-	_Energy_Serial->write(0xA3);
-	_Energy_Serial->write(_Command.Low_Address);
-	_Energy_Serial->write(_Command.High_Address);
-	_Energy_Serial->write(0xD3);
-	_Energy_Serial->write(_Parameter1);
-	_Energy_Serial->write(_Parameter2);
-	_Energy_Serial->write(_Parameter3);
-	_Energy_Serial->write(ChkS);
+	Energy_Serial.write(0xAA);
+	Energy_Serial.write(0x0A);
+	Energy_Serial.write(0xA3);
+	Energy_Serial.write(_Command.Low_Address);
+	Energy_Serial.write(_Command.High_Address);
+	Energy_Serial.write(0xD3);
+	Energy_Serial.write(_Parameter1);
+	Energy_Serial.write(_Parameter2);
+	Energy_Serial.write(_Parameter3);
+	Energy_Serial.write(ChkS);
 
 	// Command Delay
 	delay(20);
@@ -1402,10 +1407,10 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 	uint8_t _Response_Order = 0;
 
 	// Read UART Response
-	while(_Energy_Serial->available() > 0) {
+	while(Energy_Serial.available() > 0) {
 
 		// Read Serial Char
-		_Response[_Response_Order] = _Energy_Serial->read();
+		_Response[_Response_Order] = Energy_Serial.read();
 		
 		// Increase Read Order
 		_Response_Order++;
@@ -1423,20 +1428,6 @@ bool MAX78630::_Register_Pointer_Set(Register _Command, uint32_t _Data) {
 
 }
 double MAX78630::_Register_Pointer_Read(Register _Command) {
-	
-	/*
-		MAX78630 Serial Communication Read Values Structure
-		---------------------------------------------------
-		Read Request : [1]-[2]-[3]-[4]-[5]-[6]-[7]
-		---------------------------------------------------
-		1. byte is the IC address byte (0xAA)
-		2. byte is the total sended byte (0x07)
-		3. byte is the package payload type (0xA3)
-		4. byte is the request (RMS) byte (2)
-		5. byte is the request (RMS) byte (1)
-		6. byte is the requested byte count (0xE3)
-		7. byte is the CRC correction byte (CHK)
-	*/
 
 	// Clear Serial Buffer
 	_Clear_Buffer();
@@ -1448,13 +1439,13 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	uint8_t _Request_CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + _Command.Low_Address + _Command.High_Address + 0xE3) % 256);
 
 	// Send Command
-	_Energy_Serial->write(0xAA);
-	_Energy_Serial->write(0x07);
-	_Energy_Serial->write(0xA3);
-	_Energy_Serial->write(_Command.Low_Address);
-	_Energy_Serial->write(_Command.High_Address);
-	_Energy_Serial->write(0xE3);
-	_Energy_Serial->write(_Request_CheckSum);
+	Energy_Serial.write(0xAA);
+	Energy_Serial.write(0x07);
+	Energy_Serial.write(0xA3);
+	Energy_Serial.write(_Command.Low_Address);
+	Energy_Serial.write(_Command.High_Address);
+	Energy_Serial.write(0xE3);
+	Energy_Serial.write(_Request_CheckSum);
 
 	// Command Send Delay
 	delay(20);
@@ -1465,16 +1456,16 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 	uint8_t _Response_Order = 0;
 
 	// Read UART Response
-	while(_Energy_Serial->available() > 0) {
+	while(Energy_Serial.available() > 0) {
 
 		// Read Serial Char
-		_Response[_Response_Order] = _Energy_Serial->read();
+		_Response[_Response_Order] = Energy_Serial.read();
 		
 		// Increase Read Order
 		_Response_Order++;
 		
 		// Stream Delay
-		delay(5);
+		delay(1);
 		
 	}
 
@@ -1500,10 +1491,34 @@ double MAX78630::_Register_Pointer_Read(Register _Command) {
 		} else {
 
 			// Handle Bits
-			for (uint8_t i = 0; i < 23; i++) if (bitRead(_Data_RAW, i) == true) _Data_SUM += pow(2, (i - _Command.Data_Type));
-			if (bitRead(_Data_RAW, 23) == true) _Data_SUM += (-1 * pow(2, (23 - _Command.Data_Type)));
+			for (uint8_t i = 0; i <= 23; i++) {
+
+				// Handle Data Bits
+				if (bitRead(_Data_RAW, i) == true) {
+				
+					// Handle Sign Bit
+					if (i == 23) {
+
+						// Calculate
+						_Data_SUM += (-1 * pow(2, (i - _Command.Data_Type)));
+
+					} else {
+
+						// Calculate	
+						_Data_SUM += pow(2, (i - _Command.Data_Type));
+
+					}
+
+				}				
+
+			}
 
 		}
+
+	} else {
+
+		// Set Variable
+		_Data_SUM = 99;
 
 	}
 
@@ -1547,7 +1562,7 @@ uint32_t MAX78630::_FtoS(double _Variable, uint8_t _Data_Type) {
 void MAX78630::_Clear_Buffer(void) {
 
 	// Clear UART Buffer
-	_Energy_Serial->flush(); while(_Energy_Serial->available() > 0) _Energy_Serial->read(); delay(5);
+	Energy_Serial.flush(); while(Energy_Serial.available() > 0) Energy_Serial.read(); delay(5);
 
 }
 

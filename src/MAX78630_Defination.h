@@ -62,15 +62,6 @@
 //
 // --------------------------------------------------------------------------------------------------------------------------
 
-// Pack Byte Definitions
-#define Pack_Header			(uint8_t)0xAA
-#define Pack_Device_Select	(uint8_t)0xCF
-#define Pack_Register		(uint8_t)0xA3
-#define Pack_Small_Read		(uint8_t)0xE3
-#define Pack_Large_Read		(uint8_t)0xE0
-#define Pack_Small_Write	(uint8_t)0xD3
-#define Pack_Lager_Write	(uint8_t)0x21
-
 enum STATUS_Bits {
 	RESET 			= 0,
 	XSTATE			= 1,
