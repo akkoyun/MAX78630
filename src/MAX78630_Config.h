@@ -2,7 +2,7 @@
 #define __MAX78630_CONFIG__
 
 // Define Version
-#define MAX78630_Version	        "04.02.05"
+#define MAX78630_Version	        "04.02.10"
 
 // Define Default Read Count
 #define Read_Count                  3
