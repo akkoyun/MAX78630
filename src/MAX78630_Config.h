@@ -5,7 +5,7 @@
 #define Energy_Serial		       	Serial2
 
 // Define Version
-#define MAX78630_Version	        "04.02.09"
+#define MAX78630_Version	        "04.02.11"
 
 // Define Default Read Count
 #define Read_Count                  3
