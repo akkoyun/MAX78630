@@ -1,6 +1,9 @@
 #ifndef __MAX78630_CONFIG__
 #define __MAX78630_CONFIG__
 
+// Define Serial Port
+#define Energy_Serial		       	Serial2
+
 // Define Version
 #define MAX78630_Version	        "04.02.11"
 

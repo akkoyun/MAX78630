@@ -37,7 +37,7 @@ class MAX78630 {
 		System_Limits Limit {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
 
 		// Object Declaration Functions
-		bool Begin(Stream &_Serial);
+		bool Begin(void);
 
 		// Hardware Functions
 		uint32_t Get_Baud(void);
@@ -135,9 +135,6 @@ class MAX78630 {
 		void Control_Clear(void);
 
 	private:
-
-		// Stream Object Definition
-		Stream *_Energy_Serial;
 
 		// Stream Functions
 		void _Clear_Buffer(void);
