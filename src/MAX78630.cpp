@@ -109,26 +109,56 @@ bool MAX78630::Begin(Stream &_Serial) {
 	// Command Delay
 	delay(10);
 
-	// VScale Set Command - 667
-	VScale(_V_Scale);
+	// *************** Calibration Batch ***************
 
-	// IScale Set Command - 7
-	IScale(_C_Scale);
+	// VScale Set Command
+	VScale(667);  // Default Value : 667
+
+	// IScale Set Command
+	IScale(7);  // Default Value : 7
+
+	// Set COEF
+	Voltage_HPF_COEF(0.2);
+	Current_HPF_COEF(0.2);
+
+	// Set Voltage Calibration (y = ax + b)
+	Voltage_Gain('R', 1); Voltage_Offset('R', 0);
+	Voltage_Gain('S', 1); Voltage_Offset('S', 0);
+	Voltage_Gain('T', 1); Voltage_Offset('T', 0);
+
+	// Set Current Calibration (y = ax + b)
+	Current_Gain('R', 1); Current_Offset('R', 0);
+	Current_Gain('S', 1); Current_Offset('S', 0);
+	Current_Gain('T', 1); Current_Offset('T', 0);
+
+	// Set Temperature Calibration
+	Temperature_Gain(1);
+	Temperature_Offset(0);
+
+	// *************** Bucket Batch ***************
 
 	// Bucket Set Command
-	Bucket(true, _BUCKET_HIGH, _BUCKET_LOW);
+	Bucket(true, 0x000821, 0xD0F4C2);
+
+	// *************** Min/Max Batch ***************
+
+	Set_Min_Max_Address(1, 0x30); // VRMS R
+	Set_Min_Max_Address(2, 0x31); // VRMS S
+	Set_Min_Max_Address(3, 0x32); // VRMS T
+
+	// *************** Limit Batch ***************
 
 	// Set Limit Parameters
-	Set_Limit(1, _Temp_Max);
-	Set_Limit(2, _Temp_Min);
-	Set_Limit(3, _Fq_Max);
-	Set_Limit(4, _Fq_Min);
-	Set_Limit(5, _V_RMS_Max);
-	Set_Limit(6, _V_RMS_Min);
-	Set_Limit(7, _C_Max);
-	Set_Limit(8, _PF_Min);
-	Set_Limit(9, _V_Max_Imb);
-	Set_Limit(10, _C_Max_Imb);
+	Limit(1, 40);
+	Limit(2, 10);
+	Limit(3, 52);
+	Limit(4, 47);
+	Limit(5, 253);
+	Limit(6, 192);
+	Limit(7, 5);
+	Limit(8, 0.8);
+	Limit(9, 0.06);
+	Limit(10, 0.06);
 
 	// Control for Limits
 	Control_Limits();
@@ -352,7 +382,7 @@ uint64_t MAX78630::Bucket(bool _Set, uint32_t _Bucket_H, uint32_t _Bucket_L) {
 }
 
 // Set Limit Registers
-bool MAX78630::Set_Limit(uint8_t _Limit_ID, float _Value) {
+float MAX78630::Limit(uint8_t _Limit_ID, float _Value) {
 
 	// Define Objects
 	Register VRMS_MIN		{0x00, 0xB1, 23, true};		// Voltage lower alarm limit
@@ -369,66 +399,39 @@ bool MAX78630::Set_Limit(uint8_t _Limit_ID, float _Value) {
 	// Declare Data Variable
 	uint32_t _Data = 0x00;
 
-	// Decide Command
-	if (_Limit_ID == 1) _Data = _FtoS(_Value, T_MAX.Data_Type);
-	if (_Limit_ID == 2) _Data = _FtoS(_Value, T_MIN.Data_Type);
-	if (_Limit_ID == 3) _Data = _FtoS(_Value, F_MAX.Data_Type);
-	if (_Limit_ID == 4) _Data = _FtoS(_Value, F_MIN.Data_Type);
-	if (_Limit_ID == 5) _Data = _FtoS(_Value / _VScale, VRMS_MAX.Data_Type);
-	if (_Limit_ID == 6) _Data = _FtoS(_Value / _VScale, VRMS_MIN.Data_Type);
-	if (_Limit_ID == 7) _Data = _FtoS(_Value / _IScale, IRMS_MAX.Data_Type);
-	if (_Limit_ID == 8) _Data = _FtoS(_Value, PF_MIN.Data_Type);
-	if (_Limit_ID == 9) _Data = _FtoS(_Value / 100, V_IMB_MAX.Data_Type);
-	if (_Limit_ID == 10) _Data = _FtoS(_Value / 100, I_IMB_MAX.Data_Type);
-	
-	// Define Result Variable
-	bool _Result = false;
-
-	// Decide Command
-	if (_Limit_ID == 1) _Result = _Register_Pointer_Set(T_MAX, _Data);
-	if (_Limit_ID == 2) _Result = _Register_Pointer_Set(T_MIN, _Data);
-	if (_Limit_ID == 3) _Result = _Register_Pointer_Set(F_MAX, _Data);
-	if (_Limit_ID == 4) _Result = _Register_Pointer_Set(F_MIN, _Data);
-	if (_Limit_ID == 5) _Result = _Register_Pointer_Set(VRMS_MAX, _Data);
-	if (_Limit_ID == 6) _Result = _Register_Pointer_Set(VRMS_MIN, _Data);
-	if (_Limit_ID == 7) _Result = _Register_Pointer_Set(IRMS_MAX, _Data);
-	if (_Limit_ID == 8) _Result = _Register_Pointer_Set(PF_MIN, _Data);
-	if (_Limit_ID == 9) _Result = _Register_Pointer_Set(V_IMB_MAX, _Data);
-	if (_Limit_ID == 10) _Result = _Register_Pointer_Set(I_IMB_MAX, _Data);
-	
-	// End Function
-	return(_Result);
-
-}
-float MAX78630::Get_Limit(uint8_t _Limit_ID) {
-
-	// Define Objects
-	Register VRMS_MIN		{0x00, 0xB1, 23, true};		// Voltage lower alarm limit
-	Register VRMS_MAX		{0x00, 0xB4, 23, true};		// Voltage upper alarm limit
-	Register T_MIN			{0x01, 0x7A, 10, true};		// Temperature Alarm Lower Limit
-	Register T_MAX			{0x01, 0x7D, 10, true};		// Temperature Alarm Upper Limit
-	Register F_MIN			{0x01, 0x83, 16, true};		// Frequency Alarm Lower Limit
-	Register F_MAX			{0x01, 0x86, 16, true};		// Frequency Alarm Upper Limit
-	Register IRMS_MAX		{0x00, 0xF3, 23, true};		// Current upper alarm limit
-	Register PF_MIN			{0x01, 0x71, 22, true};		// Power Factor lower alarm limit
-	Register V_IMB_MAX		{0x00, 0x81, 23, true};		// Voltage imbalance alarm limit
-	Register I_IMB_MAX		{0x00, 0x84, 23, true};		// Current imbalance alarm limit
-
 	// Declare Variable
 	float _Result = 0;
 
-	// Decide Command
-	if (_Limit_ID == 1) _Result = _Register_Pointer_Read(T_MAX);
-	if (_Limit_ID == 2) _Result = _Register_Pointer_Read(T_MIN);
-	if (_Limit_ID == 3) _Result = _Register_Pointer_Read(F_MAX);
-	if (_Limit_ID == 4) _Result = _Register_Pointer_Read(F_MIN);
-	if (_Limit_ID == 5) _Result = _Register_Pointer_Read(VRMS_MAX) * _VScale;
-	if (_Limit_ID == 6) _Result = _Register_Pointer_Read(VRMS_MIN) * _VScale;
-	if (_Limit_ID == 7) _Result = _Register_Pointer_Read(IRMS_MAX) * _IScale;
-	if (_Limit_ID == 8) _Result = _Register_Pointer_Read(PF_MIN);
-	if (_Limit_ID == 9) _Result = _Register_Pointer_Read(V_IMB_MAX) * 100;
-	if (_Limit_ID == 10) _Result = _Register_Pointer_Read(I_IMB_MAX) * 100;
-	
+	// Decide Workflow
+	if (_Value == -999) {
+
+		// Decide Command
+		if (_Limit_ID == 1) _Result = _Register_Pointer_Read(T_MAX);
+		if (_Limit_ID == 2) _Result = _Register_Pointer_Read(T_MIN);
+		if (_Limit_ID == 3) _Result = _Register_Pointer_Read(F_MAX);
+		if (_Limit_ID == 4) _Result = _Register_Pointer_Read(F_MIN);
+		if (_Limit_ID == 5) _Result = _Register_Pointer_Read(VRMS_MAX) * _VScale;
+		if (_Limit_ID == 6) _Result = _Register_Pointer_Read(VRMS_MIN) * _VScale;
+		if (_Limit_ID == 7) _Result = _Register_Pointer_Read(IRMS_MAX) * _IScale;
+		if (_Limit_ID == 8) _Result = _Register_Pointer_Read(PF_MIN);
+		if (_Limit_ID == 9) _Result = _Register_Pointer_Read(V_IMB_MAX) * 100;
+		if (_Limit_ID == 10) _Result = _Register_Pointer_Read(I_IMB_MAX) * 100;
+
+	} else {
+
+		// Decide Command
+		if (_Limit_ID == 1) _Result = _Register_Pointer_Set(T_MAX, _FtoS(_Value, T_MAX.Data_Type));
+		if (_Limit_ID == 2) _Result = _Register_Pointer_Set(T_MIN, _FtoS(_Value, T_MIN.Data_Type));
+		if (_Limit_ID == 3) _Result = _Register_Pointer_Set(F_MAX, _FtoS(_Value, F_MAX.Data_Type));
+		if (_Limit_ID == 4) _Result = _Register_Pointer_Set(F_MIN, _FtoS(_Value, F_MIN.Data_Type));
+		if (_Limit_ID == 5) _Result = _Register_Pointer_Set(VRMS_MAX, _FtoS(_Value / _VScale, VRMS_MAX.Data_Type));
+		if (_Limit_ID == 6) _Result = _Register_Pointer_Set(VRMS_MIN, _FtoS(_Value / _VScale, VRMS_MIN.Data_Type));
+		if (_Limit_ID == 7) _Result = _Register_Pointer_Set(IRMS_MAX, _FtoS(_Value / _IScale, IRMS_MAX.Data_Type));
+		if (_Limit_ID == 8) _Result = _Register_Pointer_Set(PF_MIN, _FtoS(_Value, PF_MIN.Data_Type));
+		if (_Limit_ID == 9) _Result = _Register_Pointer_Set(V_IMB_MAX, _FtoS(_Value / 100, V_IMB_MAX.Data_Type));
+		if (_Limit_ID == 10) _Result = _Register_Pointer_Set(I_IMB_MAX, _FtoS(_Value / 100, I_IMB_MAX.Data_Type));
+	}
+
 	// End Function
 	return(_Result);
 
@@ -497,7 +500,12 @@ uint32_t MAX78630::Get_Samples(void) {
 }
 
 // Calibration Functions
-float MAX78630::Get_Voltage_Gain(char Phase) {
+float MAX78630::Voltage_Gain(char Phase, float _Gain) {
+
+	// The system (sensors) and the MAX78630+PPM device inherently have gain errors that 
+	// can be corrected by using the gain registers. These registers can be directly 
+	// accessed and modified by an external host processor or automatically updated 
+	// by an integrated self calibration routine.
 
 	// Define Objects
 	Register V1_GAIN		{0x00, 0x5D, 21, true};		// Voltage Gain Calibration
@@ -507,15 +515,33 @@ float MAX78630::Get_Voltage_Gain(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(V1_GAIN); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(V2_GAIN); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(V3_GAIN); // Measure Phase T
+	// Decide Workflow
+	if (_Gain == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(V1_GAIN); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(V2_GAIN); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(V3_GAIN); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(V1_GAIN, _FtoS(_Gain, 21)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(V2_GAIN, _FtoS(_Gain, 21)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(V3_GAIN, _FtoS(_Gain, 21)); // Measure Phase T
+
+	}
 	
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_Current_Gain(char Phase) {
+float MAX78630::Current_Gain(char Phase, float _Gain) {
+
+	// The system (sensors) and the MAX78630+PPM device inherently have gain errors that 
+	// can be corrected by using the gain registers. These registers can be directly 
+	// accessed and modified by an external host processor or automatically updated 
+	// by an integrated self calibration routine.
 
 	// Define Objects
 	Register I1_GAIN		{0x00, 0x54, 21, true};		// Current Gain Calibration
@@ -525,29 +551,28 @@ float MAX78630::Get_Current_Gain(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(I1_GAIN); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(I2_GAIN); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(I3_GAIN); // Measure Phase T
+	// Decide Workflow
+	if (_Gain == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(I1_GAIN); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(I2_GAIN); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(I3_GAIN); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(I1_GAIN, _FtoS(_Gain, 21)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(I2_GAIN, _FtoS(_Gain, 21)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(I3_GAIN, _FtoS(_Gain, 21)); // Measure Phase T
+
+	}
 	
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_Temperature_Gain(void) {
-
-	// Define Objects
-	Register T_GAIN			{0x00, 0x78, 0, true};		// Temperature Slope Calibration
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(T_GAIN); // Measure Phase R
-	
-	// End Function
-	return(_Result);
-
-}
-float MAX78630::Get_Voltage_Offset(char Phase) {
+float MAX78630::Voltage_Offset(char Phase, float _Offset) {
 
 	// Define Objects
 	Register V1_OFFS		{0x00, 0x6F, 23, true};		// Voltage Offset Calibration
@@ -557,15 +582,28 @@ float MAX78630::Get_Voltage_Offset(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(V1_OFFS); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(V2_OFFS); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(V3_OFFS); // Measure Phase T
-	
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(V1_OFFS); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(V2_OFFS); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(V3_OFFS); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(V1_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(V2_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(V3_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
+
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_Current_Offset(char Phase) {
+float MAX78630::Current_Offset(char Phase, float _Offset) {
 
 	// Define Objects
 	Register I1_OFFS		{0x00, 0x66, 23, true};		// Current Offset Calibration
@@ -575,29 +613,128 @@ float MAX78630::Get_Current_Offset(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(I1_OFFS); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(I2_OFFS); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(I3_OFFS); // Measure Phase T
-	
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(I1_OFFS); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(I2_OFFS); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(I3_OFFS); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(I1_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(I2_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(I3_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
+
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_Temperature_Offset(void) {
+float MAX78630::Voltage_HPF_COEF(float _COEF) {
 
 	// Define Objects
-	Register T_OFFS			{0x00, 0x7B, 0, true};		// Temperature Offset Calibration
+	Register HPF_COEF_V		{0x00, 0x3F, 23, true};		// Voltage input HPF coefficient
 
 	// Declare Variable
 	float _Result = 0;
 
-	_Result = _Register_Pointer_Read(T_OFFS); // Measure Phase R
+	// Decide Workflow
+	if (_COEF == -999) {
+
+		// Read Register
+		_Result = _Register_Pointer_Read(HPF_COEF_V); // Measure Phase R
+
+	} else {
+
+		// Set Register
+		_Result = _Register_Pointer_Set(HPF_COEF_V, _FtoS(_COEF, 23)); // Measure Phase R
+
+	}
 	
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_Voltage_RMS_Offset(char Phase) {
+float MAX78630::Current_HPF_COEF(float _COEF) {
+
+	// Define Objects
+	Register HPF_COEF_I		{0x00, 0x3C, 23, true};		// Current input HPF coefficient
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Decide Workflow
+	if (_COEF == -999) {
+
+		// Read Register
+		_Result = _Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
+
+	} else {
+
+		// Set Register
+		_Result = _Register_Pointer_Set(HPF_COEF_I, _FtoS(_COEF, 23)); // Measure Phase R
+
+	}
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Temperature_Gain(float _Gain) {
+
+	// Define Objects
+	Register T_GAIN {0x00, 0x78, 0, true};		// Temperature Slope Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Decide Workflow
+	if (_Gain == -999) {
+
+		// Read Register
+		_Result = _Register_Pointer_Read(T_GAIN); // Measure Phase R
+
+	} else {
+
+		// Set Register
+		_Result = _Register_Pointer_Set(T_GAIN, _Gain); // Measure Phase R
+
+	}
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Temperature_Offset(float _Offset) {
+
+	// Define Objects
+	Register T_OFFS {0x00, 0x7B, 0, true};		// Temperature Offset Calibration
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		_Result = _Register_Pointer_Read(T_OFFS); // Measure Phase R
+
+	} else {
+
+		// Set Register
+		_Result = _Register_Pointer_Set(T_OFFS, _Offset); // Measure Phase R
+
+	}
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Current_RMS_Offset(char Phase, float _Offset) {
 
 	// Define Objects
 	Register IARMS_OFF		{0x00, 0xC3, 23, true};		// RMS Current dynamic offset adjust A
@@ -607,15 +744,28 @@ float MAX78630::Get_Voltage_RMS_Offset(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(IARMS_OFF); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
-	
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(IARMS_OFF); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(IARMS_OFF, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(IBRMS_OFF, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(ICRMS_OFF, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
+
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_Active_Power_Offset(char Phase) {
+float MAX78630::Active_Power_Offset(char Phase, float _Offset) {
 
 	// Define Objects
 	Register PA_OFFS		{0x01, 0x14, 23, true};		// Active Power dynamic offset adjust A
@@ -625,15 +775,28 @@ float MAX78630::Get_Active_Power_Offset(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(PA_OFFS); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(PB_OFFS); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(PC_OFFS); // Measure Phase T
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(PA_OFFS); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(PB_OFFS); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(PC_OFFS); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(PA_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(PB_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(PC_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
 	
 	// End Function
 	return(_Result);
 
 }
-float MAX78630::Get_ReActive_Power_Offset(char Phase) {
+float MAX78630::ReActive_Power_Offset(char Phase, float _Offset) {
 
 	// Define Objects
 	Register QA_OFFS		{0x01, 0x0B, 23, true};		// Reactive Power dynamic offset adjust A
@@ -643,38 +806,23 @@ float MAX78630::Get_ReActive_Power_Offset(char Phase) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(QA_OFFS); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(QB_OFFS); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(QC_OFFS); // Measure Phase T
-	
-	// End Function
-	return(_Result);
+	// Decide Workflow
+	if (_Offset == -999) {
 
-}
-float MAX78630::Get_Voltage_HPF_COEF(void) {
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(QA_OFFS); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(QB_OFFS); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(QC_OFFS); // Measure Phase T
 
-	// Define Objects
-	Register HPF_COEF_V		{0x00, 0x3F, 23, true};		// Voltage input HPF coefficient
+	} else {
 
-	// Declare Variable
-	float _Result = 0;
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(QA_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(QB_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(QC_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
 
-	_Result = _Register_Pointer_Read(HPF_COEF_V); // Measure Phase R
-	
-	// End Function
-	return(_Result);
+	}
 
-}
-float MAX78630::Get_Current_HPF_COEF(void) {
-
-	// Define Objects
-	Register HPF_COEF_I		{0x00, 0x3C, 23, true};		// Current input HPF coefficient
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
-	
 	// End Function
 	return(_Result);
 
@@ -1166,7 +1314,7 @@ float MAX78630::IC_Temperature(void) {
 float MAX78630::Frequency(void) {
 
 	// Define Objects
-	Register FREQ			{0x01, 0x80, 16, false};	// Line Frequency
+	Register FREQ {0x01, 0x80, 16, false};	// Line Frequency
 
 	// Declare Variable
 	float _Result = 0;
@@ -1212,9 +1360,9 @@ bool MAX78630::Set_Min_Max_Address(uint8_t _MM_ADDR, uint32_t _Mask) {
 float MAX78630::Get_Min_Value(uint8_t _MM_ADDR) {
 
 	// Define Objects
-	Register MIN0			{0x01, 0x89, 0, false};		// Minimum Recorded Value 1
-	Register MIN1			{0x01, 0x8C, 0, false};		// Minimum Recorded Value 2
-	Register MIN2			{0x01, 0x8F, 0, false};		// Minimum Recorded Value 3
+	Register MIN0			{0x01, 0x89, 23, false};		// Minimum Recorded Value 1
+	Register MIN1			{0x01, 0x8C, 23, false};		// Minimum Recorded Value 2
+	Register MIN2			{0x01, 0x8F, 23, false};		// Minimum Recorded Value 3
 	Register MIN3			{0x01, 0x92, 0, false};		// Minimum Recorded Value 4
 	Register MIN4			{0x01, 0x95, 0, false};		// Minimum Recorded Value 5
 	Register MIN5			{0x01, 0x98, 0, false};		// Minimum Recorded Value 6
@@ -1224,9 +1372,9 @@ float MAX78630::Get_Min_Value(uint8_t _MM_ADDR) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MIN0); // Measure Phase R
-	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MIN1); // Measure Phase R
-	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MIN2); // Measure Phase R
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MIN0) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MIN1) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MIN2) * _VScale; // Measure Phase R
 	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MIN3); // Measure Phase R
 	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MIN4); // Measure Phase R
 	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MIN5); // Measure Phase R
@@ -1240,9 +1388,9 @@ float MAX78630::Get_Min_Value(uint8_t _MM_ADDR) {
 float MAX78630::Get_Max_Value(uint8_t _MM_ADDR) {
 
 	// Define Objects
-	Register MAX0			{0x01, 0xA1, 0, false};		// Maximum Recorded Value 1
-	Register MAX1			{0x01, 0xA4, 0, false};		// Maximum Recorded Value 2
-	Register MAX2			{0x01, 0xA7, 0, false};		// Maximum Recorded Value 3
+	Register MAX0			{0x01, 0xA1, 23, false};		// Maximum Recorded Value 1
+	Register MAX1			{0x01, 0xA4, 23, false};		// Maximum Recorded Value 2
+	Register MAX2			{0x01, 0xA7, 23, false};		// Maximum Recorded Value 3
 	Register MAX3			{0x01, 0xAA, 0, false};		// Maximum Recorded Value 4
 	Register MAX4			{0x01, 0xAD, 0, false};		// Maximum Recorded Value 5
 	Register MAX5			{0x01, 0xB0, 0, false};		// Maximum Recorded Value 6
@@ -1252,9 +1400,9 @@ float MAX78630::Get_Max_Value(uint8_t _MM_ADDR) {
 	// Declare Variable
 	float _Result = 0;
 
-	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MAX0); // Measure Phase R
-	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MAX1); // Measure Phase R
-	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MAX2); // Measure Phase R
+	if (_MM_ADDR == 1) _Result = _Register_Pointer_Read(MAX0) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 2) _Result = _Register_Pointer_Read(MAX1) * _VScale; // Measure Phase R
+	if (_MM_ADDR == 3) _Result = _Register_Pointer_Read(MAX2) * _VScale; // Measure Phase R
 	if (_MM_ADDR == 4) _Result = _Register_Pointer_Read(MAX3); // Measure Phase R
 	if (_MM_ADDR == 5) _Result = _Register_Pointer_Read(MAX4); // Measure Phase R
 	if (_MM_ADDR == 6) _Result = _Register_Pointer_Read(MAX5); // Measure Phase R
@@ -1298,56 +1446,33 @@ bool MAX78630::DIO(void) {
 void MAX78630::Control_Limits(void) {
 
 	// Define Objects
-	Register STATUS			{0x00, 0x15, 0, false};		// Alarm and device status bits
+	Register STATUS {0x00, 0x15, 0, false};		// Alarm and device status bits
 
 	// Read Status Register
 	uint32_t _Status = _Register_Pointer_Read(STATUS);
 
-	// Clear Variables
-	Limit.Current_Imbalance = false;
-	Limit.Voltage_Imbalance = false;
-	Limit.Sag_VR = false;
-	Limit.Sag_VS = false;
-	Limit.Sag_VT = false;
-	Limit.Current_Over_Limit_VR = false;
-	Limit.Current_Over_Limit_VS = false;
-	Limit.Current_Over_Limit_VT = false;
-	Limit.Power_Factor_Under_Limit_VR = false;
-	Limit.Power_Factor_Under_Limit_VS = false;
-	Limit.Power_Factor_Under_Limit_VT = false;
-	Limit.Voltage_Under_Limit_VR = false;
-	Limit.Voltage_Over_Limit_VR = false;
-	Limit.Voltage_Under_Limit_VS = false;
-	Limit.Voltage_Over_Limit_VS = false;
-	Limit.Voltage_Under_Limit_VT = false;
-	Limit.Voltage_Over_Limit_VT = false;
-	Limit.Temperature_Under_Limit = false;
-	Limit.Temperature_Over_Limit = false;
-	Limit.Frequency_Under_Limit = false;
-	Limit.Frequency_Over_Limit = false;
-
 	// Read Bit
-	if (bitRead(_Status, I_IMBAL)) Limit.Current_Imbalance = true;
-	if (bitRead(_Status, V_IMBAL)) Limit.Voltage_Imbalance = true;
-	if (bitRead(_Status, VA_SAG)) Limit.Sag_VR = true;
-	if (bitRead(_Status, VB_SAG)) Limit.Sag_VS = true;
-	if (bitRead(_Status, VC_SAG)) Limit.Sag_VT = true;
-	if (bitRead(_Status, OV_IRMSA)) Limit.Current_Over_Limit_VR = true;
-	if (bitRead(_Status, OV_IRMSB)) Limit.Current_Over_Limit_VS = true;
-	if (bitRead(_Status, OV_IRMSC)) Limit.Current_Over_Limit_VT = true;
-	if (bitRead(_Status, UN_PFA)) Limit.Power_Factor_Under_Limit_VR = true;
-	if (bitRead(_Status, UN_PFB)) Limit.Power_Factor_Under_Limit_VS = true;
-	if (bitRead(_Status, UN_PFC)) Limit.Power_Factor_Under_Limit_VT = true;
-	if (bitRead(_Status, UN_VRMSA)) Limit.Voltage_Under_Limit_VR = true;
-	if (bitRead(_Status, OV_VRMSA)) Limit.Voltage_Over_Limit_VR = true;
-	if (bitRead(_Status, UN_VRMSB)) Limit.Voltage_Under_Limit_VS = true;
-	if (bitRead(_Status, OV_VRMSB)) Limit.Voltage_Over_Limit_VS = true;
-	if (bitRead(_Status, UN_VRMSC)) Limit.Voltage_Under_Limit_VT = true;
-	if (bitRead(_Status, OV_VRMSC)) Limit.Voltage_Over_Limit_VT = true;
-	if (bitRead(_Status, UN_TEMP)) Limit.Temperature_Under_Limit = true;
-	if (bitRead(_Status, OV_TEMP)) Limit.Temperature_Over_Limit = true;
-	if (bitRead(_Status, UN_FREQ)) Limit.Frequency_Under_Limit = true;
-	if (bitRead(_Status, OV_FREQ)) Limit.Frequency_Over_Limit = true;
+	Limit_Status.Current_Imbalance = bitRead(_Status, 2);
+	Limit_Status.Voltage_Imbalance = bitRead(_Status, 3);
+	Limit_Status.Sag_VR = bitRead(_Status, 4);
+	Limit_Status.Sag_VS = bitRead(_Status, 5);
+	Limit_Status.Sag_VT = bitRead(_Status, 6);
+	Limit_Status.Current_Over_Limit_VR = bitRead(_Status, 7);
+	Limit_Status.Current_Over_Limit_VS = bitRead(_Status, 8);
+	Limit_Status.Current_Over_Limit_VT = bitRead(_Status, 9);
+	Limit_Status.Power_Factor_Under_Limit_VR = bitRead(_Status, 10);
+	Limit_Status.Power_Factor_Under_Limit_VS = bitRead(_Status, 11);
+	Limit_Status.Power_Factor_Under_Limit_VT = bitRead(_Status, 12);
+	Limit_Status.Voltage_Under_Limit_VR = bitRead(_Status, 13);
+	Limit_Status.Voltage_Over_Limit_VR = bitRead(_Status, 14);
+	Limit_Status.Voltage_Under_Limit_VS = bitRead(_Status, 15);
+	Limit_Status.Voltage_Over_Limit_VS = bitRead(_Status, 16);
+	Limit_Status.Voltage_Under_Limit_VT = bitRead(_Status, 17);
+	Limit_Status.Voltage_Over_Limit_VT = bitRead(_Status, 18);
+	Limit_Status.Temperature_Under_Limit = bitRead(_Status, 19);
+	Limit_Status.Temperature_Over_Limit = bitRead(_Status, 20);
+	Limit_Status.Frequency_Under_Limit = bitRead(_Status, 22);
+	Limit_Status.Frequency_Over_Limit = bitRead(_Status, 22);
 
 	// Clear Control Bits
 	Control_Clear();

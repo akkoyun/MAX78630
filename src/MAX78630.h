@@ -15,26 +15,43 @@
 #include <Arduino.h>
 #endif
 
-// Define Library Structures
-#ifndef __MAX78630_CONFIG__
-#include <MAX78630_Config.h>
-#endif
+struct Register {
+	const uint8_t High_Address;
+	const uint8_t Low_Address;
+	const uint8_t Data_Type;
+	const bool NonVolatile;
+};
 
-// Define Registers
-#ifndef __MAX78630_DEFINATION__
-#include <MAX78630_Defination.h>
-#endif
+struct System_Limits {
+	bool Current_Imbalance;
+	bool Voltage_Imbalance;
+	bool Sag_VR;
+	bool Sag_VS;
+	bool Sag_VT;
+	bool Current_Over_Limit_VR;
+	bool Current_Over_Limit_VS;
+	bool Current_Over_Limit_VT;
+	bool Power_Factor_Under_Limit_VR;
+	bool Power_Factor_Under_Limit_VS;
+	bool Power_Factor_Under_Limit_VT;
+	bool Voltage_Under_Limit_VR;
+	bool Voltage_Under_Limit_VS;
+	bool Voltage_Under_Limit_VT;
+	bool Voltage_Over_Limit_VR;
+	bool Voltage_Over_Limit_VS;
+	bool Voltage_Over_Limit_VT;
+	bool Temperature_Under_Limit;
+	bool Temperature_Over_Limit;
+	bool Frequency_Under_Limit;
+	bool Frequency_Over_Limit;
+};
 
 class MAX78630 {
 
 	public:
 
-		// Scale Variables
-		float 	_VScale	= 0;
-		float 	_IScale	= 0;
-
 		// Set Global Limit Object
-		System_Limits Limit {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
+		System_Limits Limit_Status {false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false,false};
 
 		// Object Declaration Functions
 		bool Begin(Stream &_Serial);
@@ -58,8 +75,7 @@ class MAX78630 {
 		uint32_t Get_Bucket_HIGH(void);
 
 		// Limit Functions
-		bool Set_Limit(uint8_t _Limit_ID, float _Value);
-		float Get_Limit(uint8_t _Limit_ID);
+		float Limit(uint8_t _Limit_ID, float _Value);
 
 		// Data Refresh Functions	
 		uint32_t Get_Frame(void);
@@ -68,17 +84,17 @@ class MAX78630 {
 		uint32_t Get_Samples(void);
 
 		// Calibration Functions
-		float Get_Voltage_Gain(char Phase);
-		float Get_Voltage_Offset(char Phase);
-		float Get_Voltage_RMS_Offset(char Phase);
-		float Get_Current_Gain(char Phase);
-		float Get_Current_Offset(char Phase);
-		float Get_Temperature_Gain(void);
-		float Get_Temperature_Offset(void);
-		float Get_Active_Power_Offset(char Phase);
-		float Get_ReActive_Power_Offset(char Phase);
-		float Get_Voltage_HPF_COEF(void);
-		float Get_Current_HPF_COEF(void);
+		float Voltage_Offset(char Phase, float _Offset);
+		float Current_Offset(char Phase, float _Offset);
+		float Voltage_Gain(char Phase, float _Gain);
+		float Current_Gain(char Phase, float _Gain);
+		float Voltage_HPF_COEF(float _COEF);
+		float Current_HPF_COEF(float _COEF);
+		float Temperature_Gain(float _Gain);
+		float Temperature_Offset(float _Offset);
+		float Current_RMS_Offset(char Phase, float _Offset);
+		float Active_Power_Offset(char Phase, float _Offset);
+		float ReActive_Power_Offset(char Phase, float _Offset);
 
 		// Temperature Functions
 		float IC_Temperature(void);
@@ -138,6 +154,10 @@ class MAX78630 {
 
 		// Stream Object Definition
 		Stream *_Energy_Serial;
+
+		// Scale Variables
+		float 	_VScale	= 0;
+		float 	_IScale	= 0;
 
 		// Stream Functions
 		void _Clear_Buffer(void);
