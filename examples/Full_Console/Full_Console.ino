@@ -80,8 +80,14 @@ void loop() {
 
     Terminal.Text(30, 22, CYAN, String(Energy_Analayser.Frequency(),2));
 
-    Terminal.Text(33, 22, CYAN, String(Energy_Analayser.Get_Min_Value(1),2));
-    Terminal.Text(34, 22, CYAN, String(Energy_Analayser.Get_Max_Value(1),2));
+    Terminal.Text(35, 10, CYAN, String(Energy_Analayser.Get_Min_Value(1),2));
+    Terminal.Text(36, 10, CYAN, String(Energy_Analayser.Get_Max_Value(1),2));
+
+    Terminal.Text(35, 20, CYAN, String(Energy_Analayser.Get_Min_Value(2),2));
+    Terminal.Text(36, 20, CYAN, String(Energy_Analayser.Get_Max_Value(2),2));
+
+    Terminal.Text(35, 30, CYAN, String(Energy_Analayser.Get_Min_Value(3),2));
+    Terminal.Text(36, 30, CYAN, String(Energy_Analayser.Get_Max_Value(3),2));
 
 	// Loop Delay
 	delay(1000);
