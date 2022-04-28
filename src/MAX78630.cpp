@@ -1918,4 +1918,7 @@ bool MAX78630::DIO(void) {
 
 }
 
+// Declare Energy Analyzer
+MAX78630 Energy_Analayser;
+
 // 1903

@@ -162,4 +162,7 @@ class MAX78630 {
 
 };
 
+// Declare Energy Analyzer
+extern MAX78630 Energy_Analayser;
+
 #endif /* defined(__MAX78630__) */
