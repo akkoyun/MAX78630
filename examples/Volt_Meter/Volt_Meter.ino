@@ -2,6 +2,9 @@
 #include <MAX78630.h>
 #include <Console.h>
 
+// Declare Object
+MAX78630 Energy_Analayser;
+
 void setup() {
 
 	// Define Serial Object
