@@ -56,7 +56,7 @@ bool MAX78630::Begin(Stream &_Serial) {
 	// Calculate CheckSum
 	uint8_t _Calibration_CheckSum = 0x100 - ((0xAA + 0x07 + 0xCA + 0x65 + 0xFF + _Config_Reg) % 256);
 
-	// Calibration Command
+	// Calibration Command TODO: Komut tanınmadı hatası alıyorum
 	_Energy_Serial->write(0xAA);						// Header (0xAA)
 	_Energy_Serial->write(0x07);						// Total Sended Byte (0x07)
 	_Energy_Serial->write(0xCA);						// Setting Command (0xCA)
@@ -93,88 +93,6 @@ bool MAX78630::Begin(Stream &_Serial) {
 	
 }
 
-// Device Functions
-uint32_t MAX78630::Get_Device_Address(void) {
-
-	// Define Objects
-	Register DEVADDR {0x00, 0x4E, 0}; // High order address bits for I2C and UART interfaces
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(DEVADDR);
-	
-	// End Function
-	return(_Result);
-
-}
-uint32_t MAX78630::Get_System_Stat(void) {
-
-	// Define Objects
-	Register SYSSTAT {0x02, 0x43, 0};		// Bit 23 is a sticky register with status of any SPI Errors
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(SYSSTAT);
-	
-	// End Function
-	return(_Result);
-
-}
-uint32_t MAX78630::Get_Firmware(void) {
-
-	// Define Objects
-	Register FW_VERSION {0x00, 0x03, 0}; // Hardware and firmware version
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(FW_VERSION);
-	
-	// End Function
-	return(_Result);
-
-}
-
-// Scale Functions
-bool MAX78630::Write_VScale(uint32_t _Voltage_Scale) {
-
-	// Define Objects
-	Register VSCALE {0x01, 0x44, 0}; // Voltage Scale
-
-	// Set Register
-	bool _Response = _Register_Pointer_Set(VSCALE, _Voltage_Scale);
-
-	// End Function
-	return(_Response);
-
-}
-bool MAX78630::Write_IScale(uint32_t _Current_Scale) {
-
-	// Define Objects
-	Register IFSCALE {0x01, 0x41, 0}; // Current Scale
-
-	// Set Register
-	bool _Response = _Register_Pointer_Set(IFSCALE, _Current_Scale);
-
-	// End Function
-	return(_Response);
-
-}
-bool MAX78630::Set_Scale(uint32_t _VScale, uint32_t _IScale) {
-
-	// VScale Set Command
-	Write_VScale(_VScale);
-
-	// IScale Set Command
-	Write_IScale(_IScale);
-
-}
-
 // Communication Functions
 uint32_t MAX78630::Read_Baud(void) {
 
@@ -201,14 +119,161 @@ bool MAX78630::Write_Baud(uint32_t _Baud) {
 
 }
 
+// Device Functions
+uint32_t MAX78630::Get_Device_Address(void) {
+
+	// Define Objects
+	Register DEVADDR {0x00, 0x4E, 0};
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(DEVADDR);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_System_Stat(void) {
+
+	// Define Objects
+	Register SYSSTAT {0x02, 0x43, 0};
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(SYSSTAT);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Firmware(void) {
+
+	// Define Objects
+	Register FW_VERSION {0x00, 0x03, 0};
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(FW_VERSION);
+	
+	// End Function
+	return(_Result);
+
+}
+
+// Data Refresh Functions
+uint32_t MAX78630::Get_Frame(void) {
+
+	// Define Objects
+	Register FRAME {0x00, 0x12, 0}; // Low-rate sample counter
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(FRAME);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Cycle(void) {
+
+	// Define Objects
+	Register CYCLE {0x00, 0x0F, 0}; // High-rate sample counter
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(CYCLE);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Divisor(void) {
+
+	// Define Objects
+	Register DIVISOR {0x00, 0x0C, 0}; // Actual samples in previous accumulation interval
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(DIVISOR);
+	
+	// End Function
+	return(_Result);
+
+}
+uint32_t MAX78630::Get_Samples(void) {
+
+	// Define Objects
+	Register SAMPLES {0x00, 0x09, 0}; // Minimum high-rate samples per accumulation interval
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Command
+	_Result = _Register_Pointer_Read(SAMPLES);
+	
+	// End Function
+	return(_Result);
+
+}
+
+// Scale Functions
+bool MAX78630::Write_VScale(uint32_t _Voltage_Scale) {
+
+	// Define Objects
+	Register VSCALE {0x01, 0x44, 0};
+
+	// Set Register
+	bool _Response = _Register_Pointer_Set(VSCALE, _Voltage_Scale);
+
+	// End Function
+	return(_Response);
+
+}
+bool MAX78630::Write_IScale(uint32_t _Current_Scale) {
+
+	// Define Objects
+	Register IFSCALE {0x01, 0x41, 0};
+
+	// Set Register
+	bool _Response = _Register_Pointer_Set(IFSCALE, _Current_Scale);
+
+	// End Function
+	return(_Response);
+
+}
+bool MAX78630::Set_Scale(uint32_t _VScale, uint32_t _IScale) {
+
+	// VScale Set Command
+	bool _Response_VScale = Write_VScale(_VScale);
+
+	// IScale Set Command
+	bool _Response_IScale = Write_IScale(_IScale);
+
+	// End Function
+	return(_Response_VScale and _Response_IScale);
+
+}
+
 // Calibration Functions
-bool MAX78630::Voltage_Calibration(const char _Phase, const float _Gain, const float _Offset) {
+bool MAX78630::Voltage_Calibration(const uint8_t _Phase, const float _Gain, const float _Offset) {
 
 	// Control Input Parameters
-	if (_Phase != 'R' and _Phase != 'S' and _Phase != 'T') return(false);
+	if (_Phase > 3) return(false);
 
 	// Phase R Calibration
-	if (_Phase == 'R') {
+	if (_Phase == __Phase_R__) {
 
 		// Define Objects
 		Register V1_GAIN {0x00, 0x5D, 21}; // Voltage Gain Calibration
@@ -223,7 +288,7 @@ bool MAX78630::Voltage_Calibration(const char _Phase, const float _Gain, const f
 	}
 
 	// Phase S Calibration
-	if (_Phase == 'S') {
+	if (_Phase == __Phase_S__) {
 
 		// Define Objects
 		Register V2_GAIN {0x00, 0x60, 21}; // Voltage Gain Calibration
@@ -238,7 +303,7 @@ bool MAX78630::Voltage_Calibration(const char _Phase, const float _Gain, const f
 	}
 
 	// Phase T Calibration
-	if (_Phase == 'T') {
+	if (_Phase == __Phase_T__) {
 
 		// Define Objects
 		Register V3_GAIN {0x00, 0x63, 21}; // Voltage Gain Calibration
@@ -256,13 +321,13 @@ bool MAX78630::Voltage_Calibration(const char _Phase, const float _Gain, const f
 	return(false);
 
 }
-bool MAX78630::Current_Calibration(const char _Phase, const float _Gain, const float _Offset) {
+bool MAX78630::Current_Calibration(const uint8_t _Phase, const float _Gain, const float _Offset) {
 
 	// Control Input Parameters
-	if (_Phase != 'R' and _Phase != 'S' and _Phase != 'T') return(false);
+	if (_Phase > 3) return(false);
 
 	// Phase R Calibration
-	if (_Phase == 'R') {
+	if (_Phase == __Phase_R__) {
 
 		// Define Objects
 		Register I1_GAIN {0x00, 0x54, 21}; // Current Gain Calibration
@@ -277,7 +342,7 @@ bool MAX78630::Current_Calibration(const char _Phase, const float _Gain, const f
 	}
 
 	// Phase S Calibration
-	if (_Phase == 'S') {
+	if (_Phase == __Phase_S__) {
 
 		// Define Objects
 		Register I2_GAIN {0x00, 0x57, 21}; // Current Gain Calibration
@@ -292,7 +357,7 @@ bool MAX78630::Current_Calibration(const char _Phase, const float _Gain, const f
 	}
 
 	// Phase T Calibration
-	if (_Phase == 'T') {
+	if (_Phase == __Phase_T__) {
 
 		// Define Objects
 		Register I3_GAIN {0x00, 0x5A, 21}; // Current Gain Calibration
@@ -323,905 +388,189 @@ bool MAX78630::Temperature_Calibration(const float _Gain, const float _Offset) {
 	return(_Result_Gain and _Result_Offset);
 
 }
-
-// Measurement Functions
-float MAX78630::Voltage(const uint8_t _Phase, const uint8_t _Type) {
-
-	// Control Input Parameters
-	if (_Phase > 4) return(0);
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Phase Select
-	if (_Phase == 1) {
-
-		// Measurement Type Select
-		if (_Type == 1) {
-
-			// Define Objects
-			Register VA_RMS {0x00, 0x90, 23}; // RMS Voltage A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VA_RMS); // Measure Phase R
-
-		} else if (_Type == 2) {
-
-			// Define Objects
-			Register VA {0x00, 0x87, 23}; // Instantaneous Voltage A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VA); // Measure Phase R
-
-		} else if (_Type == 3) {
-
-			// Define Objects
-			Register VFUND_A {0x00, 0x9C, 23}; // Fundamental Voltage A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VFUND_A); // Measure Phase R
-
-		} else if (_Type == 4) {
-
-			// Define Objects
-			Register VHARM_A {0x00, 0xA5, 23}; // Harmonic Voltage A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VHARM_A); // Measure Phase R
-
-		}
-
-	} else if (_Phase == 2) {
-
-		// Measurement Type Select
-		if (_Type == 1) {
-
-			// Define Objects
-			Register VB_RMS {0x00, 0x93, 23}; // RMS Voltage B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VB_RMS); // Measure Phase S
-
-		} else if (_Type == 2) {
-
-			// Define Objects
-			Register VB {0x00, 0x8A, 23}; // Instantaneous Voltage B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VB); // Measure Phase S
-
-		} else if (_Type == 3) {
-
-			// Define Objects
-			Register VFUND_B {0x00, 0x9F, 23}; // Fundamental Voltage B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VFUND_B); // Measure Phase S
-
-		} else if (_Type == 4) {
-
-			// Define Objects
-			Register VHARM_B {0x00, 0xA8, 23}; // Harmonic Voltage B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VHARM_B); // Measure Phase S
-
-		}
-
-	} else if (_Phase == 3) {
-
-		// Measurement Type Select
-		if (_Type == 1) {
-
-			// Define Objects
-			Register VC_RMS {0x00, 0x96, 23}; // RMS Voltage C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VC_RMS); // Measure Phase R
-
-		} else if (_Type == 2) {
-
-			// Define Objects
-			Register VC {0x00, 0x8D, 23}; // Instantaneous Voltage C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VC); // Measure Phase R
-
-		} else if (_Type == 3) {
-
-			// Define Objects
-			Register VFUND_C {0x00, 0xA2, 23}; // Fundamental Voltage C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VFUND_C); // Measure Phase R
-
-		} else if (_Type == 4) {
-
-			// Define Objects
-			Register VHARM_C {0x00, 0xAB, 23}; // Harmonic Voltage C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VHARM_C); // Measure Phase R
-
-		}
-
-	} else if (_Phase == 4) {
-
-		// Measurement Type Select
-		if (_Type == 1) {
-
-			// Define Objects
-			Register VT_RMS {0x00, 0x99, 23}; // RMS Voltage average
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VT_RMS); // Measure Phase Average
-
-		}
-
-	}
-
-	// End Function
-	return(_Result * __VSCALE__);
-
-}
-float MAX78630::Current(const char _Phase, const uint8_t _Type) {
-
-	// Control Input Parameters
-	if (_Phase != 'R' and _Phase != 'S' and _Phase != 'T' and _Phase != 'A') return(false);
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Phase R
-	if (_Phase == 'R') {
-
-		// RMS
-		if (_Type == __RMS__) {
-
-			// Define Objects
-			Register IA_RMS {0x00, 0xD5, 23}; // RMS Current A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IA_RMS); // Measure Phase R
-
-		}
-
-		// Instant
-		if (_Type == __Instant__) {
-
-			// Define Objects
-			Register IA	{0x00, 0xBA, 23}; // Instantaneous Current A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IA); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __Fundamental__) {
-
-			// Define Objects
-			Register IFUND_A {0x00, 0xE1, 23}; // Fundamental Current A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IFUND_A); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __Harmonic__) {
-
-			// Define Objects
-			Register IHARM_A {0x00, 0xEA, 23}; // Harmonic Current A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IHARM_A); // Measure Phase R
-
-		}
-
-		// Peak
-		if (_Type == __Peak__) {
-
-			// Define Objects
-			Register IA_PEAK {0x00, 0xCC, 23}; // Peak Current A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IA_PEAK); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase S
-	if (_Phase == 'S') {
-
-		// RMS
-		if (_Type == __RMS__) {
-
-			// Define Objects
-			Register IB_RMS {0x00, 0xD8, 23}; // RMS Current B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IB_RMS); // Measure Phase R
-
-		}
-
-		// Instant
-		if (_Type == __Instant__) {
-
-			// Define Objects
-			Register IB	{0x00, 0xBD, 23}; // Instantaneous Current B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IB); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __Fundamental__) {
-
-			// Define Objects
-			Register IFUND_B {0x00, 0xE4, 23}; // Fundamental Current B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IFUND_B); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __Harmonic__) {
-
-			// Define Objects
-			Register IHARM_B {0x00, 0xED, 23}; // Harmonic Current B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IHARM_B); // Measure Phase R
-
-		}
-
-		// Peak
-		if (_Type == __Peak__) {
-
-			// Define Objects
-			Register IB_PEAK {0x00, 0xCF, 23}; // Peak Current B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IB_PEAK); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase T
-	if (_Phase == 'T') {
-
-		// RMS
-		if (_Type == __RMS__) {
-
-			// Define Objects
-			Register IC_RMS {0x00, 0xDB, 23}; // RMS Current C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IC_RMS); // Measure Phase R
-
-		}
-
-		// Instant
-		if (_Type == __Instant__) {
-
-			// Define Objects
-			Register IC	{0x00, 0xC0, 23}; // Instantaneous Current C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IC); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __Fundamental__) {
-
-			// Define Objects
-			Register IFUND_C {0x00, 0xE7, 23}; // Fundamental Current C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IFUND_C); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __Harmonic__) {
-
-			// Define Objects
-			Register IHARM_C {0x00, 0xF0, 23}; // Harmonic Current C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IHARM_C); // Measure Phase R
-
-		}
-
-		// Peak
-		if (_Type == __Peak__) {
-
-			// Define Objects
-			Register IC_PEAK {0x00, 0xD2, 23}; // Peak Current C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(IC_PEAK); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase Average
-	if (_Phase == 'A') {
-
-		// Define Objects
-		Register IT_RMS {0x00, 0xDE, 23}; // RMS Current average
-		_Result = _Register_Pointer_Read(IT_RMS); // Measure Phase Average
-
-	}
-
-	// End Function
-	return(_Result * __ISCALE__);
-
-}
-float MAX78630::Power(const char _Phase, const uint8_t _Type) {
-
-	// Control Input Parameters
-	if (_Phase != 'R' and _Phase != 'S' and _Phase != 'T' and _Phase != 'A') return(false);
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Phase R
-	if (_Phase == 'R') {
-
-		// Active
-		if (_Type == __Active__) {
-
-			// Define Objects
-			Register WATT_A	{0x01, 0x1D, 23}; // Active Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WATT_A); // Measure Phase R
-
-		}
-
-		// Reactive
-		if (_Type == __ReActive__) {
-
-			// Define Objects
-			Register VAR_A {0x01, 0x26, 23}; // Reactive Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAR_A); // Measure Phase R
-
-		}
-
-		// Apparent
-		if (_Type == __Apparent__) {
-
-			// Define Objects
-			Register VA_A {0x01, 0x2F, 23}; // Apparent Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VA_A); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __Fundamental__) {
-
-			// Define Objects
-			Register PFUND_A {0x01, 0x4A, 23}; // Fundamental Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(PFUND_A); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __Harmonic__) {
-
-			// Define Objects
-			Register PHARM_A {0x01, 0x53, 23}; // Harmonic Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(PHARM_A); // Measure Phase R
-
-		}
-
-		// Fundamental Reactive
-		if (_Type == __Fund_ReActive__) {
-
-			// Define Objects
-			Register QFUND_A {0x00, 0xF9, 23}; // Fundamental Reactive Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(QFUND_A); // Measure Phase R
-
-		}
-
-		// Harmonic Reactive
-		if (_Type == __Harm_ReActive__) {
-
-			// Define Objects
-			Register QHARM_A {0x01, 0x02, 23}; // Harmonic Reactive Power A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(QHARM_A); // Measure Phase R
-
-		}
-
-		// Fundamental VA
-		if (_Type == __Fund_VA__) {
-
-			// Define Objects
-			Register VAFUNDA {0x01, 0x5C, 23}; // Fundamental Volt Amperes A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAFUNDA); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase S
-	if (_Phase == 'S') {
-
-		// RMS
-		if (_Type == __Active__) {
-
-			// Define Objects
-			Register WATT_B	{0x01, 0x20, 23}; // Active Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WATT_B); // Measure Phase R
-
-		}
-
-		// Instant
-		if (_Type == __ReActive__) {
-
-			// Define Objects
-			Register VAR_B {0x01, 0x29, 23}; // Reactive Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAR_B); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __Apparent__) {
-
-			// Define Objects
-			Register VA_B {0x01, 0x32, 23}; // Apparent Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VA_B); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __Fundamental__) {
-
-			// Define Objects
-			Register PFUND_B {0x01, 0x4D, 23}; // Fundamental Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(PFUND_B); // Measure Phase R
-
-		}
-
-		// Peak
-		if (_Type == __Harmonic__) {
-
-			// Define Objects
-			Register PHARM_B {0x01, 0x56, 23}; // Harmonic Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(PHARM_B); // Measure Phase R
-
-		}
-
-		// Fundamental Reactive
-		if (_Type == __Fund_ReActive__) {
-
-			// Define Objects
-			Register QFUND_B {0x00, 0xFC, 23}; // Fundamental Reactive Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(QFUND_B); // Measure Phase R
-
-		}
-
-		// Harmonic Reactive
-		if (_Type == __Harm_ReActive__) {
-
-			// Define Objects
-			Register QHARM_B {0x01, 0x05, 23}; // Harmonic Reactive Power B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(QHARM_B); // Measure Phase R
-
-		}
-
-		// Fundamental VA
-		if (_Type == __Fund_VA__) {
-
-			// Define Objects
-			Register VAFUNDB {0x01, 0x5F, 23}; // Fundamental Volt Amperes B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAFUNDB); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase T
-	if (_Phase == 'T') {
-
-		// Active
-		if (_Type == __Active__) {
-
-			// Define Objects
-			Register WATT_C	{0x01, 0x23, 23}; // Active Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WATT_C); // Measure Phase R
-
-		}
-
-		// Reactive
-		if (_Type == __ReActive__) {
-
-			// Define Objects
-			Register VAR_C {0x01, 0x2C, 23}; // Reactive Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAR_C); // Measure Phase R
-
-		}
-
-		// Apparent
-		if (_Type == __Apparent__) {
-
-			// Define Objects
-			Register VA_C {0x01, 0x35, 23}; // Apparent Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VA_C); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __Fundamental__) {
-
-			// Define Objects
-			Register PFUND_C {0x01, 0x50, 23}; // Fundamental Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(PFUND_C); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __Harmonic__) {
-
-			// Define Objects
-			Register PHARM_C {0x01, 0x59, 23}; // Harmonic Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(PHARM_C); // Measure Phase R
-
-		}
-
-		// Fundamental Reactive
-		if (_Type == __Fund_ReActive__) {
-
-			// Define Objects
-			Register QFUND_C {0x00, 0xFF, 23}; // Fundamental Reactive Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(QFUND_C); // Measure Phase R
-
-		}
-
-		// Harmonic Reactive
-		if (_Type == __Harm_ReActive__) {
-
-			// Define Objects
-			Register QHARM_C {0x01, 0x08, 23}; // Harmonic Reactive Power C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(QHARM_C); // Measure Phase R
-
-		}
-
-		// Fundamental VA
-		if (_Type == __Fund_VA__) {
-
-			// Define Objects
-			Register VAFUNDC {0x01, 0x62, 23}; // Fundamental Volt Amperes C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAFUNDC); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase Average
-	if (_Phase == 'A') {
-
-		// Active
-		if (_Type == __Active__) {
-
-			// Define Objects
-			Register WATT_T	{0x01, 0x38, 23}; // Active Power average
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WATT_T); // Measure Phase R
-
-		}
-
-		// Reactive
-		if (_Type == __ReActive__) {
-
-			// Define Objects
-			Register VAR_T {0x01, 0x3B, 23}; // Reactive Power average
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VAR_T); // Measure Phase R
-
-		}
-
-		// Apparent
-		if (_Type == __Apparent__) {
-
-			// Define Objects
-			Register VA_T {0x01, 0x3E, 23}; // Apparent Power average
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VA_T); // Measure Phase R
-
-		}
-
-	}
-
-	// End Function
-	return(_Result * __ISCALE__ * __VSCALE__);
-
-}
-float MAX78630::Energy(const char _Phase, const uint8_t _Type) {
-
-	// Control Input Parameters
-	if (_Phase != 'R' and _Phase != 'S' and _Phase != 'T') return(false);
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Phase R
-	if (_Phase == 'R') {
-
-		// Active
-		if (_Type == __Active_Recieved__) {
-
-			// Define Objects
-			Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WHA_POS); // Measure Phase R
-
-		}
-
-		// Reactive
-		if (_Type == __Active_Delivered__) {
-
-			// Define Objects
-			Register WHA_NEG {0x01, 0xE6, 0}; // Delivered Active Energy Counter A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WHA_NEG); // Measure Phase R
-
-		}
-
-		// Apparent
-		if (_Type == __ReActive_Recieved__) {
-
-			// Define Objects
-			Register VARHA_POS {0x02, 0x13, 0}; // Reactive Energy Leading Counter A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VARHA_POS); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __ReActive_Delivered__) {
-
-			// Define Objects
-			Register VARHA_NEG {0x02, 0x1C, 0}; // Reactive Energy Lagging Counter A
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VARHA_NEG); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase S
-	if (_Phase == 'S') {
-
-		// RMS
-		if (_Type == __Active_Recieved__) {
-
-			// Define Objects
-			Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WHB_POS); // Measure Phase R
-
-		}
-
-		// Instant
-		if (_Type == __Active_Delivered__) {
-
-			// Define Objects
-			Register WHB_NEG {0x01, 0xF8, 0}; // Delivered Active Energy Counter B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WHB_NEG); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __ReActive_Recieved__) {
-
-			// Define Objects
-			Register VARHB_POS {0x02, 0x25, 0}; // Reactive Energy Leading Counter B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VARHB_POS); // Measure Phase R
-
-		}
-
-		// Harmonic
-		if (_Type == __ReActive_Delivered__) {
-
-			// Define Objects
-			Register VARHB_NEG {0x02, 0x2E, 0}; // Reactive Energy Lagging Counter B
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VARHB_NEG); // Measure Phase R
-
-		}
-
-	}
-
-	// Phase T
-	if (_Phase == 'T') {
-
-		// Active
-		if (_Type == __Active_Recieved__) {
-
-			// Define Objects
-			Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WHC_POS); // Measure Phase R
-
-		}
-
-		// Reactive
-		if (_Type == __Active_Delivered__) {
-
-			// Define Objects
-			Register WHC_NEG {0x02, 0x0A, 0}; // Delivered Active Energy Counter C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(WHC_NEG); // Measure Phase R
-
-		}
-
-		// Apparent
-		if (_Type == __ReActive_Recieved__) {
-
-			// Define Objects
-			Register VARHC_POS {0x02, 0x37, 0}; // Reactive Energy Leading Counter C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VARHC_POS); // Measure Phase R
-
-		}
-
-		// Fundamental
-		if (_Type == __ReActive_Delivered__) {
-
-			// Define Objects
-			Register VARHC_NEG {0x02, 0x40, 0}; // Reactive Energy Lagging Counter C
-
-			// Get Measurement
-			_Result = _Register_Pointer_Read(VARHC_NEG); // Measure Phase R
-
-		}
-
-	}
-
-	// End Function
-	return(_Result * __ISCALE__ * __VSCALE__);
-
-}
-float MAX78630::Frequency(void) {
+float MAX78630::Voltage_HPF_COEF(float _COEF) {
 
 	// Define Objects
-	Register FREQ {0x01, 0x80, 16}; // Line Frequency
+	Register HPF_COEF_V {0x00, 0x3F, 23}; // Voltage input HPF coefficient
 
 	// Declare Variable
 	float _Result = 0;
 
-	// Get Data
-	_Result = _Register_Pointer_Read(FREQ);
+	// Decide Workflow
+	if (_COEF == -999) {
 
-	// End Function
-	return(_Result);
-	
-}
-float MAX78630::Power_Factor(char Phase) {
+		// Read Register
+		_Result = _Register_Pointer_Read(HPF_COEF_V); // Measure Phase R
 
-	// Define Objects
-	Register PFA {0x01, 0x65, 22}; // Power Factor A
-	Register PFB {0x01, 0x68, 22}; // Power Factor B
-	Register PFC {0x01, 0x6B, 22}; // Power Factor C
-	Register PF_T {0x01, 0x6E, 22}; // T otal Power Factor
+	} else {
 
-	// Declare Variable
-	float _Result = 0;
+		// Set Register
+		_Result = _Register_Pointer_Set(HPF_COEF_V, _FtoS(_COEF, 23)); // Measure Phase R
 
-	if (Phase == 'R') _Result = _Register_Pointer_Read(PFA); // Measure Phase R
-	if (Phase == 'S') _Result = _Register_Pointer_Read(PFB); // Measure Phase S
-	if (Phase == 'T') _Result = _Register_Pointer_Read(PFC); // Measure Phase T
-	if (Phase == 'A') _Result = _Register_Pointer_Read(PF_T); // Measure Phase Average
+	}
 	
 	// End Function
 	return(_Result);
-	
+
 }
-float MAX78630::IC_Temperature(void) {
+float MAX78630::Current_HPF_COEF(float _COEF) {
 
 	// Define Objects
-	Register TEMPC {0x01, 0x74, 10}; // Chip Temperature
+	Register HPF_COEF_I {0x00, 0x3C, 23}; // Current input HPF coefficient
 
 	// Declare Variable
 	float _Result = 0;
 
-	// Get Data
-	_Result = _Register_Pointer_Read(TEMPC);
+	// Decide Workflow
+	if (_COEF == -999) {
+
+		// Read Register
+		_Result = _Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
+
+	} else {
+
+		// Set Register
+		_Result = _Register_Pointer_Set(HPF_COEF_I, _FtoS(_COEF, 23)); // Measure Phase R
+
+	}
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::Current_RMS_Offset(char Phase, float _Offset) {
+
+	// Define Objects
+	Register IARMS_OFF {0x00, 0xC3, 23}; // RMS Current dynamic offset adjust A
+	Register IBRMS_OFF {0x00, 0xC6, 23}; // RMS Current dynamic offset adjust B
+	Register ICRMS_OFF {0x00, 0xC9, 23}; // RMS Current dynamic offset adjust C
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(IARMS_OFF); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(IARMS_OFF, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(IBRMS_OFF, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(ICRMS_OFF, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
 
 	// End Function
 	return(_Result);
-	
-}
 
-// Energy Functions
-bool MAX78630::Write_Bucket(uint32_t _Bucket_H, uint32_t _Bucket_L) {
+}
+float MAX78630::Active_Power_Offset(char Phase, float _Offset) {
 
 	// Define Objects
-	Register BUCKET_LOW		{0x01, 0xD1, 0}; // Energy Bucket Size – Low word
-	Register BUCKET_HIGH	{0x01, 0xD4, 0}; // Energy Bucket Size – High word
+	Register PA_OFFS {0x01, 0x14, 23}; // Active Power dynamic offset adjust A
+	Register PB_OFFS {0x01, 0x17, 23}; // Active Power dynamic offset adjust B
+	Register PC_OFFS {0x01, 0x1A, 23}; // Active Power dynamic offset adjust C
 
-	// Set Command
-	bool _Result_LOW = _Register_Pointer_Set(BUCKET_LOW, _Bucket_L);
-	bool _Result_HIGH = _Register_Pointer_Set(BUCKET_HIGH, _Bucket_H);
+	// Declare Variable
+	float _Result = 0;
 
-	// Handle Response
-	if (_Result_LOW and _Result_HIGH) return(false);
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(PA_OFFS); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(PB_OFFS); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(PC_OFFS); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(PA_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(PB_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(PC_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
+	
+	// End Function
+	return(_Result);
+
+}
+float MAX78630::ReActive_Power_Offset(char Phase, float _Offset) {
+
+	// Define Objects
+	Register QA_OFFS {0x01, 0x0B, 23}; // Reactive Power dynamic offset adjust A
+	Register QB_OFFS {0x01, 0x0E, 23}; // Reactive Power dynamic offset adjust B
+	Register QC_OFFS {0x01, 0x11, 23}; // Reactive Power dynamic offset adjust C
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Decide Workflow
+	if (_Offset == -999) {
+
+		// Read Register
+		if (Phase == 'R') _Result = _Register_Pointer_Read(QA_OFFS); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Read(QB_OFFS); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Read(QC_OFFS); // Measure Phase T
+
+	} else {
+
+		// Set Register
+		if (Phase == 'R') _Result = _Register_Pointer_Set(QA_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
+		if (Phase == 'S') _Result = _Register_Pointer_Set(QB_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
+		if (Phase == 'T') _Result = _Register_Pointer_Set(QC_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
+
+	}
+
+	// End Function
+	return(_Result);
+
+}
+
+// Harmonic Functions
+uint8_t MAX78630::Set_Harmonic(uint32_t _Harmonic) {
+
+	// Define Objects
+	Register HARM {0x00, 0x4B, 0}; // Harmonic Selector, default: 1 
+
+	// Declare Variable
+	uint32_t _Result = 0;
+
+	// Decide Action
+	if (_Harmonic == 0) {
+		
+		// Read Register
+		_Result = _Register_Pointer_Read(HARM);
+
+	} else {
+
+		// Set Register
+		if (_Register_Pointer_Set(HARM, _Harmonic)) {
+			
+			// Set Variable
+			_Result = _Harmonic;
+			
+		} else {
+
+			// Set Variable
+			_Result = 255;
+
+		}
+
+	}
+	
+	// End Function
+	return(_Result);
 
 }
 
 // Limit Functions
-bool MAX78630::Set_Voltage_Limits(float _VMin, float _VMax) {
+bool MAX78630::Set_Voltage_Limits(const float _VMin, const float _VMax) {
 
 	// Define Objects
 	Register VRMS_MIN {0x00, 0xB1, 23}; // Voltage lower alarm limit
@@ -1267,7 +616,7 @@ float MAX78630::Read_Voltage_Max_Limit(void) {
 	return(_Result);
 
 }
-bool MAX78630::Set_Frequency_Limits(float _FQMin, float _FQMax) {
+bool MAX78630::Set_Frequency_Limits(const float _FQMin, const float _FQMax) {
 
 	// Define Objects
 	Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
@@ -1313,7 +662,7 @@ float MAX78630::Read_Frequency_Max_Limit(void) {
 	return(_Result);
 
 }
-bool MAX78630::Set_Imbalance_Limits(float _VImb, float _IImb) {
+bool MAX78630::Set_Imbalance_Limits(const float _VImb, const float _IImb) {
 
 	// Define Objects
 	Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit
@@ -1359,6 +708,20 @@ float MAX78630::Read_Current_Imbalance_Max_Limit(void) {
 	return(_Result);
 
 }
+float MAX78630::Voltage_SAG_Limit(void) {
+
+	// Define Objects
+	Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold
+
+	// Declare Variable
+	float _Result = 0;
+
+	_Result = _Register_Pointer_Read(VSAG_LIM); // Measure Phase R
+	
+	// End Function
+	return(_Result * __VSCALE__);
+
+}
 uint8_t MAX78630::Control_Limits(void) {
 
 	// Define Objects
@@ -1393,6 +756,780 @@ uint8_t MAX78630::Control_Limits(void) {
 
 	// End Function
 	return(0);
+
+}
+
+// Measurement Functions
+float MAX78630::Voltage(const uint8_t _Phase, const uint8_t _Type) {
+
+	// Control Input Parameters
+	if (_Phase > 4) return(0);
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Phase Select
+	if (_Phase == __Phase_R__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register VA_RMS {0x00, 0x90, 23}; // RMS Voltage A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VA_RMS); // Measure Phase R
+
+		} else if (_Type == __Instant__) {
+
+			// Define Objects
+			Register VA {0x00, 0x87, 23}; // Instantaneous Voltage A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VA); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register VFUND_A {0x00, 0x9C, 23}; // Fundamental Voltage A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VFUND_A); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register VHARM_A {0x00, 0xA5, 23}; // Harmonic Voltage A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VHARM_A); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_S__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register VB_RMS {0x00, 0x93, 23}; // RMS Voltage B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VB_RMS); // Measure Phase S
+
+		} else if (_Type == __Instant__) {
+
+			// Define Objects
+			Register VB {0x00, 0x8A, 23}; // Instantaneous Voltage B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VB); // Measure Phase S
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register VFUND_B {0x00, 0x9F, 23}; // Fundamental Voltage B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VFUND_B); // Measure Phase S
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register VHARM_B {0x00, 0xA8, 23}; // Harmonic Voltage B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VHARM_B); // Measure Phase S
+
+		}
+
+	} else if (_Phase == __Phase_T__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register VC_RMS {0x00, 0x96, 23}; // RMS Voltage C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VC_RMS); // Measure Phase R
+
+		} else if (_Type == __Instant__) {
+
+			// Define Objects
+			Register VC {0x00, 0x8D, 23}; // Instantaneous Voltage C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VC); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register VFUND_C {0x00, 0xA2, 23}; // Fundamental Voltage C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VFUND_C); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register VHARM_C {0x00, 0xAB, 23}; // Harmonic Voltage C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VHARM_C); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_Avg__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register VT_RMS {0x00, 0x99, 23}; // RMS Voltage average
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VT_RMS); // Measure Phase Average
+
+		}
+
+	}
+
+	// End Function
+	return(_Result * __VSCALE__);
+
+}
+float MAX78630::Current(const uint8_t _Phase, const uint8_t _Type) {
+
+	// Control Input Parameters
+	if (_Phase > 4) return(0);
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Phase Select
+	if (_Phase == __Phase_R__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register IA_RMS {0x00, 0xD5, 23}; // RMS Current A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IA_RMS); // Measure Phase R
+
+		} else if (_Type == __Instant__) {
+
+			// Define Objects
+			Register IA	{0x00, 0xBA, 23}; // Instantaneous Current A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IA); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register IFUND_A {0x00, 0xE1, 23}; // Fundamental Current A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IFUND_A); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register IHARM_A {0x00, 0xEA, 23}; // Harmonic Current A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IHARM_A); // Measure Phase R
+
+		} else if (_Type == __Peak__) {
+
+			// Define Objects
+			Register IA_PEAK {0x00, 0xCC, 23}; // Peak Current A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IA_PEAK); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_S__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register IB_RMS {0x00, 0xD8, 23}; // RMS Current B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IB_RMS); // Measure Phase R
+
+		} else if (_Type == __Instant__) {
+
+			// Define Objects
+			Register IB	{0x00, 0xBD, 23}; // Instantaneous Current B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IB); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register IFUND_B {0x00, 0xE4, 23}; // Fundamental Current B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IFUND_B); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register IHARM_B {0x00, 0xED, 23}; // Harmonic Current B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IHARM_B); // Measure Phase R
+
+		} else if (_Type == __Peak__) {
+
+			// Define Objects
+			Register IB_PEAK {0x00, 0xCF, 23}; // Peak Current B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IB_PEAK); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_T__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register IC_RMS {0x00, 0xDB, 23}; // RMS Current C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IC_RMS); // Measure Phase R
+
+		} else if (_Type == __Instant__) {
+
+			// Define Objects
+			Register IC	{0x00, 0xC0, 23}; // Instantaneous Current C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IC); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register IFUND_C {0x00, 0xE7, 23}; // Fundamental Current C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IFUND_C); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register IHARM_C {0x00, 0xF0, 23}; // Harmonic Current C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IHARM_C); // Measure Phase R
+
+		} else if (_Type == __Peak__) {
+
+			// Define Objects
+			Register IC_PEAK {0x00, 0xD2, 23}; // Peak Current C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IC_PEAK); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_Avg__) {
+
+		// Measurement Type Select
+		if (_Type == __RMS__) {
+
+			// Define Objects
+			Register IT_RMS {0x00, 0xDE, 23}; // RMS Current average
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(IT_RMS); // Measure Phase Average
+
+		}
+
+	}
+
+	// End Function
+	return(_Result * __ISCALE__);
+
+}
+float MAX78630::Power(const uint8_t _Phase, const uint8_t _Type) {
+
+	// Control Input Parameters
+	if (_Phase > 4) return(0);
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Phase Select
+	if (_Phase == __Phase_R__) {
+
+		// Measurement Type Select
+		if (_Type == __Active__) {
+
+			// Define Objects
+			Register WATT_A	{0x01, 0x1D, 23}; // Active Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WATT_A); // Measure Phase R
+
+		} else if (_Type == __ReActive__) {
+
+			// Define Objects
+			Register VAR_A {0x01, 0x26, 23}; // Reactive Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAR_A); // Measure Phase R
+
+		} else if (_Type == __Apparent__) {
+
+			// Define Objects
+			Register VA_A {0x01, 0x2F, 23}; // Apparent Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VA_A); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register PFUND_A {0x01, 0x4A, 23}; // Fundamental Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(PFUND_A); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register PHARM_A {0x01, 0x53, 23}; // Harmonic Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(PHARM_A); // Measure Phase R
+
+		} else if (_Type == __Fund_ReActive__) {
+
+			// Define Objects
+			Register QFUND_A {0x00, 0xF9, 23}; // Fundamental Reactive Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(QFUND_A); // Measure Phase R
+
+		} else if (_Type == __Harm_ReActive__) {
+
+			// Define Objects
+			Register QHARM_A {0x01, 0x02, 23}; // Harmonic Reactive Power A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(QHARM_A); // Measure Phase R
+
+		} else if (_Type == __Fund_VA__) {
+
+			// Define Objects
+			Register VAFUNDA {0x01, 0x5C, 23}; // Fundamental Volt Amperes A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAFUNDA); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_S__) {
+
+		// Measurement Type Select
+		if (_Type == __Active__) {
+
+			// Define Objects
+			Register WATT_B	{0x01, 0x20, 23}; // Active Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WATT_B); // Measure Phase R
+
+		} else if (_Type == __ReActive__) {
+
+			// Define Objects
+			Register VAR_B {0x01, 0x29, 23}; // Reactive Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAR_B); // Measure Phase R
+
+		} else if (_Type == __Apparent__) {
+
+			// Define Objects
+			Register VA_B {0x01, 0x32, 23}; // Apparent Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VA_B); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register PFUND_B {0x01, 0x4D, 23}; // Fundamental Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(PFUND_B); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register PHARM_B {0x01, 0x56, 23}; // Harmonic Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(PHARM_B); // Measure Phase R
+
+		} else if (_Type == __Fund_ReActive__) {
+
+			// Define Objects
+			Register QFUND_B {0x00, 0xFC, 23}; // Fundamental Reactive Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(QFUND_B); // Measure Phase R
+
+		} else if (_Type == __Harm_ReActive__) {
+
+			// Define Objects
+			Register QHARM_B {0x01, 0x05, 23}; // Harmonic Reactive Power B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(QHARM_B); // Measure Phase R
+
+		} else if (_Type == __Fund_VA__) {
+
+			// Define Objects
+			Register VAFUNDB {0x01, 0x5F, 23}; // Fundamental Volt Amperes B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAFUNDB); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_T__) {
+
+		// Measurement Type Select
+		if (_Type == __Active__) {
+
+			// Define Objects
+			Register WATT_C	{0x01, 0x23, 23}; // Active Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WATT_C); // Measure Phase R
+
+		} else if (_Type == __ReActive__) {
+
+			// Define Objects
+			Register VAR_C {0x01, 0x2C, 23}; // Reactive Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAR_C); // Measure Phase R
+
+		} else if (_Type == __Apparent__) {
+
+			// Define Objects
+			Register VA_C {0x01, 0x35, 23}; // Apparent Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VA_C); // Measure Phase R
+
+		} else if (_Type == __Fundamental__) {
+
+			// Define Objects
+			Register PFUND_C {0x01, 0x50, 23}; // Fundamental Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(PFUND_C); // Measure Phase R
+
+		} else if (_Type == __Harmonic__) {
+
+			// Define Objects
+			Register PHARM_C {0x01, 0x59, 23}; // Harmonic Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(PHARM_C); // Measure Phase R
+
+		} else if (_Type == __Fund_ReActive__) {
+
+			// Define Objects
+			Register QFUND_C {0x00, 0xFF, 23}; // Fundamental Reactive Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(QFUND_C); // Measure Phase R
+
+		} else if (_Type == __Harm_ReActive__) {
+
+			// Define Objects
+			Register QHARM_C {0x01, 0x08, 23}; // Harmonic Reactive Power C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(QHARM_C); // Measure Phase R
+
+		} else if (_Type == __Fund_VA__) {
+
+			// Define Objects
+			Register VAFUNDC {0x01, 0x62, 23}; // Fundamental Volt Amperes C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAFUNDC); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_Avg__) {
+
+		// Measurement Type Select
+		if (_Type == __Active__) {
+
+			// Define Objects
+			Register WATT_T	{0x01, 0x38, 23}; // Active Power average
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WATT_T); // Measure Phase R
+
+		} else if (_Type == __ReActive__) {
+
+			// Define Objects
+			Register VAR_T {0x01, 0x3B, 23}; // Reactive Power average
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VAR_T); // Measure Phase R
+
+		} else if (_Type == __Apparent__) {
+
+			// Define Objects
+			Register VA_T {0x01, 0x3E, 23}; // Apparent Power average
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VA_T); // Measure Phase R
+
+		}
+
+	}
+
+	// End Function
+	return(_Result * __ISCALE__ * __VSCALE__);
+
+}
+float MAX78630::Energy(const uint8_t _Phase, const uint8_t _Type) {
+
+	// Control Input Parameters
+	if (_Phase > 3) return(0);
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Phase Select
+	if (_Phase == __Phase_R__) {
+
+		// Measurement Type Select
+		if (_Type == __Active_Recieved__) {
+
+			// Define Objects
+			Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WHA_POS); // Measure Phase R
+
+		} else if (_Type == __Active_Delivered__) {
+
+			// Define Objects
+			Register WHA_NEG {0x01, 0xE6, 0}; // Delivered Active Energy Counter A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WHA_NEG); // Measure Phase R
+
+		} else if (_Type == __ReActive_Recieved__) {
+
+			// Define Objects
+			Register VARHA_POS {0x02, 0x13, 0}; // Reactive Energy Leading Counter A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VARHA_POS); // Measure Phase R
+
+		} else if (_Type == __ReActive_Delivered__) {
+
+			// Define Objects
+			Register VARHA_NEG {0x02, 0x1C, 0}; // Reactive Energy Lagging Counter A
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VARHA_NEG); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_S__) {
+
+		// Measurement Type Select
+		if (_Type == __Active_Recieved__) {
+
+			// Define Objects
+			Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WHB_POS); // Measure Phase R
+
+		} else if (_Type == __Active_Delivered__) {
+
+			// Define Objects
+			Register WHB_NEG {0x01, 0xF8, 0}; // Delivered Active Energy Counter B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WHB_NEG); // Measure Phase R
+
+		} else if (_Type == __ReActive_Recieved__) {
+
+			// Define Objects
+			Register VARHB_POS {0x02, 0x25, 0}; // Reactive Energy Leading Counter B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VARHB_POS); // Measure Phase R
+
+		} else if (_Type == __ReActive_Delivered__) {
+
+			// Define Objects
+			Register VARHB_NEG {0x02, 0x2E, 0}; // Reactive Energy Lagging Counter B
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VARHB_NEG); // Measure Phase R
+
+		}
+
+	} else if (_Phase == __Phase_T__) {
+
+		// Measurement Type Select
+		if (_Type == __Active_Recieved__) {
+
+			// Define Objects
+			Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WHC_POS); // Measure Phase R
+
+		} else if (_Type == __Active_Delivered__) {
+
+			// Define Objects
+			Register WHC_NEG {0x02, 0x0A, 0}; // Delivered Active Energy Counter C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(WHC_NEG); // Measure Phase R
+
+		} else if (_Type == __ReActive_Recieved__) {
+
+			// Define Objects
+			Register VARHC_POS {0x02, 0x37, 0}; // Reactive Energy Leading Counter C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VARHC_POS); // Measure Phase R
+
+		} else if (_Type == __ReActive_Delivered__) {
+
+			// Define Objects
+			Register VARHC_NEG {0x02, 0x40, 0}; // Reactive Energy Lagging Counter C
+
+			// Get Measurement
+			_Result = _Register_Pointer_Read(VARHC_NEG); // Measure Phase R
+
+		}
+
+	}
+
+	// End Function
+	return(_Result * __ISCALE__ * __VSCALE__);
+
+}
+float MAX78630::Frequency(void) {
+
+	// Define Objects
+	Register FREQ {0x01, 0x80, 16}; // Line Frequency
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Get Data
+	_Result = _Register_Pointer_Read(FREQ);
+
+	// End Function
+	return(_Result);
+	
+}
+float MAX78630::Power_Factor(uint8_t _Phase) {
+
+	// Control Input Parameters
+	if (_Phase > 4) return(0);
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Phase Select
+	if (_Phase == __Phase_R__) {
+
+		// Define Objects
+		Register PFA {0x01, 0x65, 22}; // Power Factor A
+
+		// Get Measurement
+		_Result = _Register_Pointer_Read(PFA); // Measure Phase Average
+
+	} else if (_Phase == __Phase_S__) {
+
+		// Define Objects
+		Register PFB {0x01, 0x68, 22}; // Power Factor B
+
+		// Get Measurement
+		_Result = _Register_Pointer_Read(PFB); // Measure Phase Average
+
+	} else if (_Phase == __Phase_T__) {
+
+		// Define Objects
+		Register PFC {0x01, 0x6B, 22}; // Power Factor C
+
+		// Get Measurement
+		_Result = _Register_Pointer_Read(PFC); // Measure Phase Average
+
+	} else if (_Phase == __Phase_Avg__) {
+
+		// Define Objects
+		Register PFT {0x01, 0x6E, 22}; // T otal Power Factor
+
+		// Get Measurement
+		_Result = _Register_Pointer_Read(PFT); // Measure Phase Average
+
+	}
+	
+	// End Function
+	return(_Result);
+	
+}
+float MAX78630::IC_Temperature(void) {
+
+	// Define Objects
+	Register TEMPC {0x01, 0x74, 10}; // Chip Temperature
+
+	// Declare Variable
+	float _Result = 0;
+
+	// Get Data
+	_Result = _Register_Pointer_Read(TEMPC);
+
+	// End Function
+	return(_Result);
+	
+}
+
+// Energy Functions
+bool MAX78630::Write_Bucket(uint32_t _Bucket_H, uint32_t _Bucket_L) {
+
+	// Define Objects
+	Register BUCKET_LOW		{0x01, 0xD1, 0}; // Energy Bucket Size – Low word
+	Register BUCKET_HIGH	{0x01, 0xD4, 0}; // Energy Bucket Size – High word
+
+	// Set Command
+	bool _Result_LOW = _Register_Pointer_Set(BUCKET_LOW, _Bucket_L);
+	bool _Result_HIGH = _Register_Pointer_Set(BUCKET_HIGH, _Bucket_H);
+
+	// Handle Response
+	if (_Result_LOW and _Result_HIGH) return(false);
 
 }
 
@@ -1584,276 +1721,6 @@ void MAX78630::_Clear_Buffer(void) {
 
 	// Clear UART Buffer
 	_Energy_Serial->flush(); while(_Energy_Serial->available() > 0) _Energy_Serial->read(); delay(5);
-
-}
-
-
-
-
-
-
-
-
-
-
-uint8_t MAX78630::Set_Harmonic(uint32_t _Harmonic) {
-
-	// Define Objects
-	Register HARM {0x00, 0x4B, 0}; // Harmonic Selector, default: 1 
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Action
-	if (_Harmonic == 0) {
-		
-		// Read Register
-		_Result = _Register_Pointer_Read(HARM);
-
-	} else {
-
-		// Set Register
-		if (_Register_Pointer_Set(HARM, _Harmonic)) {
-			
-			// Set Variable
-			_Result = _Harmonic;
-			
-		} else {
-
-			// Set Variable
-			_Result = 255;
-
-		}
-
-	}
-	
-	// End Function
-	return(_Result);
-
-}
-
-
-
-// Data Refresh Functions
-uint32_t MAX78630::Get_Frame(void) {
-
-	// Define Objects
-	Register FRAME {0x00, 0x12, 0}; // Low-rate sample counter
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(FRAME);
-	
-	// End Function
-	return(_Result);
-
-}
-uint32_t MAX78630::Get_Cycle(void) {
-
-	// Define Objects
-	Register CYCLE {0x00, 0x0F, 0}; // High-rate sample counter
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(CYCLE);
-	
-	// End Function
-	return(_Result);
-
-}
-uint32_t MAX78630::Get_Divisor(void) {
-
-	// Define Objects
-	Register DIVISOR {0x00, 0x0C, 0}; // Actual samples in previous accumulation interval
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(DIVISOR);
-	
-	// End Function
-	return(_Result);
-
-}
-uint32_t MAX78630::Get_Samples(void) {
-
-	// Define Objects
-	Register SAMPLES {0x00, 0x09, 0}; // Minimum high-rate samples per accumulation interval
-
-	// Declare Variable
-	uint32_t _Result = 0;
-
-	// Decide Command
-	_Result = _Register_Pointer_Read(SAMPLES);
-	
-	// End Function
-	return(_Result);
-
-}
-
-// Calibration Functions
-float MAX78630::Voltage_HPF_COEF(float _COEF) {
-
-	// Define Objects
-	Register HPF_COEF_V {0x00, 0x3F, 23}; // Voltage input HPF coefficient
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Decide Workflow
-	if (_COEF == -999) {
-
-		// Read Register
-		_Result = _Register_Pointer_Read(HPF_COEF_V); // Measure Phase R
-
-	} else {
-
-		// Set Register
-		_Result = _Register_Pointer_Set(HPF_COEF_V, _FtoS(_COEF, 23)); // Measure Phase R
-
-	}
-	
-	// End Function
-	return(_Result);
-
-}
-float MAX78630::Current_HPF_COEF(float _COEF) {
-
-	// Define Objects
-	Register HPF_COEF_I {0x00, 0x3C, 23}; // Current input HPF coefficient
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Decide Workflow
-	if (_COEF == -999) {
-
-		// Read Register
-		_Result = _Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
-
-	} else {
-
-		// Set Register
-		_Result = _Register_Pointer_Set(HPF_COEF_I, _FtoS(_COEF, 23)); // Measure Phase R
-
-	}
-	
-	// End Function
-	return(_Result);
-
-}
-float MAX78630::Current_RMS_Offset(char Phase, float _Offset) {
-
-	// Define Objects
-	Register IARMS_OFF {0x00, 0xC3, 23}; // RMS Current dynamic offset adjust A
-	Register IBRMS_OFF {0x00, 0xC6, 23}; // RMS Current dynamic offset adjust B
-	Register ICRMS_OFF {0x00, 0xC9, 23}; // RMS Current dynamic offset adjust C
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Decide Workflow
-	if (_Offset == -999) {
-
-		// Read Register
-		if (Phase == 'R') _Result = _Register_Pointer_Read(IARMS_OFF); // Measure Phase R
-		if (Phase == 'S') _Result = _Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
-		if (Phase == 'T') _Result = _Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
-
-	} else {
-
-		// Set Register
-		if (Phase == 'R') _Result = _Register_Pointer_Set(IARMS_OFF, _FtoS(_Offset, 23)); // Measure Phase R
-		if (Phase == 'S') _Result = _Register_Pointer_Set(IBRMS_OFF, _FtoS(_Offset, 23)); // Measure Phase S
-		if (Phase == 'T') _Result = _Register_Pointer_Set(ICRMS_OFF, _FtoS(_Offset, 23)); // Measure Phase T
-
-	}
-
-	// End Function
-	return(_Result);
-
-}
-float MAX78630::Active_Power_Offset(char Phase, float _Offset) {
-
-	// Define Objects
-	Register PA_OFFS {0x01, 0x14, 23}; // Active Power dynamic offset adjust A
-	Register PB_OFFS {0x01, 0x17, 23}; // Active Power dynamic offset adjust B
-	Register PC_OFFS {0x01, 0x1A, 23}; // Active Power dynamic offset adjust C
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Decide Workflow
-	if (_Offset == -999) {
-
-		// Read Register
-		if (Phase == 'R') _Result = _Register_Pointer_Read(PA_OFFS); // Measure Phase R
-		if (Phase == 'S') _Result = _Register_Pointer_Read(PB_OFFS); // Measure Phase S
-		if (Phase == 'T') _Result = _Register_Pointer_Read(PC_OFFS); // Measure Phase T
-
-	} else {
-
-		// Set Register
-		if (Phase == 'R') _Result = _Register_Pointer_Set(PA_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
-		if (Phase == 'S') _Result = _Register_Pointer_Set(PB_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
-		if (Phase == 'T') _Result = _Register_Pointer_Set(PC_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
-
-	}
-	
-	// End Function
-	return(_Result);
-
-}
-float MAX78630::ReActive_Power_Offset(char Phase, float _Offset) {
-
-	// Define Objects
-	Register QA_OFFS {0x01, 0x0B, 23}; // Reactive Power dynamic offset adjust A
-	Register QB_OFFS {0x01, 0x0E, 23}; // Reactive Power dynamic offset adjust B
-	Register QC_OFFS {0x01, 0x11, 23}; // Reactive Power dynamic offset adjust C
-
-	// Declare Variable
-	float _Result = 0;
-
-	// Decide Workflow
-	if (_Offset == -999) {
-
-		// Read Register
-		if (Phase == 'R') _Result = _Register_Pointer_Read(QA_OFFS); // Measure Phase R
-		if (Phase == 'S') _Result = _Register_Pointer_Read(QB_OFFS); // Measure Phase S
-		if (Phase == 'T') _Result = _Register_Pointer_Read(QC_OFFS); // Measure Phase T
-
-	} else {
-
-		// Set Register
-		if (Phase == 'R') _Result = _Register_Pointer_Set(QA_OFFS, _FtoS(_Offset, 23)); // Measure Phase R
-		if (Phase == 'S') _Result = _Register_Pointer_Set(QB_OFFS, _FtoS(_Offset, 23)); // Measure Phase S
-		if (Phase == 'T') _Result = _Register_Pointer_Set(QC_OFFS, _FtoS(_Offset, 23)); // Measure Phase T
-
-	}
-
-	// End Function
-	return(_Result);
-
-}
-
-// Voltage Measurements
-float MAX78630::Voltage_SAG_Limit(void) {
-
-	// Define Objects
-	Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold
-
-	// Declare Variable
-	float _Result = 0;
-
-	_Result = _Register_Pointer_Read(VSAG_LIM); // Measure Phase R
-	
-	// End Function
-	return(_Result * __VSCALE__);
 
 }
 
@@ -2051,7 +1918,7 @@ bool MAX78630::DIO(void) {
 
 }
 
-// Define Library Class
+// Declare Energy Analyzer
 MAX78630 Energy_Analayser;
 
 // 1903
