@@ -1,6 +1,6 @@
 {
 	"name": "MAX78630",
-	"version": "4.3.3",
+	"version": "4.3.4",
 	"keywords": "MAX78630, Maxim, Silergy, Energy, Electric, Poly, Phase, Metering, Measure, Active, Reactive, Apparent, Voltage, Current, Power Factor, Cos Fi, Temperature, Fundamental, Harmonic, Defect, Alarm, Min, Max",
 	"description": "The EnergyBoard is an energy measurement module for polyphase power-monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. The EnergyBoard provides up to six analog inputs for interfacing to voltage and current sensors. Scaled voltages from the sensors are fed to the single converter front-end using a high-resolution delta-sigma converter. Supported current sensors include current transformers (CTs), Rogowski coils, and resistive shunts.",
 	"authors":
@@ -25,9 +25,9 @@
 	"examples": [
 		{
 			"name": "Full_Consele",
-			"base": "examples/Full_Consele",
+			"base": "examples/Full_Console",
 			"files": [
-				"Full_Consele.ino"
+				"Full_Console.ino"
 			]
 		},
 		{
