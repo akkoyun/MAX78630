@@ -515,6 +515,9 @@ class MAX78630 {
 			// Handle Response
 			if (_Result_LOW and _Result_HIGH) return(false);
 
+			// End Function
+			return(true);
+
 		}
 
 		// Limit Functions
@@ -758,6 +761,9 @@ class MAX78630 {
 		//	Set_Min_Max_Address(4, 0x47); // IR
 		//	Set_Min_Max_Address(5, 0x48); // IS
 		//	Set_Min_Max_Address(6, 0x49); // IT
+
+			// End Function
+			return(true);
 
 		}
 
@@ -1964,6 +1970,9 @@ class MAX78630 {
 			if (_MM_ADDR == 7) Register_Pointer_Set(MIN6, 0x00);
 			if (_MM_ADDR == 8) Register_Pointer_Set(MIN7, 0x00);
 
+			// End Function
+			return(true);
+
 		}
 		bool Clear_Max_Value(uint8_t _MM_ADDR) {
 
@@ -1985,6 +1994,9 @@ class MAX78630 {
 			if (_MM_ADDR == 6) Register_Pointer_Set(MAX5, 0x00);
 			if (_MM_ADDR == 7) Register_Pointer_Set(MAX6, 0x00);
 			if (_MM_ADDR == 8) Register_Pointer_Set(MAX7, 0x00);
+
+			// End Function
+			return(true);
 
 		}
 
