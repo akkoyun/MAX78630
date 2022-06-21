@@ -739,6 +739,27 @@ class MAX78630 {
 			// Command Delay
 			delay(10);
 
+			// Clear Serial Buffer
+			Clear_Buffer();
+
+			// User Register Definition
+			uint8_t _Config_Reg = 0b11110000;
+
+			// Calculate CheckSum
+			uint8_t _Calibration_CheckSum = 0x100 - ((0xAA + 0x07 + 0xCA + 0x65 + 0xFF + _Config_Reg) % 256);
+
+			// Calibration Command TODO: Komut tanınmadı hatası alıyorum
+			Serial_Energy->write(0xAA);						// Header (0xAA)
+			Serial_Energy->write(0x07);						// Total Sended Byte (0x07)
+			Serial_Energy->write(0xCA);						// Setting Command (0xCA)
+			Serial_Energy->write(_Config_Reg);					// Config Register (0x)
+			Serial_Energy->write(0xFF);						// Calibration Setting (0xFF)
+			Serial_Energy->write(0x65);						// Setting Command (0x65)
+			Serial_Energy->write(_Calibration_CheckSum);		// CheckSum (0xD1)
+
+			// Command Delay
+			delay(10);
+
 			// Set Scale Registers
 			Set_Scale(__VSCALE__, __ISCALE__);
 
