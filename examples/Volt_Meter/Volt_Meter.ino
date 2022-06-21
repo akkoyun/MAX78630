@@ -1,8 +1,19 @@
+// Include Arduino Library
+#ifndef __Arduino__
+#include <Arduino.h>
+#endif
+
+// Library Console Definations
+#ifndef __Console__
+#include <Console.h>
+#endif
+
+#define Serial_Energy Serial2
+
 // Define Libraries
 #include <MAX78630.h>
-#include <Console.h>
 
-// Declare Object
+// Declare Energy Analyzer
 MAX78630 Energy_Analayser;
 
 void setup() {
@@ -16,35 +27,25 @@ void setup() {
     // Draw Base Console
 	Terminal.MAX78630_Voltmeter();
 
-	// Define Serial Object
-    Serial2.begin(38400);
-    Energy_Analayser.Begin(Serial2);
+	// Start Power Analyzer
+	Serial_Energy.begin(38400);
+	Energy_Analayser.Begin(Serial_Energy);
 
-	// Get Limits
-	Terminal.Text(20, 18, WHITE, String(Energy_Analayser.Read_Voltage_Max_Limit()));
-	Terminal.Text(21, 18, WHITE, String(Energy_Analayser.Read_Voltage_Min_Limit()));
-
-	Terminal.Text(20, 30, WHITE, String(Energy_Analayser.Read_Frequency_Max_Limit()));
-	Terminal.Text(21, 30, WHITE, String(Energy_Analayser.Read_Frequency_Min_Limit()));
-
-	Terminal.Text(20, 50, WHITE, String(Energy_Analayser.Read_Voltage_Imbalance_Max_Limit()));
-	Terminal.Text(21, 50, WHITE, String(Energy_Analayser.Read_Current_Imbalance_Max_Limit()));
 }
 
 void loop() {
 
     // Print Measurements
-    Terminal.Text(7, 18, CYAN, String(Energy_Analayser.Voltage('R', __RMS__),2));
-    Terminal.Text(8, 18, CYAN, String(Energy_Analayser.Get_Min_Value(1),2));
-    Terminal.Text(9, 18, CYAN, String(Energy_Analayser.Get_Max_Value(1),2));
+    Terminal.Text(7, 18, CYAN, String(Energy_Analayser.Voltage(__Phase_R__, __RMS__),2));
 
-    Terminal.Text(7, 45, CYAN, String(Energy_Analayser.Voltage('S', __RMS__),2));
-    Terminal.Text(8, 45, CYAN, String(Energy_Analayser.Get_Min_Value(2),2));
-    Terminal.Text(9, 45, CYAN, String(Energy_Analayser.Get_Max_Value(2),2));
+    Terminal.Text(7, 45, CYAN, String(Energy_Analayser.Voltage(__Phase_S__, __RMS__),2));
 
-    Terminal.Text(7, 72, CYAN, String(Energy_Analayser.Voltage('T', __RMS__),2));
-    Terminal.Text(8, 72, CYAN, String(Energy_Analayser.Get_Min_Value(3),2));
-    Terminal.Text(9, 72, CYAN, String(Energy_Analayser.Get_Max_Value(3),2));
+    Terminal.Text(7, 72, CYAN, String(Energy_Analayser.Voltage(__Phase_T__, __RMS__),2));
+
+    Terminal.Text(13, 3, CYAN, String(Energy_Analayser.Energy(__Phase_R__, __Active_Recieved__)));
+
+	
+
 
 	// Terminal Command Routine
 	if (Serial.available() > 0) {
