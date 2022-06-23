@@ -3,10 +3,10 @@
 #######################################
 
 #######################################
-# Datatypes (KEYWORD1)
+# Datatype (KEYWORD1)
 #######################################
 
-Energy_Analayser               KEYWORD1
+Energy_Analyzer                KEYWORD1
 
 #######################################
 # Methods and Functions (KEYWORD2)
@@ -48,7 +48,7 @@ Voltage_Fundamental            KEYWORD2
 Voltage_Harmonic               KEYWORD2
 Voltage_SAG_Limit              KEYWORD2
 Frequency                      KEYWORD2
-Phase_Compansation             KEYWORD2
+Phase_Compensation             KEYWORD2
 Current_RMS                    KEYWORD2
 Current_Instantaneous          KEYWORD2
 Current_Peak                   KEYWORD2
@@ -63,9 +63,9 @@ Power_Factor                   KEYWORD2
 Fundamental_ReActive_Power     KEYWORD2
 Harmonic_ReActive_Power        KEYWORD2
 Fundamental_VA_Power           KEYWORD2
-Active_Energy_Recieved         KEYWORD2
+Active_Energy_Received         KEYWORD2
 Active_Energy_Delivered        KEYWORD2
-ReActive_Energy_Recieved       KEYWORD2
+ReActive_Energy_Received       KEYWORD2
 ReActive_Energy_Delivered      KEYWORD2
 Set_Min_Max_Address            KEYWORD2
 Get_Min_Value                  KEYWORD2
