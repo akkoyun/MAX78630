@@ -8,8 +8,6 @@
 #include <Console.h>
 #endif
 
-#define Serial_Energy Serial2
-
 // Define Libraries
 #include <MAX78630.h>
 
@@ -23,13 +21,13 @@ void setup() {
 
     // Start Terminal Console
     Terminal.Begin(Serial);
+	Serial2.begin(38400);
 
     // Draw Base Console
 	Terminal.MAX78630_Voltmeter();
 
 	// Start Power Analyzer
-	Serial_Energy.begin(38400);
-	Energy_Analayser.Begin(Serial_Energy);
+	Energy_Analayser.Begin(Serial2);
 
 }
 
@@ -42,7 +40,7 @@ void loop() {
 
     Terminal.Text(7, 72, CYAN, String(Energy_Analayser.Voltage(__Phase_T__, __RMS__),2));
 
-    Terminal.Text(13, 3, CYAN, String(Energy_Analayser.Energy(__Phase_R__, __Active_Recieved__)));
+    Terminal.Text(13, 3, CYAN, String(Energy_Analayser.Energy(__Phase_R__, __Active_Received__)));
 
 	
 

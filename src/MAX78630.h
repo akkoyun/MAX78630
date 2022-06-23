@@ -6,47 +6,8 @@
 #include <Arduino.h>
 #endif
 
-// Phase Type
-#define __Phase_R__					(uint8_t)1
-#define __Phase_S__					(uint8_t)2
-#define __Phase_T__					(uint8_t)3
-#define __Phase_Avg__				(uint8_t)4
-
-// Scale Variables
-#define __VSCALE__ 					667
-#define __ISCALE__ 					7
-
-// Measurement Type
-#define __RMS__ 					(uint8_t)1
-#define __Instant__ 				(uint8_t)2
-#define __Fundamental__ 			(uint8_t)3
-#define __Harmonic__ 				(uint8_t)4
-#define __Peak__ 					(uint8_t)5
-#define __Active__ 					(uint8_t)6
-#define __ReActive__ 				(uint8_t)7
-#define __Apparent__ 				(uint8_t)8
-#define __Fund_ReActive__ 			(uint8_t)9
-#define __Harm_ReActive__ 			(uint8_t)10
-#define __Fund_VA__ 				(uint8_t)11
-#define __Active_Recieved__ 		(uint8_t)12
-#define __Active_Delivered__ 		(uint8_t)13
-#define __ReActive_Recieved__ 		(uint8_t)14
-#define __ReActive_Delivered__ 		(uint8_t)15
-#define __Energy_Reset__ 			(uint8_t)16
-#define __Phase_Compensation__ 		(uint8_t)16
-
-// Limit Type
-#define __VRMS_MIN__ 				(uint8_t)1
-#define __VRMS_MAX__ 				(uint8_t)2
-#define __T_MIN__ 					(uint8_t)3
-#define __T_MAX__ 					(uint8_t)4
-#define __F_MIN__ 					(uint8_t)5
-#define __F_MAX__ 					(uint8_t)6
-#define __IRMS_MAX__ 				(uint8_t)7
-#define __PF_MIN__ 					(uint8_t)8
-#define __VIMB_MAX__ 				(uint8_t)9
-#define __IIMB_MAX__ 				(uint8_t)10
-
+// Include Library Definitions
+#include "Definitions.h"
 
 class MAX78630 {
 
@@ -722,7 +683,7 @@ class MAX78630 {
 	public:
 
 		// Object Declaration Functions
-		bool Begin(Stream & _Serial) {
+		void Begin(Stream & _Serial) {
 
 			//Set serial port
 			Serial_Energy = & _Serial;
@@ -735,27 +696,6 @@ class MAX78630 {
 			Serial_Energy->write(0x04);			// Total Sended Byte (0x04)
 			Serial_Energy->write(0xC4);			// Setting Command (0xC4)
 			Serial_Energy->write(0x8E);			// CheckSum (0x8E)
-
-			// Command Delay
-			delay(10);
-
-			// Clear Serial Buffer
-			Clear_Buffer();
-
-			// User Register Definition
-			uint8_t _Config_Reg = 0b11110000;
-
-			// Calculate CheckSum
-			uint8_t _Calibration_CheckSum = 0x100 - ((0xAA + 0x07 + 0xCA + 0x65 + 0xFF + _Config_Reg) % 256);
-
-			// Calibration Command TODO: Komut tanınmadı hatası alıyorum
-			Serial_Energy->write(0xAA);						// Header (0xAA)
-			Serial_Energy->write(0x07);						// Total Sended Byte (0x07)
-			Serial_Energy->write(0xCA);						// Setting Command (0xCA)
-			Serial_Energy->write(_Config_Reg);					// Config Register (0x)
-			Serial_Energy->write(0xFF);						// Calibration Setting (0xFF)
-			Serial_Energy->write(0x65);						// Setting Command (0x65)
-			Serial_Energy->write(_Calibration_CheckSum);		// CheckSum (0xD1)
 
 			// Command Delay
 			delay(10);
@@ -783,8 +723,6 @@ class MAX78630 {
 		//	Set_Min_Max_Address(5, 0x48); // IS
 		//	Set_Min_Max_Address(6, 0x49); // IT
 
-			// End Function
-			return(true);
 
 		}
 
@@ -1378,7 +1316,7 @@ class MAX78630 {
 			if (_Phase == __Phase_R__) {
 
 				// Measurement Type Select
-				if (_Type == __Active_Recieved__) {
+				if (_Type == __Active_Received__) {
 
 					// Define Objects
 					Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter A
@@ -1394,7 +1332,7 @@ class MAX78630 {
 					// Get Measurement
 					_Result = Register_Pointer_Read(WHA_NEG); // Measure Phase R
 
-				} else if (_Type == __ReActive_Recieved__) {
+				} else if (_Type == __ReActive_Received__) {
 
 					// Define Objects
 					Register VARHA_POS {0x02, 0x13, 0}; // Reactive Energy Leading Counter A
@@ -1426,7 +1364,7 @@ class MAX78630 {
 			} else if (_Phase == __Phase_S__) {
 
 				// Measurement Type Select
-				if (_Type == __Active_Recieved__) {
+				if (_Type == __Active_Received__) {
 
 					// Define Objects
 					Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter B
@@ -1442,7 +1380,7 @@ class MAX78630 {
 					// Get Measurement
 					_Result = Register_Pointer_Read(WHB_NEG); // Measure Phase R
 
-				} else if (_Type == __ReActive_Recieved__) {
+				} else if (_Type == __ReActive_Received__) {
 
 					// Define Objects
 					Register VARHB_POS {0x02, 0x25, 0}; // Reactive Energy Leading Counter B
@@ -1474,7 +1412,7 @@ class MAX78630 {
 			} else if (_Phase == __Phase_T__) {
 
 				// Measurement Type Select
-				if (_Type == __Active_Recieved__) {
+				if (_Type == __Active_Received__) {
 
 					// Define Objects
 					Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter C
@@ -1490,7 +1428,7 @@ class MAX78630 {
 					// Get Measurement
 					_Result = Register_Pointer_Read(WHC_NEG); // Measure Phase R
 
-				} else if (_Type == __ReActive_Recieved__) {
+				} else if (_Type == __ReActive_Received__) {
 
 					// Define Objects
 					Register VARHC_POS {0x02, 0x37, 0}; // Reactive Energy Leading Counter C
@@ -1576,7 +1514,7 @@ class MAX78630 {
 			} else if (_Phase == __Phase_Avg__) {
 
 				// Define Objects
-				Register PFT {0x01, 0x6E, 22}; // T otal Power Factor
+				Register PFT {0x01, 0x6E, 22}; // Total Power Factor
 
 				// Get Measurement
 				_Result = Register_Pointer_Read(PFT); // Measure Phase Average
