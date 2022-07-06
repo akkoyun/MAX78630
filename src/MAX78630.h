@@ -1460,7 +1460,8 @@ class MAX78630 {
 			}
 
 			// End Function
-			return(_Result * __ISCALE__ * __VSCALE__);
+//			return(_Result * __ISCALE__ * __VSCALE__);
+			return(_Result);
 			
 		}
 		float Frequency(void) {
@@ -1958,7 +1959,7 @@ class MAX78630 {
 			return(true);
 
 		}
-
+		
 		// TODO: Working on functions
 		bool Alarm(void) {
 
