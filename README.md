@@ -1,9 +1,7 @@
 # MAX78630 Library <sup>V4.3</sup>
 
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![Visits Badge](https://badges.pufler.dev/visits/akkoyun/MAX78630) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) ![Updated Badge](https://badges.pufler.dev/updated/akkoyun/MAX78630) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
-[![Check Arduino](https://github.com/akkoyun/MAX78630/actions/workflows/check-arduino.yml/badge.svg)](https://github.com/akkoyun/MAX78630/actions/workflows/check-arduino.yml) [![Compile Examples](https://github.com/akkoyun/MAX78630/actions/workflows/compile-examples.yml/badge.svg)](https://github.com/akkoyun/MAX78630/actions/workflows/compile-examples.yml) [![Spell Check](https://github.com/akkoyun/MAX78630/actions/workflows/spell-check.yml/badge.svg)](https://github.com/akkoyun/MAX78630/actions/workflows/spell-check.yml)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
 
-	Polly Phase Energy Meter - 04.03.08
 
 ---
 
