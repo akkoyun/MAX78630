@@ -1355,8 +1355,8 @@ class MAX78630 {
 					Register VARHA_POS {0x02, 0x13, 0}; // Reactive Energy Leading Counter A
 
 					// Clear Register
-					Register_Pointer_Set(WHA_POS, 0x00); // Measure Phase R
-					Register_Pointer_Set(VARHA_POS, 0x00); // Measure Phase R
+					Register_Pointer_Set(WHA_POS, 0x00); // Clear Active Energy Counter A
+					Register_Pointer_Set(VARHA_POS, 0x00); // Clear ReActive Energy Counter A
 
 					// End Function
 					return(1);
@@ -1405,8 +1405,8 @@ class MAX78630 {
 					Register VARHB_POS {0x02, 0x25, 0}; // Reactive Energy Leading Counter B
 
 					// Clear Register
-					Register_Pointer_Set(WHB_POS, 0x00); // Measure Phase R
-					Register_Pointer_Set(VARHB_POS, 0x00); // Measure Phase R
+					Register_Pointer_Set(WHB_POS, 0x00); // Clear Active Energy Counter B
+					Register_Pointer_Set(VARHB_POS, 0x00); // Clear ReActive Energy Counter B
 
 					// End Function
 					return(1);
@@ -1455,8 +1455,8 @@ class MAX78630 {
 					Register VARHC_POS {0x02, 0x37, 0}; // Reactive Energy Leading Counter C
 
 					// Clear Register
-					Register_Pointer_Set(WHC_POS, 0x00); // Measure Phase R
-					Register_Pointer_Set(VARHC_POS, 0x00); // Measure Phase R
+					Register_Pointer_Set(WHC_POS, 0x00); // Clear Active Energy Counter C
+					Register_Pointer_Set(VARHC_POS, 0x00); // Clear ReActive Energy Counter C
 
 					// End Function
 					return(1);
@@ -1466,7 +1466,6 @@ class MAX78630 {
 			}
 
 			// End Function
-//			return(_Result * __ISCALE__ * __VSCALE__);
 			return(_Result);
 			
 		}
