@@ -1352,9 +1352,11 @@ class MAX78630 {
 
 					// Define Objects
 					Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter A
+					Register VARHA_POS {0x02, 0x13, 0}; // Reactive Energy Leading Counter A
 
-					// Get Measurement
+					// Clear Register
 					Register_Pointer_Set(WHA_POS, 0x00); // Measure Phase R
+					Register_Pointer_Set(VARHA_POS, 0x00); // Measure Phase R
 
 					// End Function
 					return(1);
@@ -1400,9 +1402,11 @@ class MAX78630 {
 
 					// Define Objects
 					Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter B
+					Register VARHB_POS {0x02, 0x25, 0}; // Reactive Energy Leading Counter B
 
-					// Get Measurement
+					// Clear Register
 					Register_Pointer_Set(WHB_POS, 0x00); // Measure Phase R
+					Register_Pointer_Set(VARHB_POS, 0x00); // Measure Phase R
 
 					// End Function
 					return(1);
@@ -1448,9 +1452,11 @@ class MAX78630 {
 
 					// Define Objects
 					Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter C
+					Register VARHC_POS {0x02, 0x37, 0}; // Reactive Energy Leading Counter C
 
-					// Get Measurement
+					// Clear Register
 					Register_Pointer_Set(WHC_POS, 0x00); // Measure Phase R
+					Register_Pointer_Set(VARHC_POS, 0x00); // Measure Phase R
 
 					// End Function
 					return(1);
