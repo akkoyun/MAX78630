@@ -942,12 +942,12 @@ class MAX78630 {
 				/**
 				 * @brief Active Cumulative
 				 */
-				uint16_t Active_Cumulative;
+				uint32_t Active_Cumulative;
 
 				/**
 				 * @brief ReActive Cumulative
 				 */
-				uint16_t ReActive_Cumulative;
+				uint32_t ReActive_Cumulative;
 
 			} Energy;
 
@@ -999,94 +999,185 @@ class MAX78630 {
 			 * @brief R Phase RMS Measurement
 			 */
 			#ifdef Measurement_Voltage_R 
+
+				// Clear Variable
+				Measurement.Voltage.RMS_R = 0;
+
+				// Get Measurement
 				Measurement.Voltage.RMS_R = this->Voltage(__Phase_R__, __RMS__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief S Phase RMS Measurement
 			 */
 			#ifdef Measurement_Voltage_S
+
+				// Clear Variable
+				Measurement.Voltage.RMS_S = 0;
+
+				// Get Measurement
 				Measurement.Voltage.RMS_S = this->Voltage(__Phase_S__, __RMS__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief T Phase RMS Measurement
 			 */
 			#ifdef Measurement_Voltage_T
+
+				// Clear Variable
+				Measurement.Voltage.RMS_T = 0;
+
+				// Get Measurement
 				Measurement.Voltage.RMS_T = this->Voltage(__Phase_T__, __RMS__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief R Phase RMS Measurement
 			 */
 			#ifdef Measurement_Current_R
+
+				// Clear Variable
+				Measurement.Current.RMS_R = 0;
+
+				// Get Measurement
 				Measurement.Current.RMS_R = this->Current(__Phase_R__, __RMS__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief S Phase RMS Measurement
 			 */
 			#ifdef Measurement_Current_S
+
+				// Clear Variable
+				Measurement.Current.RMS_S = 0;
+
+				// Get Measurement
 				Measurement.Current.RMS_S = this->Current(__Phase_S__, __RMS__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief T Phase RMS Measurement
 			 */
 			#ifdef Measurement_Current_T
+
+				// Clear Variable
+				Measurement.Current.RMS_T = 0;
+
+				// Get Measurement
 				Measurement.Current.RMS_T = this->Current(__Phase_T__, __RMS__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief Frequency Measurement
 			 */
 			#ifdef Measurement_Frequency
+
+				// Clear Variable
+				Measurement.Frequency = 0;
+
+				// Get Measurement
 				Measurement.Frequency = this->Frequency();
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief R Phase RMS Measurement
 			 */
 			#ifdef Measurement_PowerFactor_R
+
+				// Clear Variable
+				Measurement.PowerFactor.Phase_R = 0;
+
+				// Get Measurement
 				Measurement.PowerFactor.Phase_R = this->Power_Factor(__Phase_R__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief S Phase RMS Measurement
 			 */
 			#ifdef Measurement_PowerFactor_S
+
+				// Clear Variable
+				Measurement.PowerFactor.Phase_S = 0;
+
+				// Get Measurement
 				Measurement.PowerFactor.Phase_S = this->Power_Factor(__Phase_S__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief T Phase RMS Measurement
 			 */
 			#ifdef Measurement_PowerFactor_T
+
+				// Clear Variable
+				Measurement.PowerFactor.Phase_T = 0;
+
+				// Get Measurement
 				Measurement.PowerFactor.Phase_T = this->Power_Factor(__Phase_T__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief Average Measurement
 			 */
 			#ifdef Measurement_PowerFactor_A
+
+				// Clear Variable
+				Measurement.PowerFactor.Average = 0;
+
+				// Get Measurement
 				Measurement.PowerFactor.Average = this->Power_Factor(__Phase_Avg__);
+
+				// Command Delay
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief Active Energy
 			 */
 			#ifdef Measurement_Energy_Active
+
+				// Clear Variable
+				Measurement.Energy.Active = 0;
 
 				// Calculate Total Energy Consumption
 				Measurement.Energy.Active = this->Energy(__Phase_R__, __Active_Received__) + this->Energy(__Phase_S__, __Active_Received__) + this->Energy(__Phase_T__, __Active_Received__);
@@ -1102,6 +1193,9 @@ class MAX78630 {
 			 * @brief ReActive Energy
 			 */
 			#ifdef Measurement_Energy_ReActive
+
+				// Clear Variable
+				Measurement.Energy.ReActive = 0;
 
 				// Calculate Total Energy Consumption
 				Measurement.Energy.ReActive = this->Energy(__Phase_R__, __ReActive_Received__) + this->Energy(__Phase_S__, __ReActive_Received__) + this->Energy(__Phase_T__, __ReActive_Received__);
