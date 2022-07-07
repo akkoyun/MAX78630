@@ -939,6 +939,16 @@ class MAX78630 {
 				 */
 				uint16_t ReActive;
 
+				/**
+				 * @brief Active Cumulative
+				 */
+				uint16_t Active_Cumulative;
+
+				/**
+				 * @brief ReActive Cumulative
+				 */
+				uint16_t ReActive_Cumulative;
+
 			} Energy;
 
 		} Measurement;
@@ -1077,17 +1087,39 @@ class MAX78630 {
 			 * @brief Active Energy
 			 */
 			#ifdef Measurement_Energy_Active
-				Measurement.Energy.Active = this->Energy(__Phase_R__, __Active_Received__);
+
+				// Calculate Total Energy Consumption
+				Measurement.Energy.Active = this->Energy(__Phase_R__, __Active_Received__) + this->Energy(__Phase_S__, __Active_Received__) + this->Energy(__Phase_T__, __Active_Received__);
+
+				// Calculate Total Cumulative Energy Consumption
+				Measurement.Energy.Active_Cumulative += Measurement.Energy.Active;
+
 				delay(10);
+
 			#endif
 
 			/**
 			 * @brief ReActive Energy
 			 */
 			#ifdef Measurement_Energy_ReActive
-				Measurement.Energy.ReActive = this->Energy(__Phase_R__, __ReActive_Received__);
+
+				// Calculate Total Energy Consumption
+				Measurement.Energy.ReActive = this->Energy(__Phase_R__, __ReActive_Received__) + this->Energy(__Phase_S__, __ReActive_Received__) + this->Energy(__Phase_T__, __ReActive_Received__);
+
+				// Calculate Total Cumulative Energy Consumption
+				Measurement.Energy.ReActive_Cumulative += Measurement.Energy.ReActive;
+
 				delay(10);
+
 			#endif
+
+			// Clear Energy Consumption
+			this->Energy(__Phase_R__, __Energy_Reset__);
+			this->Energy(__Phase_S__, __Energy_Reset__);
+			this->Energy(__Phase_T__, __Energy_Reset__);
+
+			// Command Delay
+			delay(10);
 
 		}
 		
