@@ -1113,6 +1113,14 @@ class MAX78630 {
 
 			#endif
 
+			// Clear Energy Consumption
+			this->Energy(__Phase_R__, __Energy_Reset__);
+			this->Energy(__Phase_S__, __Energy_Reset__);
+			this->Energy(__Phase_T__, __Energy_Reset__);
+
+			// Command Delay
+			delay(10);
+
 		}
 		
 		/**
