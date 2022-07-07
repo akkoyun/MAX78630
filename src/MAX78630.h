@@ -844,6 +844,106 @@ class MAX78630 {
 	public:
 
 		/**
+		 * @brief Electrical Measurement Variable Structure
+		 */
+		struct Measurement_Structure {
+
+			/**
+			 * @brief Voltage Structure
+			 */
+			struct Voltage_Structure {
+
+				/**
+				 * @brief RMS Voltage R
+				 */
+				float RMS_R;
+
+				/**
+				 * @brief RMS Voltage S
+				 */
+				float RMS_S;
+
+				/**
+				 * @brief RMS Voltage T
+				 */
+				float RMS_T;
+
+			} Voltage;
+
+			/**
+			 * @brief Current Structure
+			 */
+			struct Current_Structure {
+
+				/**
+				 * @brief RMS Current R
+				 */
+				float RMS_R;
+
+				/**
+				 * @brief RMS Current S
+				 */
+				float RMS_S;
+
+				/**
+				 * @brief RMS Current T
+				 */
+				float RMS_T;
+
+			} Current;
+
+			/**
+			 * @brief Line Frequency
+			 */
+			float Frequency;
+
+			/**
+			 * @brief PowerFactor Structure
+			 */
+			struct PowerFactor_Structure {
+
+				/**
+				 * @brief PowerFactor R
+				 */
+				float Phase_R;
+
+				/**
+				 * @brief PowerFactor S
+				 */
+				float Phase_S;
+
+				/**
+				 * @brief PowerFactor T
+				 */
+				float Phase_T;
+
+				/**
+				 * @brief PowerFactor A
+				 */
+				float Average;
+
+			} PowerFactor;
+
+			/**
+			 * @brief Energy Structure
+			 */
+			struct Energy_Structure {
+
+				/**
+				 * @brief Active
+				 */
+				uint16_t Active;
+
+				/**
+				 * @brief ReActive
+				 */
+				uint16_t ReActive;
+
+			} Energy;
+
+		} Measurement;
+
+		/**
 		 * @brief Begin and Set Start Parameters.
 		 * @version 01.00.00
 		 * @param _Serial Serial Channel

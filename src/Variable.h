@@ -1,3 +1,8 @@
+// Define Arduino Library
+#ifndef __Arduino__
+	#include <Arduino.h>
+#endif
+
 /**
  * @brief Measurement Structure update
  */
@@ -27,102 +32,3 @@
 #define Bucket_High				(uint32_t)0x000821
 #define Bucket_Low				(uint32_t)0xD0F4C2
 
-/**
- * @brief Electrical Measurement Variable Structure
- */
-struct Measurement_Structure {
-
-    /**
-     * @brief Voltage Structure
-     */
-    struct Voltage_Structure {
-
-        /**
-         * @brief RMS Voltage R
-         */
-        float RMS_R;
-
-        /**
-         * @brief RMS Voltage S
-         */
-        float RMS_S;
-
-        /**
-         * @brief RMS Voltage T
-         */
-        float RMS_T;
-
-    } Voltage;
-
-    /**
-     * @brief Current Structure
-     */
-    struct Current_Structure {
-
-        /**
-         * @brief RMS Current R
-         */
-        float RMS_R;
-
-        /**
-         * @brief RMS Current S
-         */
-        float RMS_S;
-
-        /**
-         * @brief RMS Current T
-         */
-        float RMS_T;
-
-    } Current;
-
-	/**
-	 * @brief Line Frequency
-	 */
-	float Frequency;
-
-    /**
-     * @brief PowerFactor Structure
-     */
-    struct PowerFactor_Structure {
-
-        /**
-         * @brief PowerFactor R
-         */
-        float Phase_R;
-
-        /**
-         * @brief PowerFactor S
-         */
-        float Phase_S;
-
-        /**
-         * @brief PowerFactor T
-         */
-        float Phase_T;
-
-        /**
-         * @brief PowerFactor A
-         */
-        float Average;
-
-    } PowerFactor;
-
-    /**
-     * @brief Energy Structure
-     */
-    struct Energy_Structure {
-
-        /**
-         * @brief Active
-         */
-        uint16_t Active;
-
-        /**
-         * @brief ReActive
-         */
-        uint16_t ReActive;
-
-    } Energy;
-
-} Measurement;
