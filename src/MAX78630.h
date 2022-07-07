@@ -3,11 +3,12 @@
 
 // Define Arduino Library
 #ifndef __Arduino__
-#include <Arduino.h>
+	#include <Arduino.h>
 #endif
 
 // Include Library Definitions
 #include "Definitions.h"
+#include "Variable.h"
 
 class MAX78630 {
 
@@ -726,7 +727,125 @@ class MAX78630 {
 
 		}
 
-		// Measurement Functions
+		/**
+		 * @brief Measure Parameters Batch
+		 * @version 01.00.00
+		 */
+		void Measure(void) {
+
+			/**
+			 * @brief R Phase RMS Measurement
+			 */
+			#ifdef Measurement_Voltage_R 
+				Measurement.Voltage.RMS_R = this->Voltage(__Phase_R__, __RMS__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief S Phase RMS Measurement
+			 */
+			#ifdef Measurement_Voltage_S
+				Measurement.Voltage.RMS_S = this->Voltage(__Phase_S__, __RMS__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief T Phase RMS Measurement
+			 */
+			#ifdef Measurement_Voltage_T
+				Measurement.Voltage.RMS_T = this->Voltage(__Phase_T__, __RMS__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief R Phase RMS Measurement
+			 */
+			#ifdef Measurement_Current_R
+				Measurement.Current.RMS_R = this->Current(__Phase_R__, __RMS__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief S Phase RMS Measurement
+			 */
+			#ifdef Measurement_Current_S
+				Measurement.Current.RMS_S = this->Current(__Phase_S__, __RMS__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief T Phase RMS Measurement
+			 */
+			#ifdef Measurement_Current_T
+				Measurement.Current.RMS_T = this->Current(__Phase_T__, __RMS__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief Frequency Measurement
+			 */
+			#ifdef Measurement_Frequency
+				Measurement.Frequency = this->Frequency();
+				delay(10);
+			#endif
+
+			/**
+			 * @brief R Phase RMS Measurement
+			 */
+			#ifdef Measurement_PowerFactor_R
+				Measurement.PowerFactor.Phase_R = this->Power_Factor(__Phase_R__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief S Phase RMS Measurement
+			 */
+			#ifdef Measurement_PowerFactor_S
+				Measurement.PowerFactor.Phase_S = this->Power_Factor(__Phase_S__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief T Phase RMS Measurement
+			 */
+			#ifdef Measurement_PowerFactor_T
+				Measurement.PowerFactor.Phase_T = this->Power_Factor(__Phase_T__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief Average Measurement
+			 */
+			#ifdef Measurement_PowerFactor_A
+				Measurement.PowerFactor.Average = this->Power_Factor(__Phase_Avg__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief Active Energy
+			 */
+			#ifdef Measurement_Energy_Active
+				Measurement.Energy.Active = this->Energy(__Phase_R__, __Active_Received__);
+				delay(10);
+			#endif
+
+			/**
+			 * @brief ReActive Energy
+			 */
+			#ifdef Measurement_Energy_ReActive
+				Measurement.Energy.ReActive = this->Energy(__Phase_R__, __ReActive_Received__);
+				delay(10);
+			#endif
+
+		}
+		
+		/**
+		 * @brief Voltage Measurement Function.
+		 * @version 01.00.00
+		 * @param _Phase __Phase_R__, __Phase_S__, __Phase_T__, __Phase_Avg__
+		 * @param _Type __RMS__, __Instant__, __Fundamental__, __Harmonic__
+		 * @return float Voltage Measurement
+		 */
 		float Voltage(const uint8_t _Phase, const uint8_t _Type) {
 
 			// Control Input Parameters
@@ -866,6 +985,13 @@ class MAX78630 {
 			return(_Result * __VSCALE__);
 
 		}
+
+
+
+
+
+
+		// Measurement Functions
 		float Current(const uint8_t _Phase, const uint8_t _Type) {
 
 			// Control Input Parameters
