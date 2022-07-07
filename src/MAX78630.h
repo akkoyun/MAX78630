@@ -1180,7 +1180,7 @@ class MAX78630 {
 				Measurement.Energy.Active = 0;
 
 				// Calculate Total Energy Consumption
-				Measurement.Energy.Active = this->Energy(__Phase_R__, __Active_Received__) + this->Energy(__Phase_S__, __Active_Received__) + this->Energy(__Phase_T__, __Active_Received__);
+				Measurement.Energy.Active = this->Energy(__Phase_R__, __Active_Received__) + this->Energy(__Phase_S__, __Active_Received__) + this->Energy(__Phase_T__, __Active_Received__) + this->Energy(__Phase_R__, __Active_Delivered__) + this->Energy(__Phase_S__, __Active_Delivered__) + this->Energy(__Phase_T__, __Active_Delivered__);
 
 				// Calculate Total Cumulative Energy Consumption
 				Measurement.Energy.Active_Cumulative += Measurement.Energy.Active;
@@ -1198,7 +1198,7 @@ class MAX78630 {
 				Measurement.Energy.ReActive = 0;
 
 				// Calculate Total Energy Consumption
-				Measurement.Energy.ReActive = this->Energy(__Phase_R__, __ReActive_Received__) + this->Energy(__Phase_S__, __ReActive_Received__) + this->Energy(__Phase_T__, __ReActive_Received__);
+				Measurement.Energy.ReActive = this->Energy(__Phase_R__, __ReActive_Received__) + this->Energy(__Phase_S__, __ReActive_Received__) + this->Energy(__Phase_T__, __ReActive_Received__) + this->Energy(__Phase_R__, __ReActive_Delivered__) + this->Energy(__Phase_S__, __ReActive_Delivered__) + this->Energy(__Phase_T__, __ReActive_Delivered__);
 
 				// Calculate Total Cumulative Energy Consumption
 				Measurement.Energy.ReActive_Cumulative += Measurement.Energy.ReActive;
