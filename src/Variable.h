@@ -16,6 +16,18 @@
 #define Measurement_Energy_ReActive
 
 /**
+ * @brief Limit Defaults Definition.
+ */
+#define Limit_Voltage_Min       (float)192
+#define Limit_Voltage_Max       (float)253
+#define Limit_Frequency_Min     (float)47
+#define Limit_Frequency_Max     (float)52
+#define Limit_Voltage_IMB       (float)0.06
+#define Limit_Current_IMB		(float)0.06
+#define Bucket_High				(uint32_t)0x000821
+#define Bucket_Low				(uint32_t)0xD0F4C2
+
+/**
  * @brief Electrical Measurement Variable Structure
  */
 struct Measurement_Structure {
@@ -112,8 +124,5 @@ struct Measurement_Structure {
         uint16_t ReActive;
 
     } Energy;
-
-
-
 
 } Measurement;

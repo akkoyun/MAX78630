@@ -1,15 +1,14 @@
-# MAX78630 Library <sup>V4.3</sup>
+# MAX78630 Library <sup>V4.4</sup>
 
 ![GitHub release (latest by date)](https://img.shields.io/github/v/release/akkoyun/MAX78630) ![arduino-library-badge](https://www.ardu-badge.com/badge/MAX78630.svg?) ![GitHub stars](https://img.shields.io/github/stars/akkoyun/MAX78630?style=flat&logo=github) [![PlatformIO Registry](https://badges.registry.platformio.org/packages/akkoyun/library/MAX78630.svg)](https://registry.platformio.org/libraries/akkoyun/MAX78630)
-
 
 ---
 
  <center><img src="/Documents/B201.png" width="800"></center></br>
 
-**Abstract**
+## Abstract
 
-B201 module is an energy measurement module (EMM) for polyphase power monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. It is available in a 3x4cm size PCB module.
+B201 module is an energy measurement module (EMM) for poly phase power monitoring systems. It is designed for real-time monitoring for a variety of typical three-phase configurations in industrial applications. It is available in a 3x4cm size PCB module.
 
 The B201 provides up to six analog inputs for interfacing to voltage and current sensors. Scaled voltages from the sensors are fed to the single converter front-end utilizing a high-resolution delta-sigma converter. Supported current sensors include current transformers (CT), Rogowski coils, and resistive shunts.
 
@@ -17,16 +16,16 @@ An embedded 24-bit measurement processor and firmware perform all necessary comp
 
 The B201 is designed to interface to the host processor via the UART interface.
 
-**Module PinOut**
+## Module PinOut
 
 <center><img src="/Documents/PinOut.jpg" width="600"></center></br>
 
-**Measured Parameters**
+## Measured Parameters
 
 In this Arduino Library we can read all data of energy parameters.
 
 | Parameter                  | Phase R | Phase S | Phase T |
-|----------------------------|---------|---------|---------|
+|----------------------------|:-------:|:-------:|:-------:|
 | Instant Voltage            | Yes     | Yes     | Yes     |
 | RMS Voltage                | Yes     | Yes     | Yes     |
 | Fundamental Voltage        | Yes     | Yes     | Yes     |
@@ -54,7 +53,7 @@ Also set limits for alarm monitoring.
 
 ---
 
-**Want to buy ?**
+## Want to buy ?
 
 [![Want to buu](https://img.shields.io/badge/I_Sell_on-Tindie-blue.svg)](https://www.tindie.com/stores/akkoyun)
 
