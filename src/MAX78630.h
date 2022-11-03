@@ -2092,6 +2092,131 @@ class MAX78630 {
 
 		}
 
+
+
+
+
+
+		/**
+		 * @brief Read IC Status Register.
+		 * @version 01.00.00
+		 * Saves the status register to _Status_Buffer variable.
+		 */
+		void Read_Status(void) {
+
+			// Define Objects
+			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
+
+			// Read Status Register
+			uint32_t _Status_Buffer = this->Register_Pointer_Read(STATUS);
+
+		}
+
+		/**
+		 * @brief Decide the HV of specified phase.
+		 * @version 01.00.00
+		 * @return True: High voltage detected on specified phase.
+		 */
+		bool Check_HV_Status(uint8_t _Phase) {
+
+			// Control Input Parameters
+			if (_Phase > 5) return(false);
+
+			// Control Bit Value
+			if (_Phase == __Phase_R__) return(bitRead(_Status_Buffer, 14));
+			if (_Phase == __Phase_S__) return(bitRead(_Status_Buffer, 16));
+			if (_Phase == __Phase_T__) return(bitRead(_Status_Buffer, 18));
+			if (_Phase == __Phase_Any__) return(bitRead(_Status_Buffer, 14) or bitRead(_Status_Buffer, 16) or bitRead(_Status_Buffer, 18));
+
+		}
+
+		/**
+		 * @brief Decide the UV of specified phase.
+		 * @version 01.00.00
+		 * @return True: Low voltage detected on specified phase.
+		 */
+		bool Check_LV_Status(uint8_t _Phase) {
+
+			// Control Input Parameters
+			if (_Phase > 5) return(false);
+
+			// Control Bit Value
+			if (_Phase == __Phase_R__) return(bitRead(_Status_Buffer, 13));
+			if (_Phase == __Phase_S__) return(bitRead(_Status_Buffer, 15));
+			if (_Phase == __Phase_T__) return(bitRead(_Status_Buffer, 17));
+			if (_Phase == __Phase_Any__) return(bitRead(_Status_Buffer, 13) or bitRead(_Status_Buffer, 15) or bitRead(_Status_Buffer, 17));
+
+		}
+
+		/**
+		 * @brief Decide the Current Imbalance
+		 * @version 01.00.00
+		 * @return True: Current imbalance detected.
+		 */
+		bool Check_IIMB_Status(void) {
+
+			// Control for bit value
+			return(bitRead(_Status_Buffer, 10));
+
+		}
+
+		/**
+		 * @brief Decide the Voltage Imbalance
+		 * @version 01.00.00
+		 * @return True: Voltage imbalance detected.
+		 */
+		bool Check_VIMB_Status(void) {
+
+			// Control for bit value
+			return(bitRead(_Status_Buffer, 9));
+
+		}
+
+		/**
+		 * @brief Decide the Low Frequency
+		 * @version 01.00.00
+		 * @return True: Low frequency detected.
+		 */
+		bool Check_UFQ_Status(void) {
+
+			// Control for bit value
+			return(bitRead(_Status_Buffer, 21));
+
+		}
+
+		/**
+		 * @brief Decide the High Frequency
+		 * @version 01.00.00
+		 * @return True: High frequency detected.
+		 */
+		bool Check_HFQ_Status(void) {
+
+			// Control for bit value
+			return(bitRead(_Status_Buffer, 22));
+
+		}
+
+		/**
+		 * @brief Clear IC Status Register.
+		 * @version 01.00.00
+		 */
+		void Clear_Status(void) {
+
+			// Define Objects
+			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
+
+			// Clear Status Register
+			Register_Pointer_Set(STATUS, 0x0000);
+
+		}
+
+
+
+
+
+
+
+
 		/**
 		 * @brief Limit Parameters Control Function.
 		 * @version 01.00.00
@@ -2106,6 +2231,14 @@ class MAX78630 {
 		 * 10 - Current Imbalance Error
 		 */
 		uint8_t Control_Limits(void) {
+
+
+
+
+
+
+
+
 
 			// Define Objects
 			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
@@ -2123,6 +2256,9 @@ class MAX78630 {
 				return(99);
 
 			} else {
+
+				// Update Buffer
+				_Status_Buffer = _Last_Status;
 
 				// Control UV
 				if (bitRead(_Last_Status, 13) or bitRead(_Last_Status, 15) or bitRead(_Last_Status, 17)) return(1);
