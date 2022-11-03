@@ -20,6 +20,11 @@ class MAX78630 {
 		Stream * Serial_Energy;
 
 		/**
+		 * @brief IC Fault Status Buffer
+		 */
+		uint32_t _Status_Buffer;
+
+		/**
 		 * @brief IC Register Address Structure
 		 */
 		struct Register {
@@ -2106,34 +2111,44 @@ class MAX78630 {
 			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
 
 			// Read Status Register
-			uint32_t _Status = this->Register_Pointer_Read(STATUS);
+			uint32_t _Last_Status = this->Register_Pointer_Read(STATUS);
 
 			// Clear Status Register
 			Register_Pointer_Set(STATUS, 0x0000);
 
-			// Control UV
-			if (bitRead(_Status, 13) or bitRead(_Status, 15) or bitRead(_Status, 17)) return(1);
+			// Control for Buffer
+			if (_Last_Status == _Status_Buffer) {
 
-			// Control HV
-			if (bitRead(_Status, 14) or bitRead(_Status, 16) or bitRead(_Status, 18)) return(2);
+				// End Function
+				return(99);
 
-			// Control IIMB
-			if (bitRead(_Status, 2)) return(10);
+			} else {
 
-			// Control VIMB
-			if (bitRead(_Status, 3)) return(9);
+				// Control UV
+				if (bitRead(_Last_Status, 13) or bitRead(_Last_Status, 15) or bitRead(_Last_Status, 17)) return(1);
 
-			// Control UPF
-			if (bitRead(_Status, 10) or bitRead(_Status, 11) or bitRead(_Status, 12)) return(8);
+				// Control HV
+				if (bitRead(_Last_Status, 14) or bitRead(_Last_Status, 16) or bitRead(_Last_Status, 18)) return(2);
 
-			// Control FMIN
-			if (bitRead(_Status, 21)) return(5);
+				// Control IIMB
+				if (bitRead(_Last_Status, 2)) return(10);
 
-			// Control FMAX
-			if (bitRead(_Status, 22)) return(6);
+				// Control VIMB
+				if (bitRead(_Last_Status, 3)) return(9);
 
-			// End Function
-			return(0);
+				// Control UPF
+				if (bitRead(_Last_Status, 10) or bitRead(_Last_Status, 11) or bitRead(_Last_Status, 12)) return(8);
+
+				// Control FMIN
+				if (bitRead(_Last_Status, 21)) return(5);
+
+				// Control FMAX
+				if (bitRead(_Last_Status, 22)) return(6);
+
+				// End Function
+				return(0);
+
+			}
 
 		}
 
