@@ -7,6 +7,7 @@
 #define __Phase_S__					(uint8_t)2
 #define __Phase_T__					(uint8_t)3
 #define __Phase_Avg__				(uint8_t)4
+#define __Phase_Any__				(uint8_t)5
 
 // Measurement Type
 #define __RMS__ 					(uint8_t)1
