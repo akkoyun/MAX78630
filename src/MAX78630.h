@@ -219,6 +219,35 @@ class MAX78630 {
 		}
 
 		/**
+		 * @brief Set Status Sticky Function
+		 * @version 01.00.00
+		 * @return true Function Succeed
+		 * @return false Function Fails
+		 */
+		bool Set_Status_Sticky(bool _Sticky) {
+
+			// Define Objects
+			Register STICKY {0x00, 0x2D, 0}; // Stick Register for Status
+
+			// Define Sticky Register
+			uint32_t _Sticky_Mask;
+
+			// Read Register
+			uint32_t _Sticky_Mask = this->Register_Pointer_Read(STICKY);
+
+			// Set Mask
+			if (_Sticky) _Sticky_Mask |= 0b00000000011111111111111111111100;
+			if (!_Sticky) _Sticky_Mask &= 0b11111111100000000000000000000011;
+
+			// Set Register
+			bool _Response = this->Register_Pointer_Set(STICKY, _Sticky_Mask);
+
+			// End Function
+			return(_Response);
+
+		}
+
+		/**
 		 * @brief Set Voltage Scale Function
 		 * @version 01.00.00
 		 * @param _Voltage_Scale Voltage Scale
@@ -991,6 +1020,9 @@ class MAX78630 {
 
 			// Set Min and Max Address
 			this->Set_Default_Min_Max_Address();
+
+			// Set Status Sticky Status
+			this->Set_Status_Sticky(false);
 
 		}
 
@@ -2092,11 +2124,6 @@ class MAX78630 {
 
 		}
 
-
-
-
-
-
 		/**
 		 * @brief Read IC Status Register.
 		 * @version 01.00.00
@@ -2210,13 +2237,6 @@ class MAX78630 {
 
 		}
 
-
-
-
-
-
-
-
 		/**
 		 * @brief Limit Parameters Control Function.
 		 * @version 01.00.00
@@ -2232,59 +2252,35 @@ class MAX78630 {
 		 */
 		uint8_t Control_Limits(void) {
 
-
-
-
-
-
-
-
-
 			// Define Objects
 			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
 
 			// Read Status Register
 			uint32_t _Last_Status = this->Register_Pointer_Read(STATUS);
 
-			// Clear Status Register
-			Register_Pointer_Set(STATUS, 0x0000);
+			// Control UV
+			if (bitRead(_Last_Status, 13) or bitRead(_Last_Status, 15) or bitRead(_Last_Status, 17)) return(1);
 
-			// Control for Buffer
-			if (_Last_Status == _Status_Buffer) {
+			// Control HV
+			if (bitRead(_Last_Status, 14) or bitRead(_Last_Status, 16) or bitRead(_Last_Status, 18)) return(2);
 
-				// End Function
-				return(99);
+			// Control IIMB
+			if (bitRead(_Last_Status, 2)) return(10);
 
-			} else {
+			// Control VIMB
+			if (bitRead(_Last_Status, 3)) return(9);
 
-				// Update Buffer
-				_Status_Buffer = _Last_Status;
+			// Control UPF
+			if (bitRead(_Last_Status, 10) or bitRead(_Last_Status, 11) or bitRead(_Last_Status, 12)) return(8);
 
-				// Control UV
-				if (bitRead(_Last_Status, 13) or bitRead(_Last_Status, 15) or bitRead(_Last_Status, 17)) return(1);
+			// Control FMIN
+			if (bitRead(_Last_Status, 21)) return(5);
 
-				// Control HV
-				if (bitRead(_Last_Status, 14) or bitRead(_Last_Status, 16) or bitRead(_Last_Status, 18)) return(2);
+			// Control FMAX
+			if (bitRead(_Last_Status, 22)) return(6);
 
-				// Control IIMB
-				if (bitRead(_Last_Status, 2)) return(10);
-
-				// Control VIMB
-				if (bitRead(_Last_Status, 3)) return(9);
-
-				// Control UPF
-				if (bitRead(_Last_Status, 10) or bitRead(_Last_Status, 11) or bitRead(_Last_Status, 12)) return(8);
-
-				// Control FMIN
-				if (bitRead(_Last_Status, 21)) return(5);
-
-				// Control FMAX
-				if (bitRead(_Last_Status, 22)) return(6);
-
-				// End Function
-				return(0);
-
-			}
+			// End Function
+			return(0);
 
 		}
 
