@@ -172,4 +172,19 @@ void loop() {
 
     Energy_Analyzer.Control_Limits();
 
+    Terminal.Text(39, 15, YELLOW, String(Energy_Analyzer.Energy(__Phase_R__,__Active_Received__)));
+    Terminal.Text(39, 26, YELLOW, String(Energy_Analyzer.Energy(__Phase_R__,__Active_Delivered__)));
+    Terminal.Text(39, 37, YELLOW, String(Energy_Analyzer.Energy(__Phase_S__,__Active_Received__)));
+    Terminal.Text(39, 48, YELLOW, String(Energy_Analyzer.Energy(__Phase_S__,__Active_Delivered__)));
+    Terminal.Text(39, 59, YELLOW, String(Energy_Analyzer.Energy(__Phase_T__,__Active_Received__)));
+    Terminal.Text(39, 70, YELLOW, String(Energy_Analyzer.Energy(__Phase_T__,__Active_Delivered__)));
+
+    Terminal.Text(39, 82, YELLOW, String(Energy_Analyzer.Energy(__Phase_R__,__ReActive_Received__)));
+    Terminal.Text(39, 95, YELLOW, String(Energy_Analyzer.Energy(__Phase_R__,__ReActive_Delivered__)));
+    Terminal.Text(39, 108, YELLOW, String(Energy_Analyzer.Energy(__Phase_S__,__ReActive_Received__)));
+    Terminal.Text(39, 121, YELLOW, String(Energy_Analyzer.Energy(__Phase_S__,__ReActive_Delivered__)));
+    Terminal.Text(39, 134, YELLOW, String(Energy_Analyzer.Energy(__Phase_T__,__ReActive_Received__)));
+    Terminal.Text(39, 147, YELLOW, String(Energy_Analyzer.Energy(__Phase_T__,__ReActive_Delivered__)));
+
+
 }
