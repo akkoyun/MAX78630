@@ -1,7 +1,3 @@
-// Scale Variables
-#define __VSCALE__ 					667
-#define __ISCALE__ 					7
-
 // Phase Type
 #define __Phase_R__					(uint8_t)1
 #define __Phase_S__					(uint8_t)2
