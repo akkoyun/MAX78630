@@ -2797,42 +2797,28 @@ class MAX78630 {
 			// Read Status Register
 			uint32_t _Last_Status = this->Register_Pointer_Read(this->Registers.STATUS);
 
-			// Control IIMB
-			if (bitRead(_Last_Status, 2) ? this->Status.Imbalance.I_IMBAL = true : this->Status.Imbalance.I_IMBAL = false);
-			
-			// Control VIMB
-			if (bitRead(_Last_Status, 3) ? this->Status.Imbalance.V_IMBAL = true : this->Status.Imbalance.V_IMBAL = false);
-
-			// Control VSAG
-			if (bitRead(_Last_Status, 4) ? this->Status.SAG.VA_SAG = true : this->Status.SAG.VA_SAG = false);
-			if (bitRead(_Last_Status, 5) ? this->Status.SAG.VB_SAG = true : this->Status.SAG.VB_SAG = false);
-			if (bitRead(_Last_Status, 6) ? this->Status.SAG.VC_SAG = true : this->Status.SAG.VC_SAG = false);
-
-			// Control Current
-			if (bitRead(_Last_Status, 7) ? this->Status.Current.OV_IRMSA = true : this->Status.Current.OV_IRMSA = false);
-			if (bitRead(_Last_Status, 8) ? this->Status.Current.OV_IRMSB = true : this->Status.Current.OV_IRMSB = false);
-			if (bitRead(_Last_Status, 9) ? this->Status.Current.OV_IRMSC = true : this->Status.Current.OV_IRMSC = false);
-
-			// Control Power Factor
-			if (bitRead(_Last_Status, 10) ? this->Status.PowerFactor.UN_PFA = true : this->Status.PowerFactor.UN_PFA = false);
-			if (bitRead(_Last_Status, 11) ? this->Status.PowerFactor.UN_PFB = true : this->Status.PowerFactor.UN_PFB = false);
-			if (bitRead(_Last_Status, 12) ? this->Status.PowerFactor.UN_PFC = true : this->Status.PowerFactor.UN_PFC = false);
-
-			// Control Voltage
-			if (bitRead(_Last_Status, 13) ? this->Status.Voltage.UN_VRMSA = true : this->Status.Voltage.UN_VRMSA = false);
-			if (bitRead(_Last_Status, 14) ? this->Status.Voltage.OV_VRMSA = true : this->Status.Voltage.OV_VRMSA = false);
-			if (bitRead(_Last_Status, 15) ? this->Status.Voltage.UN_VRMSB = true : this->Status.Voltage.UN_VRMSB = false);
-			if (bitRead(_Last_Status, 16) ? this->Status.Voltage.OV_VRMSB = true : this->Status.Voltage.OV_VRMSB = false);
-			if (bitRead(_Last_Status, 17) ? this->Status.Voltage.UN_VRMSC = true : this->Status.Voltage.UN_VRMSC = false);
-			if (bitRead(_Last_Status, 18) ? this->Status.Voltage.OV_VRMSC = true : this->Status.Voltage.OV_VRMSC = false);
-
-			// Control Temperature
-			if (bitRead(_Last_Status, 19) ? this->Status.Temperature.UN_Temp = true : this->Status.Temperature.UN_Temp = false);
-			if (bitRead(_Last_Status, 20) ? this->Status.Temperature.OV_Temp = true : this->Status.Temperature.OV_Temp = false);
-
-			// Control Frequency
-			if (bitRead(_Last_Status, 21) ? this->Status.Frequency.UN_Freq = true : this->Status.Frequency.UN_Freq = false);
-			if (bitRead(_Last_Status, 22) ? this->Status.Frequency.OV_Freq = true : this->Status.Frequency.OV_Freq = false);
+			// Control Status
+			if (bitRead(_Last_Status, 2)) {this->Status.Imbalance.I_IMBAL = true;} else {this->Status.Imbalance.I_IMBAL = false;}
+			if (bitRead(_Last_Status, 3)) {this->Status.Imbalance.V_IMBAL = true;} else {this->Status.Imbalance.V_IMBAL = false;}
+			if (bitRead(_Last_Status, 4)) {this->Status.SAG.VA_SAG = true;} else {this->Status.SAG.VA_SAG = false;}
+			if (bitRead(_Last_Status, 5)) {this->Status.SAG.VB_SAG = true;} else {this->Status.SAG.VB_SAG = false;}
+			if (bitRead(_Last_Status, 6)) {this->Status.SAG.VC_SAG = true;} else {this->Status.SAG.VC_SAG = false;}
+			if (bitRead(_Last_Status, 7)) {this->Status.Current.OV_IRMSA = true;} else {this->Status.Current.OV_IRMSA = false;}
+			if (bitRead(_Last_Status, 8)) {this->Status.Current.OV_IRMSB = true;} else {this->Status.Current.OV_IRMSB = false;}
+			if (bitRead(_Last_Status, 9)) {this->Status.Current.OV_IRMSC = true;} else {this->Status.Current.OV_IRMSC = false;}
+			if (bitRead(_Last_Status, 10)) {this->Status.PowerFactor.UN_PFA = true;} else {this->Status.PowerFactor.UN_PFA = false;}
+			if (bitRead(_Last_Status, 11)) {this->Status.PowerFactor.UN_PFB = true;} else {this->Status.PowerFactor.UN_PFB = false;}
+			if (bitRead(_Last_Status, 12)) {this->Status.PowerFactor.UN_PFC = true;} else {this->Status.PowerFactor.UN_PFC = false;}
+			if (bitRead(_Last_Status, 13)) {this->Status.Voltage.UN_VRMSA = true;} else {this->Status.Voltage.UN_VRMSA = false;}
+			if (bitRead(_Last_Status, 14)) {this->Status.Voltage.OV_VRMSA = true;} else {this->Status.Voltage.OV_VRMSA = false;}
+			if (bitRead(_Last_Status, 15)) {this->Status.Voltage.UN_VRMSB = true;} else {this->Status.Voltage.UN_VRMSB = false;}
+			if (bitRead(_Last_Status, 16)) {this->Status.Voltage.OV_VRMSB = true;} else {this->Status.Voltage.OV_VRMSB = false;}
+			if (bitRead(_Last_Status, 17)) {this->Status.Voltage.UN_VRMSC = true;} else {this->Status.Voltage.UN_VRMSC = false;}
+			if (bitRead(_Last_Status, 18)) {this->Status.Voltage.OV_VRMSC = true;} else {this->Status.Voltage.OV_VRMSC = false;}
+			if (bitRead(_Last_Status, 19)) {this->Status.Temperature.UN_Temp = true;} else {this->Status.Temperature.UN_Temp = false;}
+			if (bitRead(_Last_Status, 20)) {this->Status.Temperature.OV_Temp = true;} else {this->Status.Temperature.OV_Temp = false;}
+			if (bitRead(_Last_Status, 21)) {this->Status.Frequency.UN_Freq = true;} else {this->Status.Frequency.UN_Freq = false;}
+			if (bitRead(_Last_Status, 22)) {this->Status.Frequency.OV_Freq = true;} else {this->Status.Frequency.OV_Freq = false;}
 
 		}
 	
