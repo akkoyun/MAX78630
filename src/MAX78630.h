@@ -845,42 +845,155 @@ class MAX78630 {
 		 */
 		float Voltage(const uint8_t _Phase, const uint8_t _Type) {
 
-			// Phase Select
-			if (_Phase == __Phase_R__) {
+			// Decide Phase
+			switch (_Phase) {
 
-				// Measurement Type Select
-				if (_Type == __RMS__) 				return(this->Register_Pointer_Read(this->Registers.VA_RMS) * this->Config.VScale);
-				else if (_Type == __Instant__) 		return(this->Register_Pointer_Read(this->Registers.VA) * this->Config.VScale);
-				else if (_Type == __Fundamental__) 	return(this->Register_Pointer_Read(this->Registers.VFUND_A) * this->Config.VScale);
-				else if (_Type == __Harmonic__) 	return(this->Register_Pointer_Read(this->Registers.VHARM_A) * this->Config.VScale);
+				case __Phase_R__:
 
-			} else if (_Phase == __Phase_S__) {
+					// Decide Type
+					switch (_Type) {
 
-				// Measurement Type Select
-				if (_Type == __RMS__) 				return(this->Register_Pointer_Read(this->Registers.VB_RMS) * this->Config.VScale);
-				else if (_Type == __Instant__)		return(this->Register_Pointer_Read(this->Registers.VB) * this->Config.VScale);
-				else if (_Type == __Fundamental__)	return(this->Register_Pointer_Read(this->Registers.VFUND_B) * this->Config.VScale);
-				else if (_Type == __Harmonic__)		return(this->Register_Pointer_Read(this->Registers.VHARM_B) * this->Config.VScale);
+						case __RMS__:
 
-			} else if (_Phase == __Phase_T__) {
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VA_RMS) * this->Config.VScale);
 
-				// Measurement Type Select
-				if (_Type == __RMS__)				return(this->Register_Pointer_Read(this->Registers.VC_RMS) * this->Config.VScale);
-				else if (_Type == __Instant__)		return(this->Register_Pointer_Read(this->Registers.VC) * this->Config.VScale);
-				else if (_Type == __Fundamental__) 	return(this->Register_Pointer_Read(this->Registers.VFUND_C) * this->Config.VScale);
-				else if (_Type == __Harmonic__) 	return(this->Register_Pointer_Read(this->Registers.VHARM_C) * this->Config.VScale);
+							// End Case
+							break;
 
-			} else if (_Phase == __Phase_Avg__) {
+						case __Instant__:
 
-				// Measurement Type Select
-				if (_Type == __RMS__)				return(this->Register_Pointer_Read(this->Registers.VT_RMS) * this->Config.VScale);
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VA) * this->Config.VScale);
 
-			} else {
+							// End Case
+							break;
 
-				// End Function
-				return(0);
+						case __Fundamental__:
 
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VFUND_A) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VHARM_A) * this->Config.VScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_S__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __RMS__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VB_RMS) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Instant__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VB) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VFUND_B) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VHARM_B) * this->Config.VScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_T__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __RMS__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VC_RMS) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Instant__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VC) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VFUND_C) * this->Config.VScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VHARM_C) * this->Config.VScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_Avg__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.VT_RMS) * this->Config.VScale);
+
+					// End Case
+					break;
+
+			default:
+				break;
 			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -905,48 +1018,203 @@ class MAX78630 {
 		 */
 		float Current(const uint8_t _Phase, const uint8_t _Type) {
 
-			// Phase Select
-			if (_Phase == __Phase_R__) {
+			// Decide Phase
+			switch (_Phase) {
 
-				// Measurement Type Select
-				if (_Type == __RMS__) 						return(this->Register_Pointer_Read(this->Registers.IA_RMS) * this->Config.IScale);
-				else if (_Type == __Instant__) 				return(this->Register_Pointer_Read(this->Registers.IA) * this->Config.IScale);
-				else if (_Type == __Fundamental__)			return(this->Register_Pointer_Read(this->Registers.IFUND_A) * this->Config.IScale);
-				else if (_Type == __Harmonic__)				return(this->Register_Pointer_Read(this->Registers.IHARM_A) * this->Config.IScale);
-				else if (_Type == __Peak__)					return(this->Register_Pointer_Read(this->Registers.IA_PEAK) * this->Config.IScale);
-				else if (_Type == __Phase_Compensation__)	return(this->Register_Pointer_Read(this->Registers.PHASECOMP1) * this->Config.IScale);
+				case __Phase_R__:
 
-			} else if (_Phase == __Phase_S__) {
+					// Decide Type
+					switch (_Type) {
 
-				// Measurement Type Select
-				if (_Type == __RMS__) 						return(this->Register_Pointer_Read(this->Registers.IB_RMS) * this->Config.IScale);
-				else if (_Type == __Instant__)				return(this->Register_Pointer_Read(this->Registers.IB) * this->Config.IScale);
-				else if (_Type == __Fundamental__) 			return(this->Register_Pointer_Read(this->Registers.IFUND_B) * this->Config.IScale);
-				else if (_Type == __Harmonic__) 			return(this->Register_Pointer_Read(this->Registers.IHARM_B) * this->Config.IScale);
-				else if (_Type == __Peak__) 				return(this->Register_Pointer_Read(this->Registers.IB_PEAK) * this->Config.IScale);
-				else if (_Type == __Phase_Compensation__) 	return(this->Register_Pointer_Read(this->Registers.PHASECOMP2) * this->Config.IScale);
+						case __RMS__:
 
-			} else if (_Phase == __Phase_T__) {
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IA_RMS) * this->Config.IScale);
 
-				// Measurement Type Select
-				if (_Type == __RMS__) 						return(this->Register_Pointer_Read(this->Registers.IC_RMS) * this->Config.IScale);
-				else if (_Type == __Instant__) 				return(this->Register_Pointer_Read(this->Registers.IC) * this->Config.IScale);
-				else if (_Type == __Fundamental__) 			return(this->Register_Pointer_Read(this->Registers.IFUND_C) * this->Config.IScale);
-				else if (_Type == __Harmonic__) 			return(this->Register_Pointer_Read(this->Registers.IHARM_C) * this->Config.IScale);
-				else if (_Type == __Peak__) 				return(this->Register_Pointer_Read(this->Registers.IC_PEAK) * this->Config.IScale);
-				else if (_Type == __Phase_Compensation__) 	return(this->Register_Pointer_Read(this->Registers.PHASECOMP3) * this->Config.IScale);
+							// End Case
+							break;
 
-			} else if (_Phase == __Phase_Avg__) {
+						case __Instant__:
 
-				// Measurement Type Select
-				if (_Type == __RMS__) 						return(this->Register_Pointer_Read(this->Registers.IT_RMS) * this->Config.IScale);
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IA) * this->Config.IScale);
 
-			} else {
+							// End Case
+							break;
 
-				// End Function
-				return(0);
+						case __Fundamental__:
 
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IFUND_A) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IHARM_A) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Peak__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IA_PEAK) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Phase_Compensation__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.PHASECOMP1) * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_S__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __RMS__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IB_RMS) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Instant__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IB) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IFUND_B) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IHARM_B) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Peak__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IB_PEAK) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Phase_Compensation__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.PHASECOMP2) * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_T__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __RMS__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IC_RMS) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Instant__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IC) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IFUND_C) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IHARM_C) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Peak__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.IC_PEAK) * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Phase_Compensation__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.PHASECOMP3) * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_Avg__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.IT_RMS) * this->Config.IScale);
+
+					// End Case
+					break;
+
+			default:
+				break;
 			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -1501,19 +1769,104 @@ class MAX78630 {
 		 */
 		bool Set_Limit(const uint8_t _Limit_Type, const float _Limit_Value) {
 
-			// Return Register
-			if (_Limit_Type == __VRMS_MIN__) return(this->Register_Pointer_Set(this->Registers.VRMS_MIN, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MIN.Data_Type)));
-			else if (_Limit_Type == __VRMS_MAX__) return(this->Register_Pointer_Set(this->Registers.VRMS_MAX, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MAX.Data_Type)));
-			else if (_Limit_Type == __IRMS_MAX__) return(this->Register_Pointer_Set(this->Registers.IRMS_MAX, this->FtoS(_Limit_Value / Config.IScale, this->Registers.IRMS_MAX.Data_Type)));
-			else if (_Limit_Type == __F_MIN__) return(this->Register_Pointer_Set(this->Registers.F_MIN, this->FtoS(_Limit_Value, this->Registers.F_MIN.Data_Type)));
-			else if (_Limit_Type == __F_MAX__) return(this->Register_Pointer_Set(this->Registers.F_MAX, this->FtoS(_Limit_Value, this->Registers.F_MAX.Data_Type)));
-			else if (_Limit_Type == __T_MIN__) return(this->Register_Pointer_Set(this->Registers.T_MIN, this->FtoS(_Limit_Value, this->Registers.T_MIN.Data_Type)));
-			else if (_Limit_Type == __T_MAX__) return(this->Register_Pointer_Set(this->Registers.T_MAX, this->FtoS(_Limit_Value, this->Registers.T_MAX.Data_Type)));
-			else if (_Limit_Type == __PF_MIN__) return(this->Register_Pointer_Set(this->Registers.PF_MIN, this->FtoS(_Limit_Value, this->Registers.PF_MIN.Data_Type)));
-			else if (_Limit_Type == __VSAG_LIM__) return(this->Register_Pointer_Set(this->Registers.VSAG_LIM, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VSAG_LIM.Data_Type)));
-			else if (_Limit_Type == __VIMB_MAX__) return(this->Register_Pointer_Set(this->Registers.V_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.V_IMB_MAX.Data_Type)));
-			else if (_Limit_Type == __IIMB_MAX__) return(this->Register_Pointer_Set(this->Registers.I_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.I_IMB_MAX.Data_Type)));
-			else return(false);
+			// Decide Type
+			switch (_Limit_Type) {
+
+				case __VRMS_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.VRMS_MIN, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MIN.Data_Type)));
+
+					// End Case
+					break;
+
+				case __VRMS_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.VRMS_MAX, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MAX.Data_Type)));
+
+					// End Case
+					break;
+
+				case __IRMS_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.IRMS_MAX, this->FtoS(_Limit_Value / Config.IScale, this->Registers.IRMS_MAX.Data_Type)));
+
+					// End Case
+					break;
+
+				case __F_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.F_MIN, this->FtoS(_Limit_Value, this->Registers.F_MIN.Data_Type)));
+
+					// End Case
+					break;
+
+				case __F_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.F_MAX, this->FtoS(_Limit_Value, this->Registers.F_MAX.Data_Type)));
+
+					// End Case
+					break;
+
+				case __T_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.T_MIN, this->FtoS(_Limit_Value, this->Registers.T_MIN.Data_Type)));
+
+					// End Case
+					break;
+
+				case __T_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.T_MAX, this->FtoS(_Limit_Value, this->Registers.T_MAX.Data_Type)));
+
+					// End Case
+					break;
+
+				case __PF_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.PF_MIN, this->FtoS(_Limit_Value, this->Registers.PF_MIN.Data_Type)));
+
+					// End Case
+					break;
+
+				case __VSAG_LIM__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.VSAG_LIM, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VSAG_LIM.Data_Type)));
+
+					// End Case
+					break;
+
+				case __VIMB_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.V_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.V_IMB_MAX.Data_Type)));
+
+					// End Case
+					break;
+
+				case __IIMB_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.I_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.I_IMB_MAX.Data_Type)));
+
+					// End Case
+					break;
+
+
+			default:
+				break;
+			}
+
+			// End Function
+			return(false);
 
 		}
 
@@ -1525,19 +1878,104 @@ class MAX78630 {
 		 */
 		float Get_Limit(const uint8_t _Limit_Type) {
 
-			// Return Register
-			if (_Limit_Type == __VRMS_MIN__) return(this->Register_Pointer_Read(this->Registers.VRMS_MIN) * Config.VScale);
-			else if (_Limit_Type == __VRMS_MAX__) return(this->Register_Pointer_Read(this->Registers.VRMS_MAX) * Config.VScale);
-			else if (_Limit_Type == __IRMS_MAX__) return(this->Register_Pointer_Read(this->Registers.IRMS_MAX) * Config.IScale);
-			else if (_Limit_Type == __F_MIN__) return(this->Register_Pointer_Read(this->Registers.F_MIN));
-			else if (_Limit_Type == __F_MAX__) return(this->Register_Pointer_Read(this->Registers.F_MAX));
-			else if (_Limit_Type == __T_MIN__) return(this->Register_Pointer_Read(this->Registers.T_MIN));
-			else if (_Limit_Type == __T_MAX__) return(this->Register_Pointer_Read(this->Registers.T_MAX));
-			else if (_Limit_Type == __PF_MIN__) return(this->Register_Pointer_Read(this->Registers.PF_MIN));
-			else if (_Limit_Type == __VSAG_LIM__) return(this->Register_Pointer_Read(this->Registers.VSAG_LIM) * Config.VScale);
-			else if (_Limit_Type == __VIMB_MAX__) return(this->Register_Pointer_Read(this->Registers.V_IMB_MAX));
-			else if (_Limit_Type == __IIMB_MAX__) return(this->Register_Pointer_Read(this->Registers.I_IMB_MAX));
-			else return(0);
+			// Decide Type
+			switch (_Limit_Type) {
+
+				case __VRMS_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.VRMS_MIN) * Config.VScale);
+
+					// End Case
+					break;
+
+				case __VRMS_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.VRMS_MAX) * Config.VScale);
+
+					// End Case
+					break;
+
+				case __IRMS_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.IRMS_MAX) * Config.IScale);
+
+					// End Case
+					break;
+
+				case __F_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.F_MIN));
+
+					// End Case
+					break;
+
+				case __F_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.F_MAX));
+
+					// End Case
+					break;
+
+				case __T_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.T_MIN));
+
+					// End Case
+					break;
+
+				case __T_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.T_MAX));
+
+					// End Case
+					break;
+
+				case __PF_MIN__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.PF_MIN));
+
+					// End Case
+					break;
+
+				case __VSAG_LIM__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.VSAG_LIM) * Config.VScale);
+
+					// End Case
+					break;
+
+				case __VIMB_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.V_IMB_MAX));
+
+					// End Case
+					break;
+
+				case __IIMB_MAX__:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.I_IMB_MAX));
+
+					// End Case
+					break;
+
+
+			default:
+				break;
+			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -1553,21 +1991,80 @@ class MAX78630 {
 		 */
 		bool Set_Min_Max_Address(const uint8_t _MM_ADDR, const uint32_t _Mask) {
 
-			// Define Result Variable
-			bool _Result = false;
+			// Decide Address
+			switch (_MM_ADDR) {
 
-			// Decide Command
-			if (_MM_ADDR == 1) _Result = this->Register_Pointer_Set(this->Registers.MMADDR0, _Mask);
-			if (_MM_ADDR == 2) _Result = this->Register_Pointer_Set(this->Registers.MMADDR1, _Mask);
-			if (_MM_ADDR == 3) _Result = this->Register_Pointer_Set(this->Registers.MMADDR2, _Mask);
-			if (_MM_ADDR == 4) _Result = this->Register_Pointer_Set(this->Registers.MMADDR3, _Mask);
-			if (_MM_ADDR == 5) _Result = this->Register_Pointer_Set(this->Registers.MMADDR4, _Mask);
-			if (_MM_ADDR == 6) _Result = this->Register_Pointer_Set(this->Registers.MMADDR5, _Mask);
-			if (_MM_ADDR == 7) _Result = this->Register_Pointer_Set(this->Registers.MMADDR6, _Mask);
-			if (_MM_ADDR == 8) _Result = this->Register_Pointer_Set(this->Registers.MMADDR7, _Mask);
+				case 1:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR0, _Mask));
+
+					// End Case
+					break;
+
+				case 2:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR1, _Mask));
+
+					// End Case
+					break;
+
+				case 3:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR2, _Mask));
+
+					// End Case
+					break;
+
+				case 4:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR3, _Mask));
+
+					// End Case
+					break;
+
+				case 5:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR4, _Mask));
+
+					// End Case
+					break;
+
+				case 6:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR5, _Mask));
+
+					// End Case
+					break;
+
+				case 7:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR6, _Mask));
+
+					// End Case
+					break;
+
+				case 8:
+
+					// Get Register
+					return(this->Register_Pointer_Set(this->Registers.MMADDR7, _Mask));
+
+					// End Case
+					break;
+
+
+			default:
+				break;
+			}
 
 			// End Function
-			return(_Result);
+			return(false);
 
 		}
 
@@ -1579,15 +2076,80 @@ class MAX78630 {
 		 */
 		float Get_Min_Value(const uint8_t _MM_ADDR) {
 
-			if (_MM_ADDR == 1) return(this->Register_Pointer_Read(this->Registers.MIN0) * Config.VScale); 
-			else if (_MM_ADDR == 2) return(this->Register_Pointer_Read(this->Registers.MIN1) * Config.VScale);
-			else if (_MM_ADDR == 3) return(this->Register_Pointer_Read(this->Registers.MIN2) * Config.VScale);
-			else if (_MM_ADDR == 4) return(this->Register_Pointer_Read(this->Registers.MIN3) * Config.IScale);
-			else if (_MM_ADDR == 5) return(this->Register_Pointer_Read(this->Registers.MIN4) * Config.IScale);
-			else if (_MM_ADDR == 6) return(this->Register_Pointer_Read(this->Registers.MIN5) * Config.IScale);
-			else if (_MM_ADDR == 7) return(this->Register_Pointer_Read(this->Registers.MIN6));
-			else if (_MM_ADDR == 8) return(this->Register_Pointer_Read(this->Registers.MIN7));
-			else return(0);
+			// Decide Address
+			switch (_MM_ADDR) {
+
+				case 1:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN0) * Config.VScale);
+
+					// End Case
+					break;
+
+				case 2:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN1) * Config.VScale);
+
+					// End Case
+					break;
+
+				case 3:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN2) * Config.VScale);
+
+					// End Case
+					break;
+
+				case 4:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN3) * Config.IScale);
+
+					// End Case
+					break;
+
+				case 5:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN4) * Config.IScale);
+
+					// End Case
+					break;
+
+				case 6:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN5) * Config.IScale);
+
+					// End Case
+					break;
+
+				case 7:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN6));
+
+					// End Case
+					break;
+
+				case 8:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MIN7));
+
+					// End Case
+					break;
+
+
+			default:
+				break;
+			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -1599,43 +2161,80 @@ class MAX78630 {
 		 */
 		float Get_Max_Value(const uint8_t _MM_ADDR) {
 
-			if (_MM_ADDR == 1) {
+			// Decide Address
+			switch (_MM_ADDR) {
 
-				return(this->Register_Pointer_Read(this->Registers.MAX0) * Config.VScale);
+				case 1:
 
-			} else if (_MM_ADDR == 2) {
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX0) * Config.VScale);
 
-				return(this->Register_Pointer_Read(this->Registers.MAX1) * Config.VScale);
+					// End Case
+					break;
 
-			} else if (_MM_ADDR == 3) {
+				case 2:
 
-				return(this->Register_Pointer_Read(this->Registers.MAX2) * Config.VScale);
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX1) * Config.VScale);
 
-			} else if (_MM_ADDR == 4) {
+					// End Case
+					break;
 
-				return(this->Register_Pointer_Read(this->Registers.MAX3) * Config.IScale);
+				case 3:
 
-			} else if (_MM_ADDR == 5) {
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX2) * Config.VScale);
 
-				return(this->Register_Pointer_Read(this->Registers.MAX4) * Config.IScale);
+					// End Case
+					break;
 
-			} else if (_MM_ADDR == 6) {
+				case 4:
 
-				return(this->Register_Pointer_Read(this->Registers.MAX5) * Config.IScale);
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX3) * Config.IScale);
 
-			} else if (_MM_ADDR == 7) {
+					// End Case
+					break;
 
-				return(this->Register_Pointer_Read(this->Registers.MAX6));
+				case 5:
 
-			} else if (_MM_ADDR == 8) {
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX4) * Config.IScale);
 
-				return(this->Register_Pointer_Read(this->Registers.MAX7));
+					// End Case
+					break;
 
-			} else {
+				case 6:
 
-				return(0);
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX5) * Config.IScale);
 
+					// End Case
+					break;
+
+				case 7:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX6));
+
+					// End Case
+					break;
+
+				case 8:
+
+					// Get Register
+					return(this->Register_Pointer_Read(this->Registers.MAX7));
+
+					// End Case
+					break;
+
+
+			default:
+				break;
 			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -1648,17 +2247,104 @@ class MAX78630 {
 		 */
 		bool Clear_Min_Value(const uint8_t _MM_ADDR) {
 
-			if (_MM_ADDR == 1) Register_Pointer_Set(this->Registers.MIN0, 0x00);
-			else if (_MM_ADDR == 2) Register_Pointer_Set(this->Registers.MIN1, 0x00);
-			else if (_MM_ADDR == 3) Register_Pointer_Set(this->Registers.MIN2, 0x00);
-			else if (_MM_ADDR == 4) Register_Pointer_Set(this->Registers.MIN3, 0x00);
-			else if (_MM_ADDR == 5) Register_Pointer_Set(this->Registers.MIN4, 0x00);
-			else if (_MM_ADDR == 6) Register_Pointer_Set(this->Registers.MIN5, 0x00);
-			else if (_MM_ADDR == 7) Register_Pointer_Set(this->Registers.MIN6, 0x00);
-			else if (_MM_ADDR == 8) Register_Pointer_Set(this->Registers.MIN7, 0x00);
+			// Decide Address
+			switch (_MM_ADDR) {
+
+				case 1:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN0, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 2:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN1, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 3:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN2, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 4:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN3, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 5:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN4, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 6:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN5, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 7:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN6, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 8:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MIN7, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+
+			default:
+				break;
+			}
 
 			// End Function
-			return(true);
+			return(false);
 
 		}
 
@@ -1671,17 +2357,104 @@ class MAX78630 {
 		 */
 		bool Clear_Max_Value(const uint8_t _MM_ADDR) {
 
-			if (_MM_ADDR == 1) Register_Pointer_Set(this->Registers.MAX0, 0x00);
-			else if (_MM_ADDR == 2) Register_Pointer_Set(this->Registers.MAX1, 0x00);
-			else if (_MM_ADDR == 3) Register_Pointer_Set(this->Registers.MAX2, 0x00);
-			else if (_MM_ADDR == 4) Register_Pointer_Set(this->Registers.MAX3, 0x00);
-			else if (_MM_ADDR == 5) Register_Pointer_Set(this->Registers.MAX4, 0x00);
-			else if (_MM_ADDR == 6) Register_Pointer_Set(this->Registers.MAX5, 0x00);
-			else if (_MM_ADDR == 7) Register_Pointer_Set(this->Registers.MAX6, 0x00);
-			else if (_MM_ADDR == 8) Register_Pointer_Set(this->Registers.MAX7, 0x00);
+			// Decide Address
+			switch (_MM_ADDR) {
+
+				case 1:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX0, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 2:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX1, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 3:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX2, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 4:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX3, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 5:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX4, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 6:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX5, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 7:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX6, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+				case 8:
+
+					// Clear Register
+					Register_Pointer_Set(this->Registers.MAX7, 0x00);
+
+					// End Function
+					return(true);
+
+					// End Case
+					break;
+
+
+			default:
+				break;
+			}
 
 			// End Function
-			return(true);
+			return(false);
 
 		}
 
@@ -1987,8 +2760,11 @@ class MAX78630 {
 			// Return Result
 			uint32_t _Sticky = this->Register_Pointer_Read(this->Registers.STICKY);
 
-			if (_Sticky != 0x800001) return(true);
-			else return(false);
+			// Decide Status
+			if (_Sticky != 0x800001) {return(true);} else {return(false);}
+
+			// End Function
+			return(false);
 
 		}
 
@@ -2006,6 +2782,9 @@ class MAX78630 {
 			// Return Result
 			if (!_Sticky) return(this->Register_Pointer_Set(this->Registers.STICKY, (_Current_Sticky & 0xFF800003)));
 			if (_Sticky) return(this->Register_Pointer_Set(this->Registers.STICKY, (_Current_Sticky | 0x7FFFFC)));
+
+			// End Function
+			return(false);
 
 		}
 
