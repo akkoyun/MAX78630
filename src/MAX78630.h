@@ -1284,68 +1284,189 @@ class MAX78630 {
 		 */
 		float Energy(const uint8_t _Phase, const uint8_t _Type) {
 
-			// Phase Select
-			if (_Phase == __Phase_R__) {
+			// Decide Phase
+			switch (_Phase) {
 
-				// Measurement Type Select
-				if (_Type == __Active_Received__) 			return(this->Register_Pointer_Read(this->Registers.WHA_POS));
-				else if (_Type == __Active_Delivered__) 	return(this->Register_Pointer_Read(this->Registers.WHA_NEG));
-				else if (_Type == __ReActive_Received__)	return(this->Register_Pointer_Read(this->Registers.VARHA_POS));
-				else if (_Type == __ReActive_Delivered__) 	return(this->Register_Pointer_Read(this->Registers.VARHA_NEG));
-				else if (_Type == __Energy_Reset__) {
+				case __Phase_R__:
 
-					// Clear Register
-					Register_Pointer_Set(this->Registers.WHA_POS, 0x00);
-					Register_Pointer_Set(this->Registers.VARHA_POS, 0x00);
-					Register_Pointer_Set(this->Registers.WHA_NEG, 0x00);
-					Register_Pointer_Set(this->Registers.VARHA_NEG, 0x00);
+					// Decide Type
+					switch (_Type) {
 
-					// End Function
-					return(1);
+						case __Active_Received__:
 
-				}
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.WHA_POS));
 
-			} else if (_Phase == __Phase_S__) {
+							// End Case
+							break;
 
-				// Measurement Type Select
-				if (_Type == __Active_Received__) 			return(this->Register_Pointer_Read(this->Registers.WHB_POS));
-				else if (_Type == __Active_Delivered__) 	return(this->Register_Pointer_Read(this->Registers.WHB_NEG));
-				else if (_Type == __ReActive_Received__) 	return(this->Register_Pointer_Read(this->Registers.VARHB_POS));
-				else if (_Type == __ReActive_Delivered__) 	return(this->Register_Pointer_Read(this->Registers.VARHB_NEG));
-				else if (_Type == __Energy_Reset__) {
+						case __Active_Delivered__:
 
-					// Clear Register
-					Register_Pointer_Set(this->Registers.WHB_POS, 0x00);
-					Register_Pointer_Set(this->Registers.VARHB_POS, 0x00);
-					Register_Pointer_Set(this->Registers.WHB_NEG, 0x00);
-					Register_Pointer_Set(this->Registers.VARHB_NEG, 0x00);
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.WHA_NEG));
 
-					// End Function
-					return(1);
-					
-				}
+							// End Case
+							break;
 
-			} else if (_Phase == __Phase_T__) {
+						case __ReActive_Received__:
 
-				// Measurement Type Select
-				if (_Type == __Active_Received__) 			return(this->Register_Pointer_Read(this->Registers.WHC_POS));
-				else if (_Type == __Active_Delivered__) 	return(this->Register_Pointer_Read(this->Registers.WHC_NEG));
-				else if (_Type == __ReActive_Received__)	return(this->Register_Pointer_Read(this->Registers.VARHC_POS));
-				else if (_Type == __ReActive_Delivered__) 	return(this->Register_Pointer_Read(this->Registers.VARHC_NEG));
-				else if (_Type == __Energy_Reset__) {
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VARHA_POS));
 
-					// Clear Register
-					Register_Pointer_Set(this->Registers.WHC_POS, 0x00);
-					Register_Pointer_Set(this->Registers.VARHC_POS, 0x00);
-					Register_Pointer_Set(this->Registers.WHC_NEG, 0x00);
-					Register_Pointer_Set(this->Registers.VARHC_NEG, 0x00);
+							// End Case
+							break;
 
-					// End Function
-					return(1);
-					
-				}
+						case __ReActive_Delivered__:
 
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VARHA_NEG));
+
+							// End Case
+							break;
+
+						case __Energy_Reset__:
+
+							// Clear Register
+							this->Register_Pointer_Set(this->Registers.WHA_POS, 0x00);
+							this->Register_Pointer_Set(this->Registers.VARHA_POS, 0x00);
+							this->Register_Pointer_Set(this->Registers.WHA_NEG, 0x00);
+							this->Register_Pointer_Set(this->Registers.VARHA_NEG, 0x00);
+
+							// End Function
+							return(1);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_S__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __Active_Received__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.WHB_POS));
+
+							// End Case
+							break;
+
+						case __Active_Delivered__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.WHB_NEG));
+
+							// End Case
+							break;
+
+						case __ReActive_Received__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VARHB_POS));
+
+							// End Case
+							break;
+
+						case __ReActive_Delivered__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VARHB_NEG));
+
+							// End Case
+							break;
+
+						case __Energy_Reset__:
+
+							// Clear Register
+							this->Register_Pointer_Set(this->Registers.WHB_POS, 0x00);
+							this->Register_Pointer_Set(this->Registers.VARHB_POS, 0x00);
+							this->Register_Pointer_Set(this->Registers.WHB_NEG, 0x00);
+							this->Register_Pointer_Set(this->Registers.VARHB_NEG, 0x00);
+
+							// End Function
+							return(1);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_T__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __Active_Received__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.WHC_POS));
+
+							// End Case
+							break;
+
+						case __Active_Delivered__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.WHC_NEG));
+
+							// End Case
+							break;
+
+						case __ReActive_Received__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VARHC_POS));
+
+							// End Case
+							break;
+
+						case __ReActive_Delivered__:
+
+							// Get Register
+							return(this->Register_Pointer_Read(this->Registers.VARHC_NEG));
+
+							// End Case
+							break;
+
+						case __Energy_Reset__:
+
+							// Clear Register
+							this->Register_Pointer_Set(this->Registers.WHC_POS, 0x00);
+							this->Register_Pointer_Set(this->Registers.VARHC_POS, 0x00);
+							this->Register_Pointer_Set(this->Registers.WHC_NEG, 0x00);
+							this->Register_Pointer_Set(this->Registers.VARHC_NEG, 0x00);
+
+							// End Function
+							return(1);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+			default:
+				break;
 			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -1357,11 +1478,47 @@ class MAX78630 {
 		 */
 		float Power_Factor(const uint8_t _Phase) {
 
-			// Phase Select
-			if (_Phase == __Phase_R__) 			return(this->Register_Pointer_Read(this->Registers.PFA));
-			else if (_Phase == __Phase_S__) 	return(this->Register_Pointer_Read(this->Registers.PFB));
-			else if (_Phase == __Phase_T__) 	return(this->Register_Pointer_Read(this->Registers.PFC));
-			else if (_Phase == __Phase_Avg__) 	return(this->Register_Pointer_Read(this->Registers.PF_T));
+			// Decide Phase
+			switch (_Phase) {
+
+				case __Phase_R__:
+
+					// Return Register
+					return(this->Register_Pointer_Read(this->Registers.PFA));
+
+					// End Case
+					break;
+
+				case __Phase_S__:
+
+					// Return Register
+					return(this->Register_Pointer_Read(this->Registers.PFB));
+
+					// End Case
+					break;
+
+				case __Phase_T__:
+
+					// Return Register
+					return(this->Register_Pointer_Read(this->Registers.PFC));
+
+					// End Case
+					break;
+
+				case __Phase_Avg__:
+
+					// Return Register
+					return(this->Register_Pointer_Read(this->Registers.PF_T));
+
+					// End Case
+					break;
+
+			default:
+				break;
+			}
+
+			// End Function
+			return(0);
 
 		}
 
