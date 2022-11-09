@@ -28,181 +28,6 @@ class MAX78630 {
 		};
 
 		/**
-		 * @brief IC Register Address Definitions
-		 */
-		struct Register_Struct {
-			Register COMMAND 		{0x00, 		0x00, 		0};			// Selects modes, functions, or options
-			Register FW_VERSION 	{0x00, 		0x03, 		0};			// Hardware and firmware version
-			Register CONFIG 		{0x00, 		0x06, 		0};			// Selects input configuration
-			Register SAMPLES 		{0x00, 		0x09, 		0};			// Minimum high-rate samples per accumulation interval
-			Register DIVISOR 		{0x00, 		0x0C, 		0};			// Actual samples in previous accumulation interval
-			Register CYCLE 			{0x00, 		0x0F, 		0};			// High-rate sample counter
-			Register FRAME 			{0x00, 		0x12, 		0};			// Low-rate sample counter
-			Register STATUS 		{0x00, 		0x15, 		0};			// Alarm and device status bits
-			Register STATUS_CLEAR 	{0x00, 		0x18, 		0};			// Used to reset alarm/status bits
-			Register STATUS_SET 	{0x00, 		0x1B, 		0};			// Used to set/force alarm/status bits
-			Register MASK1 			{0x00, 		0x1E, 		0};			// Alarm/status mask for AL1 output pin
-			Register MASK2 			{0x00, 		0x21, 		0};			// Alarm/status mask for AL2 output pin
-			Register MASK3 			{0x00, 		0x24, 		0};			// Alarm/status mask for AL3 output pin
-			Register MASK4 			{0x00, 		0x27, 		0};			// Alarm/status mask for AL4 output pin
-			Register MASK5 			{0x00, 		0x2A, 		0};			// Alarm/status mask for AL5 output pin
-			Register STICKY 		{0x00, 		0x2D, 		0};			// Alarm/status bits to hold until cleared by host
-			Register DIO_STATE 		{0x00, 		0x30, 		0};			// State of DIO pins
-			Register DIO_DIR 		{0x00, 		0x33, 		0};			// Direction of DIO pins. 1=Input ; 0=Output
-			Register DIO_POL 		{0x00, 		0x36, 		0};			// Polarity of DIO pins. 1=Active High ; 0=Active Low
-			Register CALCYCS 		{0x00, 		0x39, 		0};			// Number of calibration cycles to average
-			Register HPF_COEF_I 	{0x00, 		0x3C, 		23};		// Current input HPF coefficient. Positive values only
-			Register HPF_COEF_V 	{0x00, 		0x3F, 		23};		// Voltage input HPF coefficient. Positive values only
-			Register PHASECOMP1 	{0x00, 		0x42, 		21};		// Phase compensation (±4 samples) for AV1 input
-			Register PHASECOMP2 	{0x00, 		0x45, 		21};		// Phase compensation (±4 samples) for AV2 input
-			Register PHASECOMP3 	{0x00, 		0x48, 		21};		// Phase compensation (±4 samples) for AV3 input
-			Register HARM 			{0x00, 		0x4B, 		0};			// Harmonic Selector, default: 1 (fundamental)
-			Register DEVADDR 		{0x00, 		0x4E, 		0};			// High order address bits for I2C and UART interfaces
-			Register BAUD 			{0x00, 		0x51, 		0};			// Baud rate for UART interface
-			Register I1_GAIN 		{0x00, 		0x54, 		21};		// Current Gain Calibration.Positive values only
-			Register I2_GAIN 		{0x00, 		0x57, 		21};		// Current Gain Calibration.Positive values only
-			Register I3_GAIN 		{0x00, 		0x5A, 		21};		// Current Gain Calibration.Positive values only
-			Register V1_GAIN 		{0x00, 		0x5D, 		21};		// Voltage Gain Calibration. Positive values only
-			Register V2_GAIN 		{0x00, 		0x60, 		21};		// Voltage Gain Calibration. Positive values only
-			Register V3_GAIN 		{0x00, 		0x63, 		21};		// Voltage Gain Calibration. Positive values only
-			Register I1_OFFS 		{0x00, 		0x66, 		23};		// Current Offset Calibration
-			Register I2_OFFS 		{0x00, 		0x69, 		23};		// Current Offset Calibration
-			Register I3_OFFS 		{0x00, 		0x6C, 		23};		// Current Offset Calibration
-			Register V1_OFFS 		{0x00, 		0x6F, 		23};		// Voltage Offset Calibration
-			Register V2_OFFS 		{0x00, 		0x72, 		23};		// Voltage Offset Calibration
-			Register V3_OFFS 		{0x00, 		0x75, 		23};		// Voltage Offset Calibration
-			Register T_GAIN 		{0x00, 		0x78, 		0};			// Temperature Slope Calibration
-			Register T_OFFS 		{0x00, 		0x7B, 		0};			// Temperature Offset Calibration
-			Register VSAG_INT 		{0x00, 		0x7E, 		0};			// Voltage sag detect interval (high-rate samples)
-			Register V_IMB_MAX 		{0x00, 		0x81, 		23};		// Voltage imbalance alarm limit. Positive values only
-			Register I_IMB_MAX 		{0x00, 		0x84, 		23};		// Current imbalance alarm limit. Positive values only
-			Register VA 			{0x00, 		0x87, 		23};		// Instantaneous Voltage
-			Register VB 			{0x00, 		0x8A, 		23};		// Instantaneous Voltage
-			Register VC 			{0x00, 		0x8D, 		23};		// Instantaneous Voltage
-			Register VA_RMS 		{0x00, 		0x90, 		23};		// RMS Voltage
-			Register VB_RMS 		{0x00, 		0x93, 		23};		// RMS Voltage
-			Register VC_RMS 		{0x00, 		0x96, 		23};		// RMS Voltage
-			Register VT_RMS 		{0x00, 		0x99, 		23};		// RMS Voltage average (Total / 3)
-			Register VFUND_A 		{0x00, 		0x9C, 		23};		// Fundamental Voltage
-			Register VFUND_B 		{0x00, 		0x9F, 		23};		// Fundamental Voltage
-			Register VFUND_C 		{0x00, 		0xA2, 		23};		// Fundamental Voltage
-			Register VHARM_A 		{0x00, 		0xA5, 		23};		// Harmonic Voltage
-			Register VHARM_B 		{0x00, 		0xA8, 		23};		// Harmonic Voltage
-			Register VHARM_C 		{0x00, 		0xAB, 		23};		// Harmonic Voltage
-			Register V_TARGET 		{0x00, 		0xAE, 		23};		// Calibration Target for Voltages. Positive values only
-			Register VRMS_MIN 		{0x00, 		0xB1, 		23};		// Voltage lower alarm limit. Positive values only
-			Register VRMS_MAX 		{0x00, 		0xB4, 		23};		// Voltage upper alarm limit. Positive values only
-			Register VSAG_LIM 		{0x00, 		0xB7, 		23};		// RMS Voltage Sag threshold. Positive values only
-			Register IA 			{0x00, 		0xBA, 		23};		// Instantaneous Current
-			Register IB 			{0x00, 		0xBD, 		23};		// Instantaneous Current
-			Register IC 			{0x00, 		0xC0, 		23};		// Instantaneous Current
-			Register IARMS_OFF 		{0x00, 		0xC3, 		23};		// RMS Current dynamic offset adjust. Positive values only
-			Register IBRMS_OFF 		{0x00, 		0xC6, 		23};		// RMS Current dynamic offset adjust. Positive values only
-			Register ICRMS_OFF 		{0x00, 		0xC9, 		23};		// RMS Current dynamic offset adjust. Positive values only
-			Register IA_PEAK 		{0x00, 		0xCC, 		23};		// Peak Current
-			Register IB_PEAK 		{0x00, 		0xCF, 		23};		// Peak Current
-			Register IC_PEAK 		{0x00, 		0xD2, 		23};		// Peak Current
-			Register IA_RMS 		{0x00, 		0xD5, 		23};		// RMS Current
-			Register IB_RMS 		{0x00, 		0xD8, 		23};		// RMS Current
-			Register IC_RMS 		{0x00, 		0xDB, 		23};		// RMS Current
-			Register IT_RMS 		{0x00, 		0xDE, 		23};		// RMS Current average (Total / 3)
-			Register IFUND_A 		{0x00, 		0xE1, 		23};		// Fundamental Current
-			Register IFUND_B 		{0x00, 		0xE4, 		23};		// Fundamental Current
-			Register IFUND_C 		{0x00, 		0xE7, 		23};		// Fundamental Current
-			Register IHARM_A 		{0x00, 		0xEA, 		23};		// Harmonic Current
-			Register IHARM_B 		{0x00, 		0xED, 		23};		// Harmonic Current
-			Register IHARM_C 		{0x00, 		0xF0, 		23};		// Harmonic Current
-			Register IRMS_MAX 		{0x00, 		0xF3, 		23};		// Current upper alarm limit. Positive values only
-			Register I_TARGET 		{0x00, 		0xF6, 		23};		// Calibration Target for Currents. Positive values only
-			Register QFUND_A 		{0x00, 		0xF9, 		23};		// Fundamental Reactive Power
-			Register QFUND_B 		{0x00, 		0xFC, 		23};		// Fundamental Reactive Power
-			Register QFUND_C 		{0x00, 		0xFF, 		23};		// Fundamental Reactive Power
-			Register QHARM_A 		{0x01, 		0x02, 		23};		// Harmonic Reactive Power
-			Register QHARM_B 		{0x01, 		0x05, 		23};		// Harmonic Reactive Power
-			Register QHARM_C 		{0x01, 		0x08, 		23};		// Harmonic Reactive Power
-			Register QA_OFFS 		{0x01, 		0x0B, 		23};		// Reactive Power dynamic offset adjust. Positive values only
-			Register QB_OFFS 		{0x01, 		0x0E, 		23};		// Reactive Power dynamic offset adjust. Positive values only
-			Register QC_OFFS 		{0x01, 		0x11, 		23};		// Reactive Power dynamic offset adjust. Positive values only
-			Register PA_OFFS 		{0x01, 		0x14, 		23};		// Active Power dynamic offset adjust. Positive values only
-			Register PB_OFFS 		{0x01, 		0x17, 		23};		// Active Power dynamic offset adjust. Positive values only
-			Register PC_OFFS 		{0x01, 		0x1A, 		23};		// Active Power dynamic offset adjust. Positive values only
-			Register WATT_A 		{0x01, 		0x1D, 		23};		// Active Power
-			Register WATT_B 		{0x01, 		0x20, 		23};		// Active Power
-			Register WATT_C 		{0x01, 		0x23, 		23};		// Active Power
-			Register VAR_A 			{0x01, 		0x26, 		23};		// Reactive Power
-			Register VAR_B 			{0x01, 		0x29, 		23};		// Reactive Power
-			Register VAR_C 			{0x01, 		0x2C, 		23};		// Reactive Power
-			Register VA_A 			{0x01, 		0x2F, 		23};		// Apparent Power
-			Register VA_B 			{0x01, 		0x32, 		23};		// Apparent Power
-			Register VA_C 			{0x01, 		0x35, 		23};		// Apparent Power
-			Register WATT_T 		{0x01, 		0x38, 		23};		// Active Power average (Total / 3)
-			Register VAR_T 			{0x01, 		0x3B, 		23};		// Reactive Power average (Total / 3)
-			Register VA_T 			{0x01, 		0x3E, 		23};		// Apparent Power average (Total / 3)
-			Register IFSCALE 		{0x01, 		0x41, 		0};			// Scratch register (see Scaling Registers section)
-			Register VSCALE 		{0x01, 		0x44, 		0};			// Scratch register (see Scaling Registers section)
-			Register PFUND_A 		{0x01, 		0x4A, 		23};		// Fundamental Power
-			Register PFUND_B 		{0x01, 		0x4D, 		23};		// Fundamental Power
-			Register PFUND_C 		{0x01, 		0x50, 		23};		// Fundamental Power
-			Register PHARM_A 		{0x01, 		0x53, 		23};		// Harmonic Power
-			Register PHARM_B 		{0x01, 		0x56, 		23};		// Harmonic Power
-			Register PHARM_C 		{0x01, 		0x59, 		23};		// Harmonic Power
-			Register VAFUNDA 		{0x01, 		0x5C, 		23};		// Fundamental Volt Amperes
-			Register VAFUNDB 		{0x01, 		0x5F, 		23};		// Fundamental Volt Amperes
-			Register VAFUNDC 		{0x01, 		0x62, 		23};		// Fundamental Volt Amperes
-			Register PFA 			{0x01, 		0x65, 		22};		// Power Factor
-			Register PFB 			{0x01, 		0x68, 		22};		// Power Factor
-			Register PFC 			{0x01, 		0x6B, 		22};		// Power Factor
-			Register PF_T 			{0x01, 		0x6E, 		22};		// T otal Power Factor
-			Register PF_MIN 		{0x01, 		0x71, 		22};		// Power Factor lower alarm limit
-			Register TEMPC 			{0x01, 		0x74, 		10};		// Chip Temperature (Celsius°)
-			Register T_TARGET 		{0x01, 		0x77, 		10};		// Temperature calibration target
-			Register T_MIN 			{0x01, 		0x7A, 		10};		// Temperature Alarm Lower Limit
-			Register T_MAX 			{0x01, 		0x7D, 		10};		// Temperature Alarm Upper Limit
-			Register FREQ 			{0x01, 		0x80, 		16};		// Line Frequency
-			Register F_MIN 			{0x01, 		0x83, 		16};		// Frequency Alarm Lower Limit
-			Register F_MAX 			{0x01, 		0x86, 		16};		// Frequency Alarm Upper Limit
-			Register MIN0 			{0x01, 		0x89, 		23};		// Minimum Recorded Value 1
-			Register MIN1 			{0x01, 		0x8C, 		23};		// Minimum Recorded Value 2
-			Register MIN2 			{0x01, 		0x8F, 		23};		// Minimum Recorded Value 3
-			Register MIN3 			{0x01, 		0x92, 		23};		// Minimum Recorded Value 4
-			Register MIN4 			{0x01, 		0x95, 		23};		// Minimum Recorded Value 5
-			Register MIN5 			{0x01, 		0x98, 		23};		// Minimum Recorded Value 6
-			Register MIN6 			{0x01, 		0x9B, 		0};			// Minimum Recorded Value 7
-			Register MIN7 			{0x01, 		0x9E, 		0};			// Minimum Recorded Value 8
-			Register MAX0 			{0x01, 		0xA1, 		23};		// Maximum Recorded Value 1
-			Register MAX1 			{0x01, 		0xA4, 		23};		// Maximum Recorded Value 2
-			Register MAX2 			{0x01, 		0xA7, 		23};		// Maximum Recorded Value 3
-			Register MAX3 			{0x01, 		0xAA, 		23};		// Maximum Recorded Value 4
-			Register MAX4 			{0x01, 		0xAD, 		23};		// Maximum Recorded Value 5
-			Register MAX5 			{0x01, 		0xB0, 		23};		// Maximum Recorded Value 6
-			Register MAX6 			{0x01, 		0xB3, 		0};			// Maximum Recorded Value 7
-			Register MAX7 			{0x01, 		0xB6, 		0};			// Maximum Recorded Value 8
-			Register MMADDR0 		{0x01, 		0xB9, 		0};			// Min/Max Monitor address 1
-			Register MMADDR1 		{0x01, 		0xBC, 		0};			// Min/Max Monitor address 2
-			Register MMADDR2 		{0x01, 		0xBF, 		0};			// Min/Max Monitor address 3
-			Register MMADDR3 		{0x01, 		0xC2, 		0};			// Min/Max Monitor address 4
-			Register MMADDR4 		{0x01, 		0xC5, 		0};			// Min/Max Monitor address 5
-			Register MMADDR5 		{0x01, 		0xC8, 		0};			// Min/Max Monitor address 6
-			Register MMADDR6 		{0x01, 		0xCB, 		0};			// Min/Max Monitor address 7
-			Register MMADDR7 		{0x01, 		0xCE, 		0};			// Min/Max Monitor address 8
-			Register BUCKET_LOW 	{0x01, 		0xD1, 		0};			// Energy Bucket Size – Low word
-			Register BUCKET_HIGH 	{0x01, 		0xD4, 		0};			// Energy Bucket Size – High word
-			Register WHA_POS 		{0x01, 		0xDD, 		0};			// Received Active Energy Counter
-			Register WHA_NEG 		{0x01, 		0xE6, 		0};			// Delivered Active Energy Counter
-			Register WHB_POS 		{0x01, 		0xEF, 		0};			// Received Active Energy Counter
-			Register WHB_NEG 		{0x01, 		0xF8, 		0};			// Delivered Active Energy Counter
-			Register WHC_POS 		{0x02, 		0x01, 		0};			// Received Active Energy Counter
-			Register WHC_NEG 		{0x02, 		0x0A, 		0};			// Delivered Active Energy Counter
-			Register VARHA_POS 		{0x02, 		0x13, 		0};			// Reactive Energy Leading Counter
-			Register VARHA_NEG 		{0x02, 		0x1C, 		0};			// Reactive Energy Lagging Counter
-			Register VARHB_POS 		{0x02, 		0x25, 		0};			// Reactive Energy Leading Counter
-			Register VARHB_NEG 		{0x02, 		0x2E, 		0};			// Reactive Energy Lagging Counter
-			Register VARHC_POS 		{0x02, 		0x37, 		0};			// Reactive Energy Leading Counter
-			Register VARHC_NEG 		{0x02, 		0x40, 		0};			// Reactive Energy Lagging Counter
-			Register SYSSTAT 		{0x02, 		0x43, 		0};			// Bit 23 is a sticky register with status of any SPI Errors
-		} Registers;
-
-		/**
 		 * @brief IC Config Defaults Struct
 		 */
 		struct Config_Struct {
@@ -730,9 +555,12 @@ class MAX78630 {
 		 * @return uint32_t Device Address
 		 */
 		uint32_t Get_Device_Address(void) {
-			
+
+			// Define Register
+			Register DEVADDR {0x00,	0x4E, 0}; // High order address bits for I2C and UART interfaces
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.DEVADDR));
+			return(this->Register_Pointer_Read(DEVADDR));
 
 		}
 
@@ -743,8 +571,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Firmware(void) {
 
+			// Define Register
+			Register FW_VERSION {0x00, 0x03, 0}; // Hardware and firmware version
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.FW_VERSION));
+			return(this->Register_Pointer_Read(FW_VERSION));
 
 		}
 
@@ -755,8 +586,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Baud(void) {
 
+			// Define Register
+			Register BAUD {0x00, 0x51, 0}; // Baud rate for UART interface
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.BAUD));
+			return(this->Register_Pointer_Read(BAUD));
 
 		}
 
@@ -769,8 +603,11 @@ class MAX78630 {
 		 */
 		bool Set_Baud(const uint32_t _Baud) {
 
+			// Define Register
+			Register BAUD {0x00, 0x51, 0}; // Baud rate for UART interface
+
 			// Return Result
-			return(this->Register_Pointer_Set(this->Registers.BAUD, _Baud));
+			return(this->Register_Pointer_Set(BAUD, _Baud));
 
 		}
 
@@ -781,8 +618,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_System_Stat(void) {
 
+			// Define Register
+			Register SYSSTAT {0x02, 0x43, 0}; // Bit 23 is a sticky register with status of any SPI Errors
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.SYSSTAT));
+			return(this->Register_Pointer_Read(SYSSTAT));
 
 		}
 
@@ -793,8 +633,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Frame(void) {
 
+			// Define Register
+			Register FRAME {0x00, 0x12, 0}; // Low-rate sample counter
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.FRAME));
+			return(this->Register_Pointer_Read(FRAME));
 
 		}
 
@@ -805,8 +648,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Cycle(void) {
 
+			// Define Register
+			Register CYCLE {0x00, 0x0F, 0}; // High-rate sample counter
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.CYCLE));
+			return(this->Register_Pointer_Read(CYCLE));
 
 		}
 
@@ -817,8 +663,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Divisor(void) {
 
+			// Define Register
+			Register DIVISOR {0x00, 0x0C, 0}; // Actual samples in previous accumulation interval
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.DIVISOR));
+			return(this->Register_Pointer_Read(DIVISOR));
 
 		}
 
@@ -829,8 +678,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Samples(void) {
 
+			// Define Register
+			Register SAMPLES {0x00, 0x09, 0}; // Minimum high-rate samples per accumulation interval
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.SAMPLES));
+			return(this->Register_Pointer_Read(SAMPLES));
 
 		}
 
@@ -855,32 +707,44 @@ class MAX78630 {
 
 						case __RMS__:
 
+							// Define Register
+							Register VA_RMS {0x00, 0x90, 23}; // RMS Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VA_RMS) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VA_RMS) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Instant__:
 
+							// Define Register
+							Register VA {0x00, 0x87, 23}; // Instantaneous Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VA) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VA) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Fundamental__:
 
+							// Define Register
+							Register VFUND_A {0x00, 0x9C, 23}; // Fundamental Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VFUND_A) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VFUND_A) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Harmonic__:
 
+							// Define Register
+							Register VHARM_A {0x00, 0xA5, 23}; // Harmonic Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VHARM_A) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VHARM_A) * this->Config.VScale);
 
 							// End Case
 							break;
@@ -899,32 +763,44 @@ class MAX78630 {
 
 						case __RMS__:
 
+							// Define Register
+							Register VB_RMS {0x00, 0x93, 23}; // RMS Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VB_RMS) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VB_RMS) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Instant__:
 
+							// Define Register
+							Register VB {0x00, 0x8A, 23}; // Instantaneous Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VB) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VB) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Fundamental__:
 
+							// Define Register
+							Register VFUND_B {0x00, 0x9F, 23}; // Fundamental Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VFUND_B) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VFUND_B) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Harmonic__:
 
+							// Define Register
+							Register VHARM_B {0x00, 0xA8, 23}; // Harmonic Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VHARM_B) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VHARM_B) * this->Config.VScale);
 
 							// End Case
 							break;
@@ -943,32 +819,44 @@ class MAX78630 {
 
 						case __RMS__:
 
+							// Define Register
+							Register VC_RMS {0x00, 0x96, 23}; // RMS Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VC_RMS) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VC_RMS) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Instant__:
 
+							// Define Register
+							Register VC {0x00, 0x8D, 23}; // Instantaneous Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VC) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VC) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Fundamental__:
 
+							// Define Register
+							Register VFUND_C {0x00, 0xA2, 23}; // Fundamental Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VFUND_C) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VFUND_C) * this->Config.VScale);
 
 							// End Case
 							break;
 
 						case __Harmonic__:
 
+							// Define Register
+							Register VHARM_C {0x00, 0xAB, 23}; // Harmonic Voltage
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VHARM_C) * this->Config.VScale);
+							return(this->Register_Pointer_Read(VHARM_C) * this->Config.VScale);
 
 							// End Case
 							break;
@@ -982,8 +870,11 @@ class MAX78630 {
 
 				case __Phase_Avg__:
 
+					// Define Register
+					Register VT_RMS {0x00, 0x99, 23}; // RMS Voltage average (Total / 3)
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.VT_RMS) * this->Config.VScale);
+					return(this->Register_Pointer_Read(VT_RMS) * this->Config.VScale);
 
 					// End Case
 					break;
@@ -1004,8 +895,11 @@ class MAX78630 {
 		 */
 		float Frequency(void) {
 
+			// Define Register
+			Register FREQ {0x01, 0x80, 16}; // Line Frequency
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.FREQ));
+			return(this->Register_Pointer_Read(FREQ));
 
 		}
 
@@ -1028,48 +922,66 @@ class MAX78630 {
 
 						case __RMS__:
 
+							// Define Register
+							Register IA_RMS {0x00, 0xD5, 23}; // RMS Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IA_RMS) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IA_RMS) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Instant__:
 
+							// Define Register
+							Register IA {0x00, 0xBA, 23}; // Instantaneous Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IA) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IA) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Fundamental__:
 
+							// Define Register
+							Register IFUND_A {0x00, 0xE1, 23}; // Fundamental Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IFUND_A) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IFUND_A) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Harmonic__:
 
+							// Define Register
+							Register IHARM_A {0x00, 0xEA, 23}; // Harmonic Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IHARM_A) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IHARM_A) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Peak__:
 
+							// Define Register
+							Register IA_PEAK {0x00, 0xCC, 23}; // Peak Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IA_PEAK) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IA_PEAK) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Phase_Compensation__:
 
+							// Define Register
+							Register PHASECOMP1 {0x00, 0x42, 21}; // Phase compensation (±4 samples) for AV1 input
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.PHASECOMP1) * this->Config.IScale);
+							return(this->Register_Pointer_Read(PHASECOMP1) * this->Config.IScale);
 
 							// End Case
 							break;
@@ -1088,48 +1000,66 @@ class MAX78630 {
 
 						case __RMS__:
 
+							// Define Register
+							Register IB_RMS {0x00, 0xD8, 23}; // RMS Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IB_RMS) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IB_RMS) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Instant__:
 
+							// Define Register
+							Register IB {0x00, 0xBD, 23}; // Instantaneous Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IB) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IB) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Fundamental__:
 
+							// Define Register
+							Register IFUND_B {0x00, 0xE4, 23}; // Fundamental Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IFUND_B) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IFUND_B) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Harmonic__:
 
+							// Define Register
+							Register IHARM_B {0x00, 0xED, 23}; // Harmonic Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IHARM_B) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IHARM_B) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Peak__:
 
+							// Define Register
+							Register IB_PEAK {0x00, 0xCF, 23}; // Peak Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IB_PEAK) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IB_PEAK) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Phase_Compensation__:
 
+							// Define Register
+							Register PHASECOMP2 {0x00, 0x45, 21}; // Phase compensation (±4 samples) for AV2 input
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.PHASECOMP2) * this->Config.IScale);
+							return(this->Register_Pointer_Read(PHASECOMP2) * this->Config.IScale);
 
 							// End Case
 							break;
@@ -1148,48 +1078,66 @@ class MAX78630 {
 
 						case __RMS__:
 
+							// Define Register
+							Register IC_RMS {0x00, 0xDB, 23}; // RMS Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IC_RMS) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IC_RMS) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Instant__:
 
+							// Define Register
+							Register IC {0x00, 0xC0, 23}; // Instantaneous Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IC) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IC) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Fundamental__:
 
+							// Define Register
+							Register IFUND_C {0x00, 0xE7, 23}; // Fundamental Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IFUND_C) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IFUND_C) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Harmonic__:
 
+							// Define Register
+							Register IHARM_C {0x00, 0xF0, 23}; // Harmonic Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IHARM_C) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IHARM_C) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Peak__:
 
+							// Define Register
+							Register IC_PEAK {0x00, 0xD2, 23}; // Peak Current
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.IC_PEAK) * this->Config.IScale);
+							return(this->Register_Pointer_Read(IC_PEAK) * this->Config.IScale);
 
 							// End Case
 							break;
 
 						case __Phase_Compensation__:
 
+							// Define Register
+							Register PHASECOMP3 {0x00, 0x48, 21}; // Phase compensation (±4 samples) for AV3 input
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.PHASECOMP3) * this->Config.IScale);
+							return(this->Register_Pointer_Read(PHASECOMP3) * this->Config.IScale);
 
 							// End Case
 							break;
@@ -1203,8 +1151,11 @@ class MAX78630 {
 
 				case __Phase_Avg__:
 
+					// Define Register
+					Register IT_RMS {0x00, 0xDE, 23}; // RMS Current average (Total / 3)
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.IT_RMS) * this->Config.IScale);
+					return(this->Register_Pointer_Read(IT_RMS) * this->Config.IScale);
 
 					// End Case
 					break;
@@ -1227,51 +1178,363 @@ class MAX78630 {
 		 */
 		float Power(const uint8_t _Phase, const uint8_t _Type) {
 
-			// Phase Select
-			if (_Phase == __Phase_R__) {
+			// Decide Phase
+			switch (_Phase) {
 
-				// Measurement Type Select
-				if (_Type == __Active__) 				return(this->Register_Pointer_Read(this->Registers.WATT_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __ReActive__) 		return(this->Register_Pointer_Read(this->Registers.VAR_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Apparent__) 		return(this->Register_Pointer_Read(this->Registers.VA_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fundamental__) 		return(this->Register_Pointer_Read(this->Registers.PFUND_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Harmonic__) 		return(this->Register_Pointer_Read(this->Registers.PHARM_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fund_ReActive__) 	return(this->Register_Pointer_Read(this->Registers.QFUND_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Harm_ReActive__) 	return(this->Register_Pointer_Read(this->Registers.QHARM_A) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fund_VA__) 			return(this->Register_Pointer_Read(this->Registers.VAFUNDA) * this->Config.VScale * this->Config.IScale);
+				case __Phase_R__:
 
-			} else if (_Phase == __Phase_S__) {
+					// Decide Type
+					switch (_Type) {
 
-				// Measurement Type Select
-				if (_Type == __Active__) 				return(this->Register_Pointer_Read(this->Registers.WATT_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __ReActive__) 		return(this->Register_Pointer_Read(this->Registers.VAR_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Apparent__) 		return(this->Register_Pointer_Read(this->Registers.VA_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fundamental__) 		return(this->Register_Pointer_Read(this->Registers.PFUND_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Harmonic__) 		return(this->Register_Pointer_Read(this->Registers.PHARM_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fund_ReActive__) 	return(this->Register_Pointer_Read(this->Registers.QFUND_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Harm_ReActive__) 	return(this->Register_Pointer_Read(this->Registers.QHARM_B) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fund_VA__) 			return(this->Register_Pointer_Read(this->Registers.VAFUNDB) * this->Config.VScale * this->Config.IScale);
+						case __Active__:
 
-			} else if (_Phase == __Phase_T__) {
+							// Define Register
+							Register WATT_A {0x01, 0x1D, 23}; // Active Power
 
-				// Measurement Type Select
-				if (_Type == __Active__) 				return(this->Register_Pointer_Read(this->Registers.WATT_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __ReActive__) 		return(this->Register_Pointer_Read(this->Registers.VAR_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Apparent__) 		return(this->Register_Pointer_Read(this->Registers.VA_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fundamental__) 		return(this->Register_Pointer_Read(this->Registers.PFUND_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Harmonic__) 		return(this->Register_Pointer_Read(this->Registers.PHARM_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fund_ReActive__) 	return(this->Register_Pointer_Read(this->Registers.QFUND_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Harm_ReActive__) 	return(this->Register_Pointer_Read(this->Registers.QHARM_C) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Fund_VA__) 			return(this->Register_Pointer_Read(this->Registers.VAFUNDC) * this->Config.VScale * this->Config.IScale);
+							// Get Register
+							return(this->Register_Pointer_Read(WATT_A) * this->Config.VScale * this->Config.IScale);
 
-			} else if (_Phase == __Phase_Avg__) {
+							// End Case
+							break;
 
-				// Measurement Type Select
-				if (_Type == __Active__) 				return(this->Register_Pointer_Read(this->Registers.WATT_T) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __ReActive__) 		return(this->Register_Pointer_Read(this->Registers.VAR_T) * this->Config.VScale * this->Config.IScale);
-				else if (_Type == __Apparent__) 		return(this->Register_Pointer_Read(this->Registers.VA_T) * this->Config.VScale * this->Config.IScale);
+						case __ReActive__:
 
+							// Define Register
+							Register VAR_A {0x01, 0x26, 23}; // Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAR_A) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Apparent__:
+
+							// Define Register
+							Register VA_A {0x01, 0x2F, 23};	// Apparent Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(VA_A) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Define Register
+							Register PFUND_A {0x01, 0x4A, 23}; // Fundamental Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(PFUND_A) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Define Register
+							Register PHARM_A {0x01, 0x53, 23}; // Harmonic Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(PHARM_A) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fund_ReActive__:
+
+							// Define Register
+							Register QFUND_A {0x00, 0xF9, 23}; // Fundamental Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(QFUND_A) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harm_ReActive__:
+
+							// Define Register
+							Register QHARM_A {0x01, 0x02, 23}; // Harmonic Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(QHARM_A) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fund_VA__:
+
+							// Define Register
+							Register VAFUNDA {0x01, 0x5C, 23}; // Fundamental Volt Amperes
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAFUNDA) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_S__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __Active__:
+
+							// Define Register
+							Register WATT_B {0x01, 0x20, 23}; // Active Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(WATT_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __ReActive__:
+
+							// Define Register
+							Register VAR_B {0x01, 0x29, 23}; // Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAR_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Apparent__:
+
+							// Define Register
+							Register VA_B {0x01, 0x32, 23};	// Apparent Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(VA_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Define Register
+							Register PFUND_B {0x01, 0x4D, 23}; // Fundamental Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(PFUND_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Define Register
+							Register PHARM_B {0x01, 0x56, 23}; // Harmonic Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(PHARM_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fund_ReActive__:
+
+							// Define Register
+							Register QFUND_B {0x00, 0xFC, 23}; // Fundamental Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(QFUND_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harm_ReActive__:
+
+							// Define Register
+							Register QHARM_B {0x01, 0x05, 23}; // Harmonic Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(QHARM_B) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fund_VA__:
+
+							// Define Register
+							Register VAFUNDB {0x01, 0x5F, 23}; // Fundamental Volt Amperes
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAFUNDB) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_T__:
+
+					// Decide Type
+					switch (_Type) {
+
+						case __Active__:
+
+							// Define Register
+							Register WATT_C {0x01, 0x23, 23}; // Active Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(WATT_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __ReActive__:
+
+							// Define Register
+							Register VAR_C {0x01, 0x2C, 23}; // Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAR_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Apparent__:
+
+							// Define Register
+							Register VA_C {0x01, 0x35, 23}; // Apparent Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(VA_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fundamental__:
+
+							// Define Register
+							Register PFUND_C {0x01, 0x50, 23}; // Fundamental Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(PFUND_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harmonic__:
+
+							// Define Register
+							Register PHARM_C {0x01, 0x59, 23}; // Harmonic Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(PHARM_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fund_ReActive__:
+
+							// Define Register
+							Register QFUND_C {0x00, 0xFF, 23}; // Fundamental Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(QFUND_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Harm_ReActive__:
+
+							// Define Register
+							Register QHARM_C {0x01, 0x08, 23}; // Harmonic Reactive Power
+
+							// Get Register
+							return(this->Register_Pointer_Read(QHARM_C) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Fund_VA__:
+
+							// Define Register
+							Register VAFUNDC {0x01, 0x62, 23}; // Fundamental Volt Amperes
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAFUNDC) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+				case __Phase_Avg__:
+
+					// Define Register
+					Register VT_RMS {0x00, 0x99, 23}; // RMS Voltage average (Total / 3)
+
+					// Decide Type
+					switch (_Type) {
+
+						case __Active__:
+
+							// Define Register
+							Register WATT_T {0x01, 0x38, 23}; // Active Power average (Total / 3)
+
+							// Get Register
+							return(this->Register_Pointer_Read(WATT_T) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __ReActive__:
+
+							// Define Register
+							Register VAR_T {0x01, 0x3B, 23}; // Reactive Power average (Total / 3)
+
+							// Get Register
+							return(this->Register_Pointer_Read(VAR_T) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+						case __Apparent__:
+
+							// Define Register
+							Register VA_T {0x01, 0x3E, 23}; // Apparent Power average (Total / 3)
+
+							// Get Register
+							return(this->Register_Pointer_Read(VA_T) * this->Config.VScale * this->Config.IScale);
+
+							// End Case
+							break;
+
+					default:
+						break;
+					}
+
+					// End Case
+					break;
+
+			default:
+				break;
 			}
+
+			// End Function
+			return(0);
 
 		}
 
@@ -1294,43 +1557,61 @@ class MAX78630 {
 
 						case __Active_Received__:
 
+							// Define Register
+							Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.WHA_POS));
+							return(this->Register_Pointer_Read(WHA_POS));
 
 							// End Case
 							break;
 
 						case __Active_Delivered__:
 
+							// Define Register
+							Register WHA_NEG {0x01, 0xE6, 0}; // Delivered Active Energy Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.WHA_NEG));
+							return(this->Register_Pointer_Read(WHA_NEG));
 
 							// End Case
 							break;
 
 						case __ReActive_Received__:
 
+							// Define Register
+							Register VARHA_POS {0x02, 0x13, 0};	// Reactive Energy Leading Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VARHA_POS));
+							return(this->Register_Pointer_Read(VARHA_POS));
 
 							// End Case
 							break;
 
 						case __ReActive_Delivered__:
 
+							// Define Register
+							Register VARHA_NEG {0x02, 0x1C, 0};	// Reactive Energy Lagging Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VARHA_NEG));
+							return(this->Register_Pointer_Read(VARHA_NEG));
 
 							// End Case
 							break;
 
 						case __Energy_Reset__:
 
+							// Define Register
+							Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter
+							Register WHA_NEG {0x01, 0xE6, 0}; // Delivered Active Energy Counter
+							Register VARHA_POS {0x02, 0x13, 0};	// Reactive Energy Leading Counter
+							Register VARHA_NEG {0x02, 0x1C, 0};	// Reactive Energy Lagging Counter
+
 							// Clear Register
-							this->Register_Pointer_Set(this->Registers.WHA_POS, 0x00);
-							this->Register_Pointer_Set(this->Registers.VARHA_POS, 0x00);
-							this->Register_Pointer_Set(this->Registers.WHA_NEG, 0x00);
-							this->Register_Pointer_Set(this->Registers.VARHA_NEG, 0x00);
+							this->Register_Pointer_Set(WHA_POS, 0x00);
+							this->Register_Pointer_Set(VARHA_POS, 0x00);
+							this->Register_Pointer_Set(WHA_NEG, 0x00);
+							this->Register_Pointer_Set(VARHA_NEG, 0x00);
 
 							// End Function
 							return(1);
@@ -1352,43 +1633,61 @@ class MAX78630 {
 
 						case __Active_Received__:
 
+							// Define Register
+							Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.WHB_POS));
+							return(this->Register_Pointer_Read(WHB_POS));
 
 							// End Case
 							break;
 
 						case __Active_Delivered__:
 
+							// Define Register
+							Register WHB_NEG {0x01, 0xF8, 0}; // Delivered Active Energy Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.WHB_NEG));
+							return(this->Register_Pointer_Read(WHB_NEG));
 
 							// End Case
 							break;
 
 						case __ReActive_Received__:
 
+							// Define Register
+							Register VARHB_POS {0x02, 0x25, 0};	// Reactive Energy Leading Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VARHB_POS));
+							return(this->Register_Pointer_Read(VARHB_POS));
 
 							// End Case
 							break;
 
 						case __ReActive_Delivered__:
 
+							// Define Register
+							Register VARHB_NEG {0x02, 0x2E, 0};	// Reactive Energy Lagging Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VARHB_NEG));
+							return(this->Register_Pointer_Read(VARHB_NEG));
 
 							// End Case
 							break;
 
 						case __Energy_Reset__:
 
+							// Define Register
+							Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter
+							Register WHB_NEG {0x01, 0xF8, 0}; // Delivered Active Energy Counter
+							Register VARHB_POS {0x02, 0x25, 0};	// Reactive Energy Leading Counter
+							Register VARHB_NEG {0x02, 0x2E, 0};	// Reactive Energy Lagging Counter
+
 							// Clear Register
-							this->Register_Pointer_Set(this->Registers.WHB_POS, 0x00);
-							this->Register_Pointer_Set(this->Registers.VARHB_POS, 0x00);
-							this->Register_Pointer_Set(this->Registers.WHB_NEG, 0x00);
-							this->Register_Pointer_Set(this->Registers.VARHB_NEG, 0x00);
+							this->Register_Pointer_Set(WHB_POS, 0x00);
+							this->Register_Pointer_Set(VARHB_POS, 0x00);
+							this->Register_Pointer_Set(WHB_NEG, 0x00);
+							this->Register_Pointer_Set(VARHB_NEG, 0x00);
 
 							// End Function
 							return(1);
@@ -1410,43 +1709,61 @@ class MAX78630 {
 
 						case __Active_Received__:
 
+							// Define Register
+							Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.WHC_POS));
+							return(this->Register_Pointer_Read(WHC_POS));
 
 							// End Case
 							break;
 
 						case __Active_Delivered__:
 
+							// Define Register
+							Register WHC_NEG {0x02, 0x0A, 0}; // Delivered Active Energy Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.WHC_NEG));
+							return(this->Register_Pointer_Read(WHC_NEG));
 
 							// End Case
 							break;
 
 						case __ReActive_Received__:
 
+							// Define Register
+							Register VARHC_POS {0x02, 0x37, 0};	// Reactive Energy Leading Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VARHC_POS));
+							return(this->Register_Pointer_Read(VARHC_POS));
 
 							// End Case
 							break;
 
 						case __ReActive_Delivered__:
 
+							// Define Register
+							Register VARHC_NEG {0x02, 0x40, 0}; // Reactive Energy Lagging Counter
+
 							// Get Register
-							return(this->Register_Pointer_Read(this->Registers.VARHC_NEG));
+							return(this->Register_Pointer_Read(VARHC_NEG));
 
 							// End Case
 							break;
 
 						case __Energy_Reset__:
 
+							// Define Register
+							Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter
+							Register WHC_NEG {0x02, 0x0A, 0}; // Delivered Active Energy Counter
+							Register VARHC_POS {0x02, 0x37, 0};	// Reactive Energy Leading Counter
+							Register VARHC_NEG {0x02, 0x40, 0}; // Reactive Energy Lagging Counter
+
 							// Clear Register
-							this->Register_Pointer_Set(this->Registers.WHC_POS, 0x00);
-							this->Register_Pointer_Set(this->Registers.VARHC_POS, 0x00);
-							this->Register_Pointer_Set(this->Registers.WHC_NEG, 0x00);
-							this->Register_Pointer_Set(this->Registers.VARHC_NEG, 0x00);
+							this->Register_Pointer_Set(WHC_POS, 0x00);
+							this->Register_Pointer_Set(VARHC_POS, 0x00);
+							this->Register_Pointer_Set(WHC_NEG, 0x00);
+							this->Register_Pointer_Set(VARHC_NEG, 0x00);
 
 							// End Function
 							return(1);
@@ -1483,32 +1800,44 @@ class MAX78630 {
 
 				case __Phase_R__:
 
+					// Define Register
+					Register PFA {0x01, 0x65, 22}; // Power Factor
+
 					// Return Register
-					return(this->Register_Pointer_Read(this->Registers.PFA));
+					return(this->Register_Pointer_Read(PFA));
 
 					// End Case
 					break;
 
 				case __Phase_S__:
 
+					// Define Register
+					Register PFB {0x01, 0x68, 22}; // Power Factor
+
 					// Return Register
-					return(this->Register_Pointer_Read(this->Registers.PFB));
+					return(this->Register_Pointer_Read(PFB));
 
 					// End Case
 					break;
 
 				case __Phase_T__:
 
+					// Define Register
+					Register PFC {0x01, 0x6B, 22}; // Power Factor
+
 					// Return Register
-					return(this->Register_Pointer_Read(this->Registers.PFC));
+					return(this->Register_Pointer_Read(PFC));
 
 					// End Case
 					break;
 
 				case __Phase_Avg__:
 
+					// Define Register
+					Register PF_T {0x01, 0x6E, 22}; // T otal Power Factor
+
 					// Return Register
-					return(this->Register_Pointer_Read(this->Registers.PF_T));
+					return(this->Register_Pointer_Read(PF_T));
 
 					// End Case
 					break;
@@ -1529,8 +1858,11 @@ class MAX78630 {
 		 */
 		float Temperature(void) {
 
+			// Define Register
+			Register TEMPC {0x01, 0x74, 10}; // Chip Temperature (Celsius°)
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.TEMPC));
+			return(this->Register_Pointer_Read(TEMPC));
 
 		}
 
@@ -1790,8 +2122,11 @@ class MAX78630 {
 		 */
 		bool Set_VScale(const uint32_t _Voltage_Scale) {
 
+			// Define Register
+			Register VSCALE {0x01, 0x44, 0}; // Scratch register (see Scaling Registers section)
+
 			// Set Register
-			return(this->Register_Pointer_Set(this->Registers.VSCALE, _Voltage_Scale));
+			return(this->Register_Pointer_Set(VSCALE, _Voltage_Scale));
 
 		}
 
@@ -1804,8 +2139,11 @@ class MAX78630 {
 		 */
 		bool Set_IScale(const uint32_t _Current_Scale) {
 
+			// Define Register
+			Register IFSCALE {0x01, 0x41, 0}; // Scratch register (see Scaling Registers section)
+
 			// Set Register
-			return(this->Register_Pointer_Set(this->Registers.IFSCALE, _Current_Scale));
+			return(this->Register_Pointer_Set(IFSCALE, _Current_Scale));
 
 		}
 
@@ -1816,8 +2154,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_VSCale(void) {
 
+			// Define Register
+			Register VSCALE {0x01, 0x44, 0}; // Scratch register (see Scaling Registers section)
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.VSCALE));
+			return(this->Register_Pointer_Read(VSCALE));
 
 		}
 
@@ -1828,8 +2169,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_ISCale(void) {
 
+			// Define Register
+			Register IFSCALE {0x01, 0x41, 0}; // Scratch register (see Scaling Registers section)
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.IFSCALE));
+			return(this->Register_Pointer_Read(IFSCALE));
 
 		}
 
@@ -1839,8 +2183,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Bucket_H(void) {
 
+			// Define Register
+			Register BUCKET_HIGH {0x01, 0xD4, 0}; // Energy Bucket Size – High word
+
 			// Set Command
-			return(this->Register_Pointer_Read(this->Registers.BUCKET_HIGH));
+			return(this->Register_Pointer_Read(BUCKET_HIGH));
 
 		}
 
@@ -1850,8 +2197,11 @@ class MAX78630 {
 		 */
 		uint32_t Get_Bucket_L(void) {
 
+			// Define Register
+			Register BUCKET_LOW {0x01, 0xD1, 0}; // Energy Bucket Size – Low word
+
 			// Set Command
-			return(this->Register_Pointer_Read(this->Registers.BUCKET_LOW));
+			return(this->Register_Pointer_Read(BUCKET_LOW));
 
 		}
 
@@ -1865,9 +2215,13 @@ class MAX78630 {
 		 */
 		bool Set_Bucket(const uint32_t _Bucket_H, const uint32_t _Bucket_L) {
 
+			// Define Register
+			Register BUCKET_HIGH {0x01,	0xD4, 0}; // Energy Bucket Size – High word
+			Register BUCKET_LOW {0x01, 0xD1, 0}; // Energy Bucket Size – Low word
+
 			// Set Command
-			bool _Result_LOW = this->Register_Pointer_Set(this->Registers.BUCKET_LOW, _Bucket_L);
-			bool _Result_HIGH = this->Register_Pointer_Set(this->Registers.BUCKET_HIGH, _Bucket_H);
+			bool _Result_LOW = this->Register_Pointer_Set(BUCKET_LOW, _Bucket_L);
+			bool _Result_HIGH = this->Register_Pointer_Set(BUCKET_HIGH, _Bucket_H);
 
 			// End Function
 			return(_Result_LOW and _Result_HIGH);
@@ -1883,6 +2237,8 @@ class MAX78630 {
 		 */
 		uint8_t Set_Harmonic(uint32_t _Harmonic) {
 
+			Register HARM 			{0x00, 		0x4B, 		0};			// Harmonic Selector, default: 1 (fundamental)
+
 			// Declare Variable
 			uint32_t _Result = 0;
 
@@ -1890,12 +2246,12 @@ class MAX78630 {
 			if (_Harmonic == 0) {
 				
 				// Read Register
-				_Result = this->Register_Pointer_Read(this->Registers.HARM);
+				_Result = this->Register_Pointer_Read(HARM);
 
 			} else {
 
 				// Set Register
-				if (Register_Pointer_Set(this->Registers.HARM, _Harmonic)) {
+				if (Register_Pointer_Set(HARM, _Harmonic)) {
 					
 					// Set Variable
 					_Result = _Harmonic;
@@ -1931,88 +2287,121 @@ class MAX78630 {
 
 				case __VRMS_MIN__:
 
+					// Define Register
+					Register VRMS_MIN {0x00, 0xB1, 23};	// Voltage lower alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.VRMS_MIN, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MIN.Data_Type)));
+					return(this->Register_Pointer_Set(VRMS_MIN, this->FtoS(_Limit_Value / Config.VScale, VRMS_MIN.Data_Type)));
 
 					// End Case
 					break;
 
 				case __VRMS_MAX__:
 
+					// Define Register
+					Register VRMS_MAX {0x00, 0xB4, 23};	// Voltage upper alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.VRMS_MAX, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MAX.Data_Type)));
+					return(this->Register_Pointer_Set(VRMS_MAX, this->FtoS(_Limit_Value / Config.VScale, VRMS_MAX.Data_Type)));
 
 					// End Case
 					break;
 
 				case __IRMS_MAX__:
 
+					// Define Register
+					Register IRMS_MAX {0x00, 0xF3, 23}; // Current upper alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.IRMS_MAX, this->FtoS(_Limit_Value / Config.IScale, this->Registers.IRMS_MAX.Data_Type)));
+					return(this->Register_Pointer_Set(IRMS_MAX, this->FtoS(_Limit_Value / Config.IScale, IRMS_MAX.Data_Type)));
 
 					// End Case
 					break;
 
 				case __F_MIN__:
 
+					// Define Register
+					Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.F_MIN, this->FtoS(_Limit_Value, this->Registers.F_MIN.Data_Type)));
+					return(this->Register_Pointer_Set(F_MIN, this->FtoS(_Limit_Value, F_MIN.Data_Type)));
 
 					// End Case
 					break;
 
 				case __F_MAX__:
 
+					// Define Register
+					Register F_MAX {0x01, 0x86, 16}; // Frequency Alarm Upper Limit
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.F_MAX, this->FtoS(_Limit_Value, this->Registers.F_MAX.Data_Type)));
+					return(this->Register_Pointer_Set(F_MAX, this->FtoS(_Limit_Value, F_MAX.Data_Type)));
 
 					// End Case
 					break;
 
 				case __T_MIN__:
 
+					// Define Register
+					Register T_MIN {0x01, 0x7A, 10}; // Temperature Alarm Lower Limit
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.T_MIN, this->FtoS(_Limit_Value, this->Registers.T_MIN.Data_Type)));
+					return(this->Register_Pointer_Set(T_MIN, this->FtoS(_Limit_Value, T_MIN.Data_Type)));
 
 					// End Case
 					break;
 
 				case __T_MAX__:
 
+					// Define Register
+					Register T_MAX {0x01, 0x7D, 10}; // Temperature Alarm Upper Limit
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.T_MAX, this->FtoS(_Limit_Value, this->Registers.T_MAX.Data_Type)));
+					return(this->Register_Pointer_Set(T_MAX, this->FtoS(_Limit_Value, T_MAX.Data_Type)));
 
 					// End Case
 					break;
 
 				case __PF_MIN__:
 
+					// Define Register
+					Register PF_MIN {0x01, 0x71, 22}; // Power Factor lower alarm limit
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.PF_MIN, this->FtoS(_Limit_Value, this->Registers.PF_MIN.Data_Type)));
+					return(this->Register_Pointer_Set(PF_MIN, this->FtoS(_Limit_Value, PF_MIN.Data_Type)));
 
 					// End Case
 					break;
 
 				case __VSAG_LIM__:
 
+					// Define Register
+					Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.VSAG_LIM, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VSAG_LIM.Data_Type)));
+					return(this->Register_Pointer_Set(VSAG_LIM, this->FtoS(_Limit_Value / Config.VScale, VSAG_LIM.Data_Type)));
 
 					// End Case
 					break;
 
 				case __VIMB_MAX__:
 
+					// Define Register
+					Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.V_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.V_IMB_MAX.Data_Type)));
+					return(this->Register_Pointer_Set(V_IMB_MAX, this->FtoS(_Limit_Value, V_IMB_MAX.Data_Type)));
 
 					// End Case
 					break;
 
 				case __IIMB_MAX__:
 
+					// Define Register
+					Register I_IMB_MAX {0x00, 0x84, 23}; // Current imbalance alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.I_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.I_IMB_MAX.Data_Type)));
+					return(this->Register_Pointer_Set(I_IMB_MAX, this->FtoS(_Limit_Value, I_IMB_MAX.Data_Type)));
 
 					// End Case
 					break;
@@ -2040,88 +2429,121 @@ class MAX78630 {
 
 				case __VRMS_MIN__:
 
+					// Define Register
+					Register VRMS_MIN {0x00, 0xB1, 23};	// Voltage lower alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.VRMS_MIN) * Config.VScale);
+					return(this->Register_Pointer_Read(VRMS_MIN) * Config.VScale);
 
 					// End Case
 					break;
 
 				case __VRMS_MAX__:
 
+					// Define Register
+					Register VRMS_MAX {0x00, 0xB4, 23};	// Voltage upper alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.VRMS_MAX) * Config.VScale);
+					return(this->Register_Pointer_Read(VRMS_MAX) * Config.VScale);
 
 					// End Case
 					break;
 
 				case __IRMS_MAX__:
 
+					// Define Register
+					Register IRMS_MAX {0x00, 0xF3, 23}; // Current upper alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.IRMS_MAX) * Config.IScale);
+					return(this->Register_Pointer_Read(IRMS_MAX) * Config.IScale);
 
 					// End Case
 					break;
 
 				case __F_MIN__:
 
+					// Define Register
+					Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.F_MIN));
+					return(this->Register_Pointer_Read(F_MIN));
 
 					// End Case
 					break;
 
 				case __F_MAX__:
 
+					// Define Register
+					Register F_MAX {0x01, 0x86, 16}; // Frequency Alarm Upper Limit
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.F_MAX));
+					return(this->Register_Pointer_Read(F_MAX));
 
 					// End Case
 					break;
 
 				case __T_MIN__:
 
+					// Define Register
+					Register T_MIN {0x01, 0x7A, 10}; // Temperature Alarm Lower Limit
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.T_MIN));
+					return(this->Register_Pointer_Read(T_MIN));
 
 					// End Case
 					break;
 
 				case __T_MAX__:
 
+					// Define Register
+					Register T_MAX {0x01, 0x7D, 10}; // Temperature Alarm Upper Limit
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.T_MAX));
+					return(this->Register_Pointer_Read(T_MAX));
 
 					// End Case
 					break;
 
 				case __PF_MIN__:
 
+					// Define Register
+					Register PF_MIN {0x01, 0x71, 22}; // Power Factor lower alarm limit
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.PF_MIN));
+					return(this->Register_Pointer_Read(PF_MIN));
 
 					// End Case
 					break;
 
 				case __VSAG_LIM__:
 
+					// Define Register
+					Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.VSAG_LIM) * Config.VScale);
+					return(this->Register_Pointer_Read(VSAG_LIM) * Config.VScale);
 
 					// End Case
 					break;
 
 				case __VIMB_MAX__:
 
+					// Define Register
+					Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.V_IMB_MAX));
+					return(this->Register_Pointer_Read(V_IMB_MAX));
 
 					// End Case
 					break;
 
 				case __IIMB_MAX__:
 
+					// Define Register
+					Register I_IMB_MAX {0x00, 0x84, 23}; // Current imbalance alarm limit. Positive values only
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.I_IMB_MAX));
+					return(this->Register_Pointer_Read(I_IMB_MAX));
 
 					// End Case
 					break;
@@ -2153,64 +2575,88 @@ class MAX78630 {
 
 				case 1:
 
+					// Define Register
+					Register MMADDR0 {0x01, 0xB9, 0}; // Min/Max Monitor address 1
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR0, _Mask));
+					return(this->Register_Pointer_Set(MMADDR0, _Mask));
 
 					// End Case
 					break;
 
 				case 2:
 
+					// Define Register
+					Register MMADDR1 {0x01, 0xBC, 0}; // Min/Max Monitor address 2
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR1, _Mask));
+					return(this->Register_Pointer_Set(MMADDR1, _Mask));
 
 					// End Case
 					break;
 
 				case 3:
 
+					// Define Register
+					Register MMADDR2 {0x01, 0xBF, 0}; // Min/Max Monitor address 3
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR2, _Mask));
+					return(this->Register_Pointer_Set(MMADDR2, _Mask));
 
 					// End Case
 					break;
 
 				case 4:
 
+					// Define Register
+					Register MMADDR3 {0x01, 0xC2, 0}; // Min/Max Monitor address 4
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR3, _Mask));
+					return(this->Register_Pointer_Set(MMADDR3, _Mask));
 
 					// End Case
 					break;
 
 				case 5:
 
+					// Define Register
+					Register MMADDR4 {0x01, 0xC5, 0}; // Min/Max Monitor address 5
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR4, _Mask));
+					return(this->Register_Pointer_Set(MMADDR4, _Mask));
 
 					// End Case
 					break;
 
 				case 6:
 
+					// Define Register
+					Register MMADDR5 {0x01, 0xC8, 0}; // Min/Max Monitor address 6
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR5, _Mask));
+					return(this->Register_Pointer_Set(MMADDR5, _Mask));
 
 					// End Case
 					break;
 
 				case 7:
 
+					// Define Register
+					Register MMADDR6 {0x01, 0xCB, 0}; // Min/Max Monitor address 7
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR6, _Mask));
+					return(this->Register_Pointer_Set(MMADDR6, _Mask));
 
 					// End Case
 					break;
 
 				case 8:
 
+					// Define Register
+					Register MMADDR7 {0x01, 0xCE, 0}; // Min/Max Monitor address 8
+
 					// Get Register
-					return(this->Register_Pointer_Set(this->Registers.MMADDR7, _Mask));
+					return(this->Register_Pointer_Set(MMADDR7, _Mask));
 
 					// End Case
 					break;
@@ -2238,64 +2684,88 @@ class MAX78630 {
 
 				case 1:
 
+					// Define Register
+					Register MIN0 {0x01, 0x89, 23}; // Minimum Recorded Value 1
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN0) * Config.VScale);
+					return(this->Register_Pointer_Read(MIN0) * Config.VScale);
 
 					// End Case
 					break;
 
 				case 2:
 
+					// Define Register
+					Register MIN1 {0x01, 0x8C, 23}; // Minimum Recorded Value 2
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN1) * Config.VScale);
+					return(this->Register_Pointer_Read(MIN1) * Config.VScale);
 
 					// End Case
 					break;
 
 				case 3:
 
+					// Define Register
+					Register MIN2 {0x01, 0x8F, 23}; // Minimum Recorded Value 3
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN2) * Config.VScale);
+					return(this->Register_Pointer_Read(MIN2) * Config.VScale);
 
 					// End Case
 					break;
 
 				case 4:
 
+					// Define Register
+					Register MIN3 {0x01, 0x92, 23}; // Minimum Recorded Value 4
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN3) * Config.IScale);
+					return(this->Register_Pointer_Read(MIN3) * Config.IScale);
 
 					// End Case
 					break;
 
 				case 5:
 
+					// Define Register
+					Register MIN4 {0x01, 0x95, 23}; // Minimum Recorded Value 5
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN4) * Config.IScale);
+					return(this->Register_Pointer_Read(MIN4) * Config.IScale);
 
 					// End Case
 					break;
 
 				case 6:
 
+					// Define Register
+					Register MIN5 {0x01, 0x98, 23}; // Minimum Recorded Value 6
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN5) * Config.IScale);
+					return(this->Register_Pointer_Read(MIN5) * Config.IScale);
 
 					// End Case
 					break;
 
 				case 7:
 
+					// Define Register
+					Register MIN6 {0x01, 0x9B, 0}; // Minimum Recorded Value 7
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN6));
+					return(this->Register_Pointer_Read(MIN6));
 
 					// End Case
 					break;
 
 				case 8:
 
+					// Define Register
+					Register MIN7 {0x01, 0x9E, 0}; // Minimum Recorded Value 8
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MIN7));
+					return(this->Register_Pointer_Read(MIN7));
 
 					// End Case
 					break;
@@ -2323,64 +2793,88 @@ class MAX78630 {
 
 				case 1:
 
+					// Define Register
+					Register MAX0 {0x01, 0xA1, 23}; // Maximum Recorded Value 1
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX0) * Config.VScale);
+					return(this->Register_Pointer_Read(MAX0) * Config.VScale);
 
 					// End Case
 					break;
 
 				case 2:
 
+					// Define Register
+					Register MAX1 {0x01, 0xA4, 23}; // Maximum Recorded Value 2
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX1) * Config.VScale);
+					return(this->Register_Pointer_Read(MAX1) * Config.VScale);
 
 					// End Case
 					break;
 
 				case 3:
 
+					// Define Register
+					Register MAX2 {0x01, 0xA7, 23}; // Maximum Recorded Value 3
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX2) * Config.VScale);
+					return(this->Register_Pointer_Read(MAX2) * Config.VScale);
 
 					// End Case
 					break;
 
 				case 4:
 
+					// Define Register
+					Register MAX3 {0x01, 0xAA, 23}; // Maximum Recorded Value 4
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX3) * Config.IScale);
+					return(this->Register_Pointer_Read(MAX3) * Config.IScale);
 
 					// End Case
 					break;
 
 				case 5:
 
+					// Define Register
+					Register MAX4 {0x01, 0xAD, 23}; // Maximum Recorded Value 5
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX4) * Config.IScale);
+					return(this->Register_Pointer_Read(MAX4) * Config.IScale);
 
 					// End Case
 					break;
 
 				case 6:
 
+					// Define Register
+					Register MAX5 {0x01, 0xB0, 23}; // Maximum Recorded Value 6
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX5) * Config.IScale);
+					return(this->Register_Pointer_Read(MAX5) * Config.IScale);
 
 					// End Case
 					break;
 
 				case 7:
 
+					// Define Register
+					Register MAX6 {0x01, 0xB3, 0}; // Maximum Recorded Value 7
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX6));
+					return(this->Register_Pointer_Read(MAX6));
 
 					// End Case
 					break;
 
 				case 8:
 
+					// Define Register
+					Register MAX7 {0x01, 0xB6, 0}; // Maximum Recorded Value 8
+
 					// Get Register
-					return(this->Register_Pointer_Read(this->Registers.MAX7));
+					return(this->Register_Pointer_Read(MAX7));
 
 					// End Case
 					break;
@@ -2409,8 +2903,11 @@ class MAX78630 {
 
 				case 1:
 
+					// Define Register
+					Register MIN0 {0x01, 0x89, 23}; // Minimum Recorded Value 1
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN0, 0x00);
+					Register_Pointer_Set(MIN0, 0x00);
 
 					// End Function
 					return(true);
@@ -2420,8 +2917,11 @@ class MAX78630 {
 
 				case 2:
 
+					// Define Register
+					Register MIN1 {0x01, 0x8C, 23}; // Minimum Recorded Value 2
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN1, 0x00);
+					Register_Pointer_Set(MIN1, 0x00);
 
 					// End Function
 					return(true);
@@ -2431,8 +2931,11 @@ class MAX78630 {
 
 				case 3:
 
+					// Define Register
+					Register MIN2 {0x01, 0x8F, 23}; // Minimum Recorded Value 3
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN2, 0x00);
+					Register_Pointer_Set(MIN2, 0x00);
 
 					// End Function
 					return(true);
@@ -2442,8 +2945,11 @@ class MAX78630 {
 
 				case 4:
 
+					// Define Register
+					Register MIN3 {0x01, 0x92, 23}; // Minimum Recorded Value 4
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN3, 0x00);
+					Register_Pointer_Set(MIN3, 0x00);
 
 					// End Function
 					return(true);
@@ -2453,8 +2959,11 @@ class MAX78630 {
 
 				case 5:
 
+					// Define Register
+					Register MIN4 {0x01, 0x95, 23}; // Minimum Recorded Value 5
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN4, 0x00);
+					Register_Pointer_Set(MIN4, 0x00);
 
 					// End Function
 					return(true);
@@ -2464,8 +2973,11 @@ class MAX78630 {
 
 				case 6:
 
+					// Define Register
+					Register MIN5 {0x01, 0x98, 23}; // Minimum Recorded Value 6
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN5, 0x00);
+					Register_Pointer_Set(MIN5, 0x00);
 
 					// End Function
 					return(true);
@@ -2475,8 +2987,11 @@ class MAX78630 {
 
 				case 7:
 
+					// Define Register
+					Register MIN6 {0x01, 0x9B, 0}; // Minimum Recorded Value 7
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN6, 0x00);
+					Register_Pointer_Set(MIN6, 0x00);
 
 					// End Function
 					return(true);
@@ -2486,8 +3001,11 @@ class MAX78630 {
 
 				case 8:
 
+					// Define Register
+					Register MIN7 {0x01, 0x9E, 0}; // Minimum Recorded Value 8
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MIN7, 0x00);
+					Register_Pointer_Set(MIN7, 0x00);
 
 					// End Function
 					return(true);
@@ -2519,8 +3037,11 @@ class MAX78630 {
 
 				case 1:
 
+					// Define Register
+					Register MAX0 {0x01, 0xA1, 23}; // Maximum Recorded Value 1
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX0, 0x00);
+					Register_Pointer_Set(MAX0, 0x00);
 
 					// End Function
 					return(true);
@@ -2530,8 +3051,11 @@ class MAX78630 {
 
 				case 2:
 
+					// Define Register
+					Register MAX1 {0x01, 0xA4, 23}; // Maximum Recorded Value 2
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX1, 0x00);
+					Register_Pointer_Set(MAX1, 0x00);
 
 					// End Function
 					return(true);
@@ -2541,8 +3065,11 @@ class MAX78630 {
 
 				case 3:
 
+					// Define Register
+					Register MAX2 {0x01, 0xA7, 23}; // Maximum Recorded Value 3
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX2, 0x00);
+					Register_Pointer_Set(MAX2, 0x00);
 
 					// End Function
 					return(true);
@@ -2552,8 +3079,11 @@ class MAX78630 {
 
 				case 4:
 
+					// Define Register
+					Register MAX3 {0x01, 0xAA, 23}; // Maximum Recorded Value 4
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX3, 0x00);
+					Register_Pointer_Set(MAX3, 0x00);
 
 					// End Function
 					return(true);
@@ -2563,8 +3093,11 @@ class MAX78630 {
 
 				case 5:
 
+					// Define Register
+					Register MAX4 {0x01, 0xAD, 23}; // Maximum Recorded Value 5
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX4, 0x00);
+					Register_Pointer_Set(MAX4, 0x00);
 
 					// End Function
 					return(true);
@@ -2574,8 +3107,11 @@ class MAX78630 {
 
 				case 6:
 
+					// Define Register
+					Register MAX5 {0x01, 0xB0, 23}; // Maximum Recorded Value 6
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX5, 0x00);
+					Register_Pointer_Set(MAX5, 0x00);
 
 					// End Function
 					return(true);
@@ -2585,8 +3121,11 @@ class MAX78630 {
 
 				case 7:
 
+					// Define Register
+					Register MAX6 {0x01, 0xB3, 0}; // Maximum Recorded Value 7
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX6, 0x00);
+					Register_Pointer_Set(MAX6, 0x00);
 
 					// End Function
 					return(true);
@@ -2596,8 +3135,11 @@ class MAX78630 {
 
 				case 8:
 
+					// Define Register
+					Register MAX7 {0x01, 0xB6, 0}; // Maximum Recorded Value 8
+
 					// Clear Register
-					Register_Pointer_Set(this->Registers.MAX7, 0x00);
+					Register_Pointer_Set(MAX7, 0x00);
 
 					// End Function
 					return(true);
@@ -2628,14 +3170,22 @@ class MAX78630 {
 		 */
 		bool Voltage_Calibration(const uint8_t _Phase, const float _Gain, const float _Offset) {
 
+			Register I3_GAIN 		{0x00, 		0x5A, 		21};		// Current Gain Calibration.Positive values only
+			Register V1_GAIN 		{0x00, 		0x5D, 		21};		// Voltage Gain Calibration. Positive values only
+			Register V2_GAIN 		{0x00, 		0x60, 		21};		// Voltage Gain Calibration. Positive values only
+			Register V3_GAIN 		{0x00, 		0x63, 		21};		// Voltage Gain Calibration. Positive values only
+			Register V1_OFFS 		{0x00, 		0x6F, 		23};		// Voltage Offset Calibration
+			Register V2_OFFS 		{0x00, 		0x72, 		23};		// Voltage Offset Calibration
+			Register V3_OFFS 		{0x00, 		0x75, 		23};		// Voltage Offset Calibration
+
 			// Control Input Parameters
 			if (_Phase > 3) return(false);
 
 			// Phase R Calibration
 			if (_Phase == __Phase_R__) {
 
-				bool _Result_Gain = this->Register_Pointer_Set(this->Registers.V1_GAIN, this->FtoS(_Gain, this->Registers.V1_GAIN.Data_Type)); // Write Gain
-				bool _Result_Offset = this->Register_Pointer_Set(this->Registers.V1_OFFS, this->FtoS(_Offset, this->Registers.V1_GAIN.Data_Type)); // Write Offset
+				bool _Result_Gain = this->Register_Pointer_Set(V1_GAIN, this->FtoS(_Gain, V1_GAIN.Data_Type)); // Write Gain
+				bool _Result_Offset = this->Register_Pointer_Set(V1_OFFS, this->FtoS(_Offset, V1_GAIN.Data_Type)); // Write Offset
 
 				// End Function
 				return(_Result_Gain and _Result_Offset);
@@ -2645,8 +3195,8 @@ class MAX78630 {
 			// Phase S Calibration
 			if (_Phase == __Phase_S__) {
 
-				bool _Result_Gain = this->Register_Pointer_Set(this->Registers.V2_GAIN, this->FtoS(_Gain, this->Registers.V2_GAIN.Data_Type)); // Write Gain
-				bool _Result_Offset = this->Register_Pointer_Set(this->Registers.V2_OFFS, this->FtoS(_Offset, this->Registers.V2_GAIN.Data_Type)); // Write Offset
+				bool _Result_Gain = this->Register_Pointer_Set(V2_GAIN, this->FtoS(_Gain, V2_GAIN.Data_Type)); // Write Gain
+				bool _Result_Offset = this->Register_Pointer_Set(V2_OFFS, this->FtoS(_Offset, V2_GAIN.Data_Type)); // Write Offset
 
 				// End Function
 				return(_Result_Gain and _Result_Offset);
@@ -2656,8 +3206,8 @@ class MAX78630 {
 			// Phase T Calibration
 			if (_Phase == __Phase_T__) {
 
-				bool _Result_Gain = this->Register_Pointer_Set(this->Registers.V3_GAIN, this->FtoS(_Gain, this->Registers.V3_GAIN.Data_Type)); // Write Gain
-				bool _Result_Offset = this->Register_Pointer_Set(this->Registers.V3_OFFS, this->FtoS(_Offset, this->Registers.V3_GAIN.Data_Type)); // Write Offset
+				bool _Result_Gain = this->Register_Pointer_Set(V3_GAIN, this->FtoS(_Gain, V3_GAIN.Data_Type)); // Write Gain
+				bool _Result_Offset = this->Register_Pointer_Set(V3_OFFS, this->FtoS(_Offset, V3_GAIN.Data_Type)); // Write Offset
 
 				// End Function
 				return(_Result_Gain and _Result_Offset);
@@ -2680,14 +3230,21 @@ class MAX78630 {
 		 */
 		bool Current_Calibration(const uint8_t _Phase, const float _Gain, const float _Offset) {
 
+			Register I1_GAIN 		{0x00, 		0x54, 		21};		// Current Gain Calibration.Positive values only
+			Register I2_GAIN 		{0x00, 		0x57, 		21};		// Current Gain Calibration.Positive values only
+			Register I3_GAIN 		{0x00, 		0x5A, 		21};		// Current Gain Calibration.Positive values only
+			Register I1_OFFS 		{0x00, 		0x66, 		23};		// Current Offset Calibration
+			Register I2_OFFS 		{0x00, 		0x69, 		23};		// Current Offset Calibration
+			Register I3_OFFS 		{0x00, 		0x6C, 		23};		// Current Offset Calibration
+
 			// Control Input Parameters
 			if (_Phase > 3) return(false);
 
 			// Phase R Calibration
 			if (_Phase == __Phase_R__) {
 
-				bool _Result_Gain = this->Register_Pointer_Set(this->Registers.I1_GAIN, this->FtoS(_Gain, this->Registers.I1_GAIN.Data_Type)); // Write Gain
-				bool _Result_Offset = this->Register_Pointer_Set(this->Registers.I1_OFFS, this->FtoS(_Offset, this->Registers.I1_GAIN.Data_Type)); // Write Offset
+				bool _Result_Gain = this->Register_Pointer_Set(I1_GAIN, this->FtoS(_Gain, I1_GAIN.Data_Type)); // Write Gain
+				bool _Result_Offset = this->Register_Pointer_Set(I1_OFFS, this->FtoS(_Offset, I1_GAIN.Data_Type)); // Write Offset
 
 				// End Function
 				return(_Result_Gain and _Result_Offset);
@@ -2697,8 +3254,8 @@ class MAX78630 {
 			// Phase S Calibration
 			if (_Phase == __Phase_S__) {
 
-				bool _Result_Gain = this->Register_Pointer_Set(this->Registers.I2_GAIN, this->FtoS(_Gain, this->Registers.I2_GAIN.Data_Type)); // Write Gain
-				bool _Result_Offset = this->Register_Pointer_Set(this->Registers.I2_OFFS, this->FtoS(_Offset, this->Registers.I2_GAIN.Data_Type)); // Write Offset
+				bool _Result_Gain = this->Register_Pointer_Set(I2_GAIN, this->FtoS(_Gain, I2_GAIN.Data_Type)); // Write Gain
+				bool _Result_Offset = this->Register_Pointer_Set(I2_OFFS, this->FtoS(_Offset, I2_GAIN.Data_Type)); // Write Offset
 
 				// End Function
 				return(_Result_Gain and _Result_Offset);
@@ -2708,8 +3265,8 @@ class MAX78630 {
 			// Phase T Calibration
 			if (_Phase == __Phase_T__) {
 
-				bool _Result_Gain = this->Register_Pointer_Set(this->Registers.I3_GAIN, this->FtoS(_Gain, this->Registers.I3_GAIN.Data_Type)); // Write Gain
-				bool _Result_Offset = this->Register_Pointer_Set(this->Registers.I3_OFFS, this->FtoS(_Offset, this->Registers.I3_GAIN.Data_Type)); // Write Offset
+				bool _Result_Gain = this->Register_Pointer_Set(I3_GAIN, this->FtoS(_Gain, I3_GAIN.Data_Type)); // Write Gain
+				bool _Result_Offset = this->Register_Pointer_Set(I3_OFFS, this->FtoS(_Offset, I3_GAIN.Data_Type)); // Write Offset
 
 				// End Function
 				return(_Result_Gain and _Result_Offset);
@@ -2731,8 +3288,11 @@ class MAX78630 {
 		 */
 		bool Temperature_Calibration(const float _Gain, const float _Offset) {
 
-			bool _Result_Gain = this->Register_Pointer_Set(this->Registers.T_GAIN, this->FtoS(_Gain, this->Registers.T_GAIN.Data_Type)); // Write Gain
-			bool _Result_Offset = this->Register_Pointer_Set(this->Registers.T_OFFS, this->FtoS(_Offset, this->Registers.T_GAIN.Data_Type)); // Write Offset
+			Register T_GAIN 		{0x00, 		0x78, 		0};			// Temperature Slope Calibration
+			Register T_OFFS 		{0x00, 		0x7B, 		0};			// Temperature Offset Calibration
+
+			bool _Result_Gain = this->Register_Pointer_Set(T_GAIN, this->FtoS(_Gain, T_GAIN.Data_Type)); // Write Gain
+			bool _Result_Offset = this->Register_Pointer_Set(T_OFFS, this->FtoS(_Offset, T_GAIN.Data_Type)); // Write Offset
 
 			// End Function
 			return(_Result_Gain and _Result_Offset);
@@ -2748,6 +3308,8 @@ class MAX78630 {
 		 */
 		float Voltage_HPF_COEF(float _COEF) {
 
+			Register HPF_COEF_V 	{0x00, 		0x3F, 		23};		// Voltage input HPF coefficient. Positive values only
+
 			// Declare Variable
 			float _Result = 0;
 
@@ -2755,12 +3317,12 @@ class MAX78630 {
 			if (_COEF == -999) {
 
 				// Read Register
-				_Result = this->Register_Pointer_Read(this->Registers.HPF_COEF_V); // Measure Phase R
+				_Result = this->Register_Pointer_Read(HPF_COEF_V); // Measure Phase R
 
 			} else {
 
 				// Set Register
-				_Result = this->Register_Pointer_Set(this->Registers.HPF_COEF_V, this->FtoS(_COEF, 23)); // Measure Phase R
+				_Result = this->Register_Pointer_Set(HPF_COEF_V, this->FtoS(_COEF, 23)); // Measure Phase R
 
 			}
 			
@@ -2778,6 +3340,8 @@ class MAX78630 {
 		 */
 		float Current_HPF_COEF(float _COEF) {
 
+			Register HPF_COEF_I 	{0x00, 		0x3C, 		23};		// Current input HPF coefficient. Positive values only
+
 			// Declare Variable
 			float _Result = 0;
 
@@ -2785,12 +3349,12 @@ class MAX78630 {
 			if (_COEF == -999) {
 
 				// Read Register
-				_Result = this->Register_Pointer_Read(this->Registers.HPF_COEF_I); // Measure Phase R
+				_Result = this->Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
 
 			} else {
 
 				// Set Register
-				_Result = this->Register_Pointer_Set(this->Registers.HPF_COEF_I, this->FtoS(_COEF, 23)); // Measure Phase R
+				_Result = this->Register_Pointer_Set(HPF_COEF_I, this->FtoS(_COEF, 23)); // Measure Phase R
 
 			}
 			
@@ -2809,6 +3373,10 @@ class MAX78630 {
 		 */
 		float Current_RMS_Offset(char Phase, float _Offset) {
 
+			Register IARMS_OFF 		{0x00, 		0xC3, 		23};		// RMS Current dynamic offset adjust. Positive values only
+			Register IBRMS_OFF 		{0x00, 		0xC6, 		23};		// RMS Current dynamic offset adjust. Positive values only
+			Register ICRMS_OFF 		{0x00, 		0xC9, 		23};		// RMS Current dynamic offset adjust. Positive values only
+
 			// Declare Variable
 			float _Result = 0;
 
@@ -2816,16 +3384,16 @@ class MAX78630 {
 			if (_Offset == -999) {
 
 				// Read Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.IARMS_OFF); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.IBRMS_OFF); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.ICRMS_OFF); // Measure Phase T
+				if (Phase == 'R') _Result = this->Register_Pointer_Read(IARMS_OFF); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
 
 			} else {
 
 				// Set Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.IARMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.IBRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.ICRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase T
+				if (Phase == 'R') _Result = this->Register_Pointer_Set(IARMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Set(IBRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Set(ICRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase T
 
 			}
 
@@ -2844,6 +3412,10 @@ class MAX78630 {
 		 */
 		float Active_Power_Offset(char Phase, float _Offset) {
 
+			Register PA_OFFS 		{0x01, 		0x14, 		23};		// Active Power dynamic offset adjust. Positive values only
+			Register PB_OFFS 		{0x01, 		0x17, 		23};		// Active Power dynamic offset adjust. Positive values only
+			Register PC_OFFS 		{0x01, 		0x1A, 		23};		// Active Power dynamic offset adjust. Positive values only
+
 			// Declare Variable
 			float _Result = 0;
 
@@ -2851,16 +3423,16 @@ class MAX78630 {
 			if (_Offset == -999) {
 
 				// Read Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.PA_OFFS); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.PB_OFFS); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.PC_OFFS); // Measure Phase T
+				if (Phase == 'R') _Result = this->Register_Pointer_Read(PA_OFFS); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Read(PB_OFFS); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Read(PC_OFFS); // Measure Phase T
 
 			} else {
 
 				// Set Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.PA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.PB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.PC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
+				if (Phase == 'R') _Result = this->Register_Pointer_Set(PA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Set(PB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Set(PC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
 
 			}
 			
@@ -2879,6 +3451,10 @@ class MAX78630 {
 		 */
 		float ReActive_Power_Offset(char Phase, float _Offset) {
 
+			Register QA_OFFS 		{0x01, 		0x0B, 		23};		// Reactive Power dynamic offset adjust. Positive values only
+			Register QB_OFFS 		{0x01, 		0x0E, 		23};		// Reactive Power dynamic offset adjust. Positive values only
+			Register QC_OFFS 		{0x01, 		0x11, 		23};		// Reactive Power dynamic offset adjust. Positive values only
+
 			// Declare Variable
 			float _Result = 0;
 
@@ -2886,16 +3462,16 @@ class MAX78630 {
 			if (_Offset == -999) {
 
 				// Read Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.QA_OFFS); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.QB_OFFS); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.QC_OFFS); // Measure Phase T
+				if (Phase == 'R') _Result = this->Register_Pointer_Read(QA_OFFS); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Read(QB_OFFS); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Read(QC_OFFS); // Measure Phase T
 
 			} else {
 
 				// Set Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.QA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.QB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.QC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
+				if (Phase == 'R') _Result = this->Register_Pointer_Set(QA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Set(QB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Set(QC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
 
 			}
 
@@ -2914,8 +3490,11 @@ class MAX78630 {
 		 */
 		bool Get_Sticky(void) {
 
+			// Define Register
+			Register STICKY {0x00, 0x2D, 0}; // Alarm/status bits to hold until cleared by host
+
 			// Return Result
-			uint32_t _Sticky = this->Register_Pointer_Read(this->Registers.STICKY);
+			uint32_t _Sticky = this->Register_Pointer_Read(STICKY);
 
 			// Decide Status
 			if (_Sticky != 0x800001) {return(true);} else {return(false);}
@@ -2933,12 +3512,15 @@ class MAX78630 {
 		 */
 		bool Set_Sticky(const bool _Sticky) {
 
+			// Define Register
+			Register STICKY {0x00, 0x2D, 0}; // Alarm/status bits to hold until cleared by host
+
 			// Get Current Register
-			uint32_t _Current_Sticky = this->Register_Pointer_Read(this->Registers.STICKY);
+			uint32_t _Current_Sticky = this->Register_Pointer_Read(STICKY);
 
 			// Return Result
-			if (!_Sticky) return(this->Register_Pointer_Set(this->Registers.STICKY, (_Current_Sticky & 0xFF800003)));
-			if (_Sticky) return(this->Register_Pointer_Set(this->Registers.STICKY, (_Current_Sticky | 0x7FFFFC)));
+			if (!_Sticky) return(this->Register_Pointer_Set(STICKY, (_Current_Sticky & 0xFF800003)));
+			if (_Sticky) return(this->Register_Pointer_Set(STICKY, (_Current_Sticky | 0x7FFFFC)));
 
 			// End Function
 			return(false);
@@ -2951,8 +3533,11 @@ class MAX78630 {
 		 */
 		void Get_Status(void) {
 
+			// Define Register
+			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
+
 			// Read Status Register
-			uint32_t _Last_Status = this->Register_Pointer_Read(this->Registers.STATUS);
+			uint32_t _Last_Status = this->Register_Pointer_Read(STATUS);
 
 			// Control Status
 			if (bitRead(_Last_Status, 2)) {this->Status.Imbalance.I_IMBAL = true;} else {this->Status.Imbalance.I_IMBAL = false;}
@@ -2985,8 +3570,11 @@ class MAX78630 {
 		 */
 		void Clear_Status(void) {
 
+			// Define Register
+			Register STATUS {0x00, 0x15, 0}; // Alarm and device status bits
+
 			// Clear Status Register
-			Register_Pointer_Set(this->Registers.STATUS, 0x0000);
+			Register_Pointer_Set(STATUS, 0x0000);
 
 		}
 
