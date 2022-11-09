@@ -247,7 +247,7 @@ class MAX78630 {
 			 */
 			struct Voltage_Default_Struct {
 				float	Min			= 192;
-				float	Max			= 253;
+				float	Max			= 223;
 				float	Imbalance	= 0.06;
 			} Voltage;
 
@@ -482,433 +482,6 @@ class MAX78630 {
 
 		}
 
-		/**
-		 * @brief Set Voltage Scale Function
-		 * @version 01.00.00
-		 * @param _Voltage_Scale Voltage Scale
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_VScale(const uint32_t _Voltage_Scale) {
-
-			// Set Register
-			return(this->Register_Pointer_Set(this->Registers.VSCALE, _Voltage_Scale));
-
-		}
-
-		/**
-		 * @brief Set Current Scale Function
-		 * @version 01.00.00
-		 * @param _Current_Scale Current Scale
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_IScale(const uint32_t _Current_Scale) {
-
-			// Set Register
-			return(this->Register_Pointer_Set(this->Registers.IFSCALE, _Current_Scale));
-
-		}
-
-		/**
-		 * @brief Bucket Size Set Function.
-		 * @version 01.00.00
-		 * @param _Bucket_H Bucket High Word
-		 * @param _Bucket_L Bucket Low Word
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Write_Bucket(const uint32_t _Bucket_H, const uint32_t _Bucket_L) {
-
-			// Set Command
-			bool _Result_LOW = this->Register_Pointer_Set(this->Registers.BUCKET_LOW, _Bucket_L);
-			bool _Result_HIGH = this->Register_Pointer_Set(this->Registers.BUCKET_HIGH, _Bucket_H);
-
-			// End Function
-			return(_Result_LOW and _Result_HIGH);
-
-		}
-
-		/**
-		 * @brief Get System Status Function.
-		 * @version 01.00.00
-		 * @return uint32_t System Status
-		 */
-		uint32_t Get_System_Stat(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.SYSSTAT));
-
-		}
-
-		/**
-		 * @brief Get Device Frame Rate Function.
-		 * @version 01.00.00
-		 * @return uint32_t Frame Rate
-		 */
-		uint32_t Get_Frame(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.FRAME));
-
-		}
-
-		/**
-		 * @brief Get Sample Counter Function
-		 * @version 01.00.00
-		 * @return uint32_t Sample Counter
-		 */
-		uint32_t Get_Cycle(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.CYCLE));
-
-		}
-
-		/**
-		 * @brief Get Divisor Value Function
-		 * @version 01.00.00
-		 * @return uint32_t Divisor Value
-		 */
-		uint32_t Get_Divisor(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.DIVISOR));
-
-		}
-
-		/**
-		 * @brief Get Samples per Accumulation Interval Function.
-		 * @version 01.00.00
-		 * @return uint32_t Sample per Accumulation Interval
-		 */
-		uint32_t Get_Samples(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.SAMPLES));
-
-		}
-
-
-
-
-
-		/**
-		 * @brief Voltage Limit Set Function.
-		 * @version 01.00.00
-		 * @param _VMin Minimum Voltage Limit
-		 * @param _VMax Maximum Voltage Limit
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_Voltage_Limits(const float _VMin, const float _VMax) {
-
-			// Write Registers
-			bool _Result_Min = this->Register_Pointer_Set(this->Registers.VRMS_MIN, this->FtoS(_VMin / Config.VScale, this->Registers.VRMS_MIN.Data_Type));
-			bool _Result_Max = this->Register_Pointer_Set(this->Registers.VRMS_MAX, this->FtoS(_VMax / Config.VScale, this->Registers.VRMS_MAX.Data_Type));
-
-			// End Function
-			return(_Result_Min and _Result_Max);
-
-		}
-
-		/**
-		 * @brief Frequency Limit Set Function.
-		 * @version 01.00.00
-		 * @param _FQMin Minimum Frequency Limit
-		 * @param _FQMax Maximum Frequency Limit
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_Frequency_Limits(const float _FQMin, const float _FQMax) {
-
-			// Write Registers
-			bool _Result_Min = this->Register_Pointer_Set(this->Registers.F_MIN, this->FtoS(_FQMin, this->Registers.F_MIN.Data_Type));
-			bool _Result_Max = this->Register_Pointer_Set(this->Registers.F_MAX, this->FtoS(_FQMax, this->Registers.F_MAX.Data_Type));
-
-			// End Function
-			return(_Result_Min and _Result_Max);
-
-		}
-
-		/**
-		 * @brief Imbalance Limit Set Function.
-		 * @version 01.00.00
-		 * @param _VImb Voltage Imbalance Limit
-		 * @param _IImb Current Imbalance Limit
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_Imbalance_Limits(const float _VImb, const float _IImb) {
-
-			// Write Registers
-			bool _Result_Vimb = this->Register_Pointer_Set(this->Registers.V_IMB_MAX, this->FtoS(_VImb, this->Registers.V_IMB_MAX.Data_Type));
-			bool _Result_Iimb = this->Register_Pointer_Set(this->Registers.I_IMB_MAX, this->FtoS(_IImb, this->Registers.I_IMB_MAX.Data_Type));
-
-			// End Function
-			return(_Result_Vimb and _Result_Iimb);
-
-		}
-
-		/**
-		 * @brief Temperature Limit Set Function.
-		 * @version 01.00.00
-		 * @param _TMin Minimum Temperature Limit
-		 * @param _TMax Maximum Temperature Limit
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_Temperature_Limits(const float _TMin, const float _TMax) {
-
-			// Write Registers
-			bool _Result_Min = this->Register_Pointer_Set(this->Registers.T_MIN, this->FtoS(_TMin, this->Registers.T_MIN.Data_Type));
-			bool _Result_Max = this->Register_Pointer_Set(this->Registers.T_MAX, this->FtoS(_TMax, this->Registers.T_MAX.Data_Type));
-
-			// End Function
-			return(_Result_Min and _Result_Max);
-
-		}
-
-		/**
-		 * @brief Current Limit Set Function.
-		 * @version 01.00.00
-		 * @param _TMax Maximum Current Limit
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_Current_Limits(const float _IMax) {
-
-			// Write Registers
-			bool _Result_Max = this->Register_Pointer_Set(this->Registers.IRMS_MAX, this->FtoS(_IMax / Config.IScale, this->Registers.IRMS_MAX.Data_Type));
-
-			// End Function
-			return(_Result_Max);
-
-		}
-
-
-
-
-
-
-		/**
-		 * @brief Set Harmonic Channel Function.
-		 * @version 01.00.00
-		 * @param _Harmonic Harmonic Channel
-		 * @return uint8_t 
-		 * TODO: Not Tested.
-		 */
-		uint8_t Set_Harmonic(uint32_t _Harmonic) {
-
-			// Declare Variable
-			uint32_t _Result = 0;
-
-			// Decide Action
-			if (_Harmonic == 0) {
-				
-				// Read Register
-				_Result = this->Register_Pointer_Read(this->Registers.HARM);
-
-			} else {
-
-				// Set Register
-				if (Register_Pointer_Set(this->Registers.HARM, _Harmonic)) {
-					
-					// Set Variable
-					_Result = _Harmonic;
-					
-				} else {
-
-					// Set Variable
-					_Result = 255;
-
-				}
-
-			}
-			
-			// End Function
-			return(_Result);
-
-		}
-
-		/**
-		 * @brief Voltage High Pass Filter Coefficient Function.
-		 * @version 01.00.00
-		 * @param _COEF Coefficient Value
-		 * @return float Coefficient Value
-		 * TODO: Not Tested.
-		 */
-		float Voltage_HPF_COEF(float _COEF) {
-
-			// Declare Variable
-			float _Result = 0;
-
-			// Decide Workflow
-			if (_COEF == -999) {
-
-				// Read Register
-				_Result = this->Register_Pointer_Read(this->Registers.HPF_COEF_V); // Measure Phase R
-
-			} else {
-
-				// Set Register
-				_Result = this->Register_Pointer_Set(this->Registers.HPF_COEF_V, this->FtoS(_COEF, 23)); // Measure Phase R
-
-			}
-			
-			// End Function
-			return(_Result);
-
-		}
-
-		/**
-		 * @brief Current High Pass Filter Coefficient Function.
-		 * @version 01.00.00
-		 * @param _COEF Coefficient Value
-		 * @return float Coefficient Value
-		 * TODO: Not Tested.
-		 */
-		float Current_HPF_COEF(float _COEF) {
-
-			// Declare Variable
-			float _Result = 0;
-
-			// Decide Workflow
-			if (_COEF == -999) {
-
-				// Read Register
-				_Result = this->Register_Pointer_Read(this->Registers.HPF_COEF_I); // Measure Phase R
-
-			} else {
-
-				// Set Register
-				_Result = this->Register_Pointer_Set(this->Registers.HPF_COEF_I, this->FtoS(_COEF, 23)); // Measure Phase R
-
-			}
-			
-			// End Function
-			return(_Result);
-
-		}
-
-		/**
-		 * @brief Current RMS Offset Set Function.
-		 * @version 01.00.00
-		 * @param Phase 
-		 * @param _Offset 
-		 * @return float 
-		 * TODO: Not Tested
-		 */
-		float Current_RMS_Offset(char Phase, float _Offset) {
-
-			// Declare Variable
-			float _Result = 0;
-
-			// Decide Workflow
-			if (_Offset == -999) {
-
-				// Read Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.IARMS_OFF); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.IBRMS_OFF); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.ICRMS_OFF); // Measure Phase T
-
-			} else {
-
-				// Set Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.IARMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.IBRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.ICRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase T
-
-			}
-
-			// End Function
-			return(_Result);
-
-		}
-
-		/**
-		 * @brief Active Power Offset Set Function.
-		 * @version 01.00.00
-		 * @param Phase 
-		 * @param _Offset 
-		 * @return float 
-		 * TODO: Not Tested
-		 */
-		float Active_Power_Offset(char Phase, float _Offset) {
-
-			// Declare Variable
-			float _Result = 0;
-
-			// Decide Workflow
-			if (_Offset == -999) {
-
-				// Read Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.PA_OFFS); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.PB_OFFS); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.PC_OFFS); // Measure Phase T
-
-			} else {
-
-				// Set Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.PA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.PB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.PC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
-
-			}
-			
-			// End Function
-			return(_Result);
-
-		}
-
-		/**
-		 * @brief ReActive Power Offset Set Function.
-		 * @version 01.00.00
-		 * @param Phase 
-		 * @param _Offset 
-		 * @return float 
-		 * TODO: Not Tested
-		 */
-		float ReActive_Power_Offset(char Phase, float _Offset) {
-
-			// Declare Variable
-			float _Result = 0;
-
-			// Decide Workflow
-			if (_Offset == -999) {
-
-				// Read Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.QA_OFFS); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.QB_OFFS); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.QC_OFFS); // Measure Phase T
-
-			} else {
-
-				// Set Register
-				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.QA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
-				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.QB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
-				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.QC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
-
-			}
-
-			// End Function
-			return(_Result);
-
-		}
-
-		/**
-		 * @brief Set Sticky Function
-		 * @version 01.00.00
-		 * @return true Function Succeed
-		 * @return false Function Fails
-		 */
-		bool Set_Sticky(const uint32_t _Sticky) {
-
-			// Return Result
-			return(this->Register_Pointer_Set(this->Registers.STICKY, _Sticky));
-
-		}
-
 	public:
 
 		/**
@@ -1122,18 +695,22 @@ class MAX78630 {
 			this->Set_VScale(this->Config.VScale);
 			this->Set_IScale(this->Config.IScale);
 
-			// Set Limits
-			this->Set_Voltage_Limits(this->Limit.Voltage.Min, this->Limit.Voltage.Max);
-			this->Set_Frequency_Limits(this->Limit.Frequency.Min, this->Limit.Frequency.Max);
-			this->Set_Imbalance_Limits(this->Limit.Voltage.Imbalance, this->Limit.Current.Imbalance);
-			this->Set_Temperature_Limits(this->Limit.Temperature.Min, this->Limit.Temperature.Max);
-			this->Set_Current_Limits(this->Limit.Current.Max);
-
 			// Bucket Set Command
-			this->Write_Bucket(this->Config.Bucket_High, this->Config.Bucket_Low);
+			this->Set_Bucket(this->Config.Bucket_High, this->Config.Bucket_Low);
 
 			// Set Sticky
-			this->Set_Sticky(0x800003);
+			this->Set_Sticky(false);
+
+			// Set Limits
+			this->Set_Limit(__VRMS_MIN__, this->Limit.Voltage.Min);
+			this->Set_Limit(__VRMS_MAX__, this->Limit.Voltage.Max);
+			this->Set_Limit(__IRMS_MAX__, this->Limit.Current.Max);
+			this->Set_Limit(__F_MIN__, this->Limit.Frequency.Min);
+			this->Set_Limit(__F_MAX__, this->Limit.Frequency.Max);
+			this->Set_Limit(__VIMB_MAX__, this->Limit.Voltage.Imbalance);
+			this->Set_Limit(__IIMB_MAX__, this->Limit.Current.Imbalance);
+			this->Set_Limit(__T_MIN__, this->Limit.Temperature.Min);
+			this->Set_Limit(__T_MAX__, this->Limit.Temperature.Max);
 
 			// Set Min Max Address
 			this->Set_Min_Max_Address(1, 0x30); this->Clear_Min_Value(1); this->Clear_Max_Value(1);
@@ -1144,6 +721,8 @@ class MAX78630 {
 			this->Set_Min_Max_Address(6, 0x49); this->Clear_Min_Value(6); this->Clear_Max_Value(6);
 
 		}
+
+		// Utility Functions
 
 		/**
 		 * @brief Get Device Address Function.
@@ -1182,30 +761,6 @@ class MAX78630 {
 		}
 
 		/**
-		 * @brief Get VSCALE Function.
-		 * @version 01.00.00
-		 * @return uint32_t 
-		 */
-		uint32_t Get_VSCale(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.VSCALE));
-
-		}
-
-		/**
-		 * @brief Get ISCALE Function.
-		 * @version 01.00.00
-		 * @return uint32_t 
-		 */
-		uint32_t Get_ISCale(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.IFSCALE));
-
-		}
-
-		/**
 		 * @brief Set Baud Function
 		 * @version 01.00.00
 		 * @param _Baud Communication Baud Rate
@@ -1218,6 +773,68 @@ class MAX78630 {
 			return(this->Register_Pointer_Set(this->Registers.BAUD, _Baud));
 
 		}
+
+		/**
+		 * @brief Get System Status Function.
+		 * @version 01.00.00
+		 * @return uint32_t System Status
+		 */
+		uint32_t Get_System_Stat(void) {
+
+			// Return Register
+			return(this->Register_Pointer_Read(this->Registers.SYSSTAT));
+
+		}
+
+		/**
+		 * @brief Get Device Frame Rate Function.
+		 * @version 01.00.00
+		 * @return uint32_t Frame Rate
+		 */
+		uint32_t Get_Frame(void) {
+
+			// Return Register
+			return(this->Register_Pointer_Read(this->Registers.FRAME));
+
+		}
+
+		/**
+		 * @brief Get Sample Counter Function
+		 * @version 01.00.00
+		 * @return uint32_t Sample Counter
+		 */
+		uint32_t Get_Cycle(void) {
+
+			// Return Register
+			return(this->Register_Pointer_Read(this->Registers.CYCLE));
+
+		}
+
+		/**
+		 * @brief Get Divisor Value Function
+		 * @version 01.00.00
+		 * @return uint32_t Divisor Value
+		 */
+		uint32_t Get_Divisor(void) {
+
+			// Return Register
+			return(this->Register_Pointer_Read(this->Registers.DIVISOR));
+
+		}
+
+		/**
+		 * @brief Get Samples per Accumulation Interval Function.
+		 * @version 01.00.00
+		 * @return uint32_t Sample per Accumulation Interval
+		 */
+		uint32_t Get_Samples(void) {
+
+			// Return Register
+			return(this->Register_Pointer_Read(this->Registers.SAMPLES));
+
+		}
+
+		// Measurement Functions
 
 		/**
 		 * @brief Voltage Measurement Function.
@@ -1737,147 +1354,194 @@ class MAX78630 {
 
 		}
 
-
-
-
-
-
-
+		// Set Scale Functions
 
 		/**
-		 * @brief Voltage Imbalance Limit Read Function.
+		 * @brief Set Voltage Scale Function
 		 * @version 01.00.00
-		 * @return float Voltage Imbalance Limit Value.
+		 * @param _Voltage_Scale Voltage Scale
+		 * @return true Function Succeed
+		 * @return false Function Fails
 		 */
-		float Read_Voltage_Imbalance_Max_Limit(void) {
+		bool Set_VScale(const uint32_t _Voltage_Scale) {
 
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.V_IMB_MAX));
+			// Set Register
+			return(this->Register_Pointer_Set(this->Registers.VSCALE, _Voltage_Scale));
 
 		}
 
 		/**
-		 * @brief Current Imbalance Limit Read Function.
+		 * @brief Set Current Scale Function
 		 * @version 01.00.00
-		 * @return float Current Imbalance Limit Value.
+		 * @param _Current_Scale Current Scale
+		 * @return true Function Succeed
+		 * @return false Function Fails
 		 */
-		float Read_Current_Imbalance_Max_Limit(void) {
+		bool Set_IScale(const uint32_t _Current_Scale) {
 
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.I_IMB_MAX));
+			// Set Register
+			return(this->Register_Pointer_Set(this->Registers.IFSCALE, _Current_Scale));
 
 		}
 
 		/**
-		 * @brief Voltage Min Limit Read Function.
+		 * @brief Get VSCALE Function.
 		 * @version 01.00.00
-		 * @return float Minimum Voltage Limit Value.
+		 * @return uint32_t 
 		 */
-		float Read_Voltage_Min_Limit(void) {
+		uint32_t Get_VSCale(void) {
 
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.VRMS_MIN) * Config.VScale);
+			return(this->Register_Pointer_Read(this->Registers.VSCALE));
 
 		}
 
 		/**
-		 * @brief Voltage Max Limit Read Function.
+		 * @brief Get ISCALE Function.
 		 * @version 01.00.00
-		 * @return float Maximum Voltage Limit Value.
+		 * @return uint32_t 
 		 */
-		float Read_Voltage_Max_Limit(void) {
+		uint32_t Get_ISCale(void) {
 
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.VRMS_MAX) * Config.VScale);
+			return(this->Register_Pointer_Read(this->Registers.IFSCALE));
 
 		}
 
 		/**
-		 * @brief Current Max Limit Read Function.
+		 * @brief Bucket Size Get Function.
 		 * @version 01.00.00
-		 * @return float Maximum Current Limit Value.
 		 */
-		float Read_Current_Max_Limit(void) {
+		uint32_t Get_Bucket_H(void) {
 
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.IRMS_MAX) * Config.IScale);
+			// Set Command
+			return(this->Register_Pointer_Read(this->Registers.BUCKET_HIGH));
 
 		}
 
 		/**
-		 * @brief Get Voltage SAG Limit Function.
+		 * @brief Bucket Size Get Function.
 		 * @version 01.00.00
-		 * @return float Voltage SAG
 		 */
-		float Get_Voltage_SAG_Limit(void) {
+		uint32_t Get_Bucket_L(void) {
+
+			// Set Command
+			return(this->Register_Pointer_Read(this->Registers.BUCKET_LOW));
+
+		}
+
+		/**
+		 * @brief Bucket Size Set Function.
+		 * @version 01.00.00
+		 * @param _Bucket_H Bucket High Word
+		 * @param _Bucket_L Bucket Low Word
+		 * @return true Function Succeed
+		 * @return false Function Fails
+		 */
+		bool Set_Bucket(const uint32_t _Bucket_H, const uint32_t _Bucket_L) {
+
+			// Set Command
+			bool _Result_LOW = this->Register_Pointer_Set(this->Registers.BUCKET_LOW, _Bucket_L);
+			bool _Result_HIGH = this->Register_Pointer_Set(this->Registers.BUCKET_HIGH, _Bucket_H);
+
+			// End Function
+			return(_Result_LOW and _Result_HIGH);
+
+		}
+
+		/**
+		 * @brief Set Harmonic Channel Function.
+		 * @version 01.00.00
+		 * @param _Harmonic Harmonic Channel
+		 * @return uint8_t 
+		 * TODO: Not Tested.
+		 */
+		uint8_t Set_Harmonic(uint32_t _Harmonic) {
+
+			// Declare Variable
+			uint32_t _Result = 0;
+
+			// Decide Action
+			if (_Harmonic == 0) {
+				
+				// Read Register
+				_Result = this->Register_Pointer_Read(this->Registers.HARM);
+
+			} else {
+
+				// Set Register
+				if (Register_Pointer_Set(this->Registers.HARM, _Harmonic)) {
+					
+					// Set Variable
+					_Result = _Harmonic;
+					
+				} else {
+
+					// Set Variable
+					_Result = 255;
+
+				}
+
+			}
 			
+			// End Function
+			return(_Result);
+
+		}
+
+		// Limit Functions
+
+		/**
+		 * @brief Limit Set Function.
+		 * @version 01.00.00
+		 * @param _Limit_Type Limit Type
+		 * @param _Limit_Value Limit Value
+		 * @return true Function Succeed
+		 * @return false Function Fails
+		 */
+		bool Set_Limit(const uint8_t _Limit_Type, const float _Limit_Value) {
+
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.VSAG_LIM) * Config.VScale);
+			if (_Limit_Type == __VRMS_MIN__) return(this->Register_Pointer_Set(this->Registers.VRMS_MIN, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MIN.Data_Type)));
+			else if (_Limit_Type == __VRMS_MAX__) return(this->Register_Pointer_Set(this->Registers.VRMS_MAX, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VRMS_MAX.Data_Type)));
+			else if (_Limit_Type == __IRMS_MAX__) return(this->Register_Pointer_Set(this->Registers.IRMS_MAX, this->FtoS(_Limit_Value / Config.IScale, this->Registers.IRMS_MAX.Data_Type)));
+			else if (_Limit_Type == __F_MIN__) return(this->Register_Pointer_Set(this->Registers.F_MIN, this->FtoS(_Limit_Value, this->Registers.F_MIN.Data_Type)));
+			else if (_Limit_Type == __F_MAX__) return(this->Register_Pointer_Set(this->Registers.F_MAX, this->FtoS(_Limit_Value, this->Registers.F_MAX.Data_Type)));
+			else if (_Limit_Type == __T_MIN__) return(this->Register_Pointer_Set(this->Registers.T_MIN, this->FtoS(_Limit_Value, this->Registers.T_MIN.Data_Type)));
+			else if (_Limit_Type == __T_MAX__) return(this->Register_Pointer_Set(this->Registers.T_MAX, this->FtoS(_Limit_Value, this->Registers.T_MAX.Data_Type)));
+			else if (_Limit_Type == __PF_MIN__) return(this->Register_Pointer_Set(this->Registers.PF_MIN, this->FtoS(_Limit_Value, this->Registers.PF_MIN.Data_Type)));
+			else if (_Limit_Type == __VSAG_LIM__) return(this->Register_Pointer_Set(this->Registers.VSAG_LIM, this->FtoS(_Limit_Value / Config.VScale, this->Registers.VSAG_LIM.Data_Type)));
+			else if (_Limit_Type == __VIMB_MAX__) return(this->Register_Pointer_Set(this->Registers.V_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.V_IMB_MAX.Data_Type)));
+			else if (_Limit_Type == __IIMB_MAX__) return(this->Register_Pointer_Set(this->Registers.I_IMB_MAX, this->FtoS(_Limit_Value, this->Registers.I_IMB_MAX.Data_Type)));
+			else return(false);
 
 		}
 
 		/**
-		 * @brief Frequency Min Limit Read Function.
+		 * @brief Limit Read Function.
 		 * @version 01.00.00
-		 * @return float Minimum Frequency Limit Value.
+		 * @param _Limit_Type 
+		 * @return float Limit Value.
 		 */
-		float Read_Frequency_Min_Limit(void) {
+		float Get_Limit(const uint8_t _Limit_Type) {
 
 			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.F_MIN));
+			if (_Limit_Type == __VRMS_MIN__) return(this->Register_Pointer_Read(this->Registers.VRMS_MIN) * Config.VScale);
+			else if (_Limit_Type == __VRMS_MAX__) return(this->Register_Pointer_Read(this->Registers.VRMS_MAX) * Config.VScale);
+			else if (_Limit_Type == __IRMS_MAX__) return(this->Register_Pointer_Read(this->Registers.IRMS_MAX) * Config.IScale);
+			else if (_Limit_Type == __F_MIN__) return(this->Register_Pointer_Read(this->Registers.F_MIN));
+			else if (_Limit_Type == __F_MAX__) return(this->Register_Pointer_Read(this->Registers.F_MAX));
+			else if (_Limit_Type == __T_MIN__) return(this->Register_Pointer_Read(this->Registers.T_MIN));
+			else if (_Limit_Type == __T_MAX__) return(this->Register_Pointer_Read(this->Registers.T_MAX));
+			else if (_Limit_Type == __PF_MIN__) return(this->Register_Pointer_Read(this->Registers.PF_MIN));
+			else if (_Limit_Type == __VSAG_LIM__) return(this->Register_Pointer_Read(this->Registers.VSAG_LIM) * Config.VScale);
+			else if (_Limit_Type == __VIMB_MAX__) return(this->Register_Pointer_Read(this->Registers.V_IMB_MAX));
+			else if (_Limit_Type == __IIMB_MAX__) return(this->Register_Pointer_Read(this->Registers.I_IMB_MAX));
+			else return(0);
 
 		}
 
-		/**
-		 * @brief Frequency Max Limit Read Function.
-		 * @version 01.00.00
-		 * @return float Maximum Frequency Limit Value.
-		 */
-		float Read_Frequency_Max_Limit(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.F_MAX));
-
-		}
-
-		/**
-		 * @brief Temperature Min Limit Read Function.
-		 * @version 01.00.00
-		 * @return float Minimum Temperature Limit Value.
-		 */
-		float Read_Temperature_Min_Limit(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.T_MIN));
-
-		}
-
-		/**
-		 * @brief Temperature Max Limit Read Function.
-		 * @version 01.00.00
-		 * @return float Maximum Temperature Limit Value.
-		 */
-		float Read_Temperature_Max_Limit(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.T_MAX));
-
-		}
-
-		/**
-		 * @brief PowerFactor Min Limit Read Function.
-		 * @version 01.00.00
-		 * @return float Minimum PowerFactor Limit Value.
-		 */
-		float Read_PowerFactor_Min_Limit(void) {
-
-			// Return Register
-			return(this->Register_Pointer_Read(this->Registers.PF_MIN));
-
-		}
-
-
-
+		// Min/Max Functions
 
 		/**
 		 * @brief Set Min-Max Control Address
@@ -1887,7 +1551,7 @@ class MAX78630 {
 		 * @return true Function Succeed
 		 * @return false Function Fails
 		 */
-		bool Set_Min_Max_Address(uint8_t _MM_ADDR, uint32_t _Mask) {
+		bool Set_Min_Max_Address(const uint8_t _MM_ADDR, const uint32_t _Mask) {
 
 			// Define Result Variable
 			bool _Result = false;
@@ -2021,10 +1685,7 @@ class MAX78630 {
 
 		}
 
-
-
-
-
+		// Calibration Functions
 
 		/**
 		 * @brief Voltage Calibration Function
@@ -2149,10 +1810,210 @@ class MAX78630 {
 		}
 
 		/**
+		 * @brief Voltage High Pass Filter Coefficient Function.
+		 * @version 01.00.00
+		 * @param _COEF Coefficient Value
+		 * @return float Coefficient Value
+		 * TODO: Not Tested.
+		 */
+		float Voltage_HPF_COEF(float _COEF) {
+
+			// Declare Variable
+			float _Result = 0;
+
+			// Decide Workflow
+			if (_COEF == -999) {
+
+				// Read Register
+				_Result = this->Register_Pointer_Read(this->Registers.HPF_COEF_V); // Measure Phase R
+
+			} else {
+
+				// Set Register
+				_Result = this->Register_Pointer_Set(this->Registers.HPF_COEF_V, this->FtoS(_COEF, 23)); // Measure Phase R
+
+			}
+			
+			// End Function
+			return(_Result);
+
+		}
+
+		/**
+		 * @brief Current High Pass Filter Coefficient Function.
+		 * @version 01.00.00
+		 * @param _COEF Coefficient Value
+		 * @return float Coefficient Value
+		 * TODO: Not Tested.
+		 */
+		float Current_HPF_COEF(float _COEF) {
+
+			// Declare Variable
+			float _Result = 0;
+
+			// Decide Workflow
+			if (_COEF == -999) {
+
+				// Read Register
+				_Result = this->Register_Pointer_Read(this->Registers.HPF_COEF_I); // Measure Phase R
+
+			} else {
+
+				// Set Register
+				_Result = this->Register_Pointer_Set(this->Registers.HPF_COEF_I, this->FtoS(_COEF, 23)); // Measure Phase R
+
+			}
+			
+			// End Function
+			return(_Result);
+
+		}
+
+		/**
+		 * @brief Current RMS Offset Set Function.
+		 * @version 01.00.00
+		 * @param Phase 
+		 * @param _Offset 
+		 * @return float 
+		 * TODO: Not Tested
+		 */
+		float Current_RMS_Offset(char Phase, float _Offset) {
+
+			// Declare Variable
+			float _Result = 0;
+
+			// Decide Workflow
+			if (_Offset == -999) {
+
+				// Read Register
+				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.IARMS_OFF); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.IBRMS_OFF); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.ICRMS_OFF); // Measure Phase T
+
+			} else {
+
+				// Set Register
+				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.IARMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.IBRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.ICRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase T
+
+			}
+
+			// End Function
+			return(_Result);
+
+		}
+
+		/**
+		 * @brief Active Power Offset Set Function.
+		 * @version 01.00.00
+		 * @param Phase 
+		 * @param _Offset 
+		 * @return float 
+		 * TODO: Not Tested
+		 */
+		float Active_Power_Offset(char Phase, float _Offset) {
+
+			// Declare Variable
+			float _Result = 0;
+
+			// Decide Workflow
+			if (_Offset == -999) {
+
+				// Read Register
+				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.PA_OFFS); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.PB_OFFS); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.PC_OFFS); // Measure Phase T
+
+			} else {
+
+				// Set Register
+				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.PA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.PB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.PC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
+
+			}
+			
+			// End Function
+			return(_Result);
+
+		}
+
+		/**
+		 * @brief ReActive Power Offset Set Function.
+		 * @version 01.00.00
+		 * @param Phase 
+		 * @param _Offset 
+		 * @return float 
+		 * TODO: Not Tested
+		 */
+		float ReActive_Power_Offset(char Phase, float _Offset) {
+
+			// Declare Variable
+			float _Result = 0;
+
+			// Decide Workflow
+			if (_Offset == -999) {
+
+				// Read Register
+				if (Phase == 'R') _Result = this->Register_Pointer_Read(this->Registers.QA_OFFS); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Read(this->Registers.QB_OFFS); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Read(this->Registers.QC_OFFS); // Measure Phase T
+
+			} else {
+
+				// Set Register
+				if (Phase == 'R') _Result = this->Register_Pointer_Set(this->Registers.QA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
+				if (Phase == 'S') _Result = this->Register_Pointer_Set(this->Registers.QB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
+				if (Phase == 'T') _Result = this->Register_Pointer_Set(this->Registers.QC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
+
+			}
+
+			// End Function
+			return(_Result);
+
+		}
+
+		// Status Functions
+
+		/**
+		 * @brief Set Sticky Function
+		 * @version 01.00.00
+		 * @return true Function Succeed
+		 * @return false Function Fails
+		 */
+		bool Get_Sticky(void) {
+
+			// Return Result
+			uint32_t _Sticky = this->Register_Pointer_Read(this->Registers.STICKY);
+
+			if (_Sticky != 0x800001) return(true);
+			else return(false);
+
+		}
+
+		/**
+		 * @brief Set Sticky Function
+		 * @version 01.00.00
+		 * @return true Function Succeed
+		 * @return false Function Fails
+		 */
+		bool Set_Sticky(const bool _Sticky) {
+
+			// Get Current Register
+			uint32_t _Current_Sticky = this->Register_Pointer_Read(this->Registers.STICKY);
+
+			// Return Result
+			if (!_Sticky) return(this->Register_Pointer_Set(this->Registers.STICKY, (_Current_Sticky & 0xFF800003)));
+			if (_Sticky) return(this->Register_Pointer_Set(this->Registers.STICKY, (_Current_Sticky | 0x7FFFFC)));
+
+		}
+
+		/**
 		 * @brief Limit Parameters Control Function.
 		 * @version 01.00.00
 		 */
-		void Control_Limits(void) {
+		void Get_Status(void) {
 
 			// Read Status Register
 			uint32_t _Last_Status = this->Register_Pointer_Read(this->Registers.STATUS);
@@ -2206,6 +2067,8 @@ class MAX78630 {
 			Register_Pointer_Set(this->Registers.STATUS, 0x0000);
 
 		}
+
+		// Alarm and DIO Functions
 
 		/**
 		 * @brief Set Alarm Function

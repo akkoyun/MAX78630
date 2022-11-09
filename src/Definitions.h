@@ -35,3 +35,4 @@
 #define __PF_MIN__ 					(uint8_t)8
 #define __VIMB_MAX__ 				(uint8_t)9
 #define __IIMB_MAX__ 				(uint8_t)10
+#define __VSAG_LIM__ 				(uint8_t)11
