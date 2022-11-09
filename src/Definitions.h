@@ -36,3 +36,12 @@
 #define __VIMB_MAX__ 				(uint8_t)9
 #define __IIMB_MAX__ 				(uint8_t)10
 #define __VSAG_LIM__ 				(uint8_t)11
+
+/**
+ * @brief IC Register Address Structure
+ */
+struct Register {
+    const uint8_t High_Address;
+    const uint8_t Low_Address;
+    const uint8_t Data_Type;
+};

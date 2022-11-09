@@ -19,15 +19,6 @@ class MAX78630 {
 		Stream * Serial_Energy;
 
 		/**
-		 * @brief IC Register Address Structure
-		 */
-		struct Register {
-			const uint8_t High_Address;
-			const uint8_t Low_Address;
-			const uint8_t Data_Type;
-		};
-
-		/**
 		 * @brief IC Config Defaults Struct
 		 */
 		struct Config_Struct {
@@ -700,12 +691,12 @@ class MAX78630 {
 			// Decide Phase
 			switch (_Phase) {
 
-				case __Phase_R__:
+				case __Phase_R__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __RMS__:
+						case __RMS__: {
 
 							// Define Register
 							Register VA_RMS {0x00, 0x90, 23}; // RMS Voltage
@@ -716,7 +707,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Instant__:
+						}
+						case __Instant__: {
 
 							// Define Register
 							Register VA {0x00, 0x87, 23}; // Instantaneous Voltage
@@ -727,7 +719,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register VFUND_A {0x00, 0x9C, 23}; // Fundamental Voltage
@@ -738,7 +731,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register VHARM_A {0x00, 0xA5, 23}; // Harmonic Voltage
@@ -748,20 +742,20 @@ class MAX78630 {
 
 							// End Case
 							break;
+						}
 
-					default:
-						break;
 					}
 
 					// End Case
 					break;
 
-				case __Phase_S__:
+				}
+				case __Phase_S__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __RMS__:
+						case __RMS__: {
 
 							// Define Register
 							Register VB_RMS {0x00, 0x93, 23}; // RMS Voltage
@@ -772,7 +766,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Instant__:
+						}
+						case __Instant__: {
 
 							// Define Register
 							Register VB {0x00, 0x8A, 23}; // Instantaneous Voltage
@@ -783,7 +778,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register VFUND_B {0x00, 0x9F, 23}; // Fundamental Voltage
@@ -794,7 +790,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register VHARM_B {0x00, 0xA8, 23}; // Harmonic Voltage
@@ -805,19 +802,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_T__:
+				}
+				case __Phase_T__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __RMS__:
+						case __RMS__: {
 
 							// Define Register
 							Register VC_RMS {0x00, 0x96, 23}; // RMS Voltage
@@ -828,7 +826,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Instant__:
+						}
+						case __Instant__: {
 
 							// Define Register
 							Register VC {0x00, 0x8D, 23}; // Instantaneous Voltage
@@ -839,7 +838,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register VFUND_C {0x00, 0xA2, 23}; // Fundamental Voltage
@@ -850,7 +850,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register VHARM_C {0x00, 0xAB, 23}; // Harmonic Voltage
@@ -861,14 +862,15 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_Avg__:
+				}
+				case __Phase_Avg__: {
 
 					// Define Register
 					Register VT_RMS {0x00, 0x99, 23}; // RMS Voltage average (Total / 3)
@@ -879,8 +881,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-			default:
-				break;
+				}
+
 			}
 
 			// End Function
@@ -915,12 +917,12 @@ class MAX78630 {
 			// Decide Phase
 			switch (_Phase) {
 
-				case __Phase_R__:
+				case __Phase_R__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __RMS__:
+						case __RMS__: {
 
 							// Define Register
 							Register IA_RMS {0x00, 0xD5, 23}; // RMS Current
@@ -931,7 +933,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Instant__:
+						}
+						case __Instant__: {
 
 							// Define Register
 							Register IA {0x00, 0xBA, 23}; // Instantaneous Current
@@ -942,7 +945,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register IFUND_A {0x00, 0xE1, 23}; // Fundamental Current
@@ -953,7 +957,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register IHARM_A {0x00, 0xEA, 23}; // Harmonic Current
@@ -964,7 +969,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Peak__:
+						}
+						case __Peak__: {
 
 							// Define Register
 							Register IA_PEAK {0x00, 0xCC, 23}; // Peak Current
@@ -975,7 +981,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Phase_Compensation__:
+						}
+						case __Phase_Compensation__: {
 
 							// Define Register
 							Register PHASECOMP1 {0x00, 0x42, 21}; // Phase compensation (±4 samples) for AV1 input
@@ -986,19 +993,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_S__:
+				}
+				case __Phase_S__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __RMS__:
+						case __RMS__: {
 
 							// Define Register
 							Register IB_RMS {0x00, 0xD8, 23}; // RMS Current
@@ -1009,7 +1017,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Instant__:
+						}
+						case __Instant__: {
 
 							// Define Register
 							Register IB {0x00, 0xBD, 23}; // Instantaneous Current
@@ -1020,7 +1029,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register IFUND_B {0x00, 0xE4, 23}; // Fundamental Current
@@ -1031,7 +1041,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register IHARM_B {0x00, 0xED, 23}; // Harmonic Current
@@ -1042,7 +1053,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Peak__:
+						}
+						case __Peak__: {
 
 							// Define Register
 							Register IB_PEAK {0x00, 0xCF, 23}; // Peak Current
@@ -1053,7 +1065,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Phase_Compensation__:
+						}
+						case __Phase_Compensation__: {
 
 							// Define Register
 							Register PHASECOMP2 {0x00, 0x45, 21}; // Phase compensation (±4 samples) for AV2 input
@@ -1064,19 +1077,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_T__:
+				}
+				case __Phase_T__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __RMS__:
+						case __RMS__: {
 
 							// Define Register
 							Register IC_RMS {0x00, 0xDB, 23}; // RMS Current
@@ -1087,7 +1101,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Instant__:
+						}
+						case __Instant__: {
 
 							// Define Register
 							Register IC {0x00, 0xC0, 23}; // Instantaneous Current
@@ -1098,7 +1113,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register IFUND_C {0x00, 0xE7, 23}; // Fundamental Current
@@ -1109,7 +1125,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register IHARM_C {0x00, 0xF0, 23}; // Harmonic Current
@@ -1120,7 +1137,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Peak__:
+						}
+						case __Peak__: {
 
 							// Define Register
 							Register IC_PEAK {0x00, 0xD2, 23}; // Peak Current
@@ -1131,7 +1149,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Phase_Compensation__:
+						}
+						case __Phase_Compensation__: {
 
 							// Define Register
 							Register PHASECOMP3 {0x00, 0x48, 21}; // Phase compensation (±4 samples) for AV3 input
@@ -1142,14 +1161,15 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_Avg__:
+				}
+				case __Phase_Avg__: {
 
 					// Define Register
 					Register IT_RMS {0x00, 0xDE, 23}; // RMS Current average (Total / 3)
@@ -1160,8 +1180,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-			default:
-				break;
+				}
+
 			}
 
 			// End Function
@@ -1181,12 +1201,12 @@ class MAX78630 {
 			// Decide Phase
 			switch (_Phase) {
 
-				case __Phase_R__:
+				case __Phase_R__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __Active__:
+						case __Active__: {
 
 							// Define Register
 							Register WATT_A {0x01, 0x1D, 23}; // Active Power
@@ -1197,7 +1217,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive__:
+						}
+						case __ReActive__: {
 
 							// Define Register
 							Register VAR_A {0x01, 0x26, 23}; // Reactive Power
@@ -1208,7 +1229,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Apparent__:
+						}
+						case __Apparent__: {
 
 							// Define Register
 							Register VA_A {0x01, 0x2F, 23};	// Apparent Power
@@ -1219,7 +1241,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register PFUND_A {0x01, 0x4A, 23}; // Fundamental Power
@@ -1230,7 +1253,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register PHARM_A {0x01, 0x53, 23}; // Harmonic Power
@@ -1241,7 +1265,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fund_ReActive__:
+						}
+						case __Fund_ReActive__: {
 
 							// Define Register
 							Register QFUND_A {0x00, 0xF9, 23}; // Fundamental Reactive Power
@@ -1252,7 +1277,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harm_ReActive__:
+						}
+						case __Harm_ReActive__: {
 
 							// Define Register
 							Register QHARM_A {0x01, 0x02, 23}; // Harmonic Reactive Power
@@ -1263,7 +1289,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fund_VA__:
+						}
+						case __Fund_VA__: {
 
 							// Define Register
 							Register VAFUNDA {0x01, 0x5C, 23}; // Fundamental Volt Amperes
@@ -1274,19 +1301,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_S__:
+				}
+				case __Phase_S__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __Active__:
+						case __Active__: {
 
 							// Define Register
 							Register WATT_B {0x01, 0x20, 23}; // Active Power
@@ -1297,7 +1325,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive__:
+						}
+						case __ReActive__: {
 
 							// Define Register
 							Register VAR_B {0x01, 0x29, 23}; // Reactive Power
@@ -1308,7 +1337,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Apparent__:
+						}
+						case __Apparent__: {
 
 							// Define Register
 							Register VA_B {0x01, 0x32, 23};	// Apparent Power
@@ -1319,7 +1349,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register PFUND_B {0x01, 0x4D, 23}; // Fundamental Power
@@ -1330,7 +1361,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register PHARM_B {0x01, 0x56, 23}; // Harmonic Power
@@ -1341,7 +1373,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fund_ReActive__:
+						}
+						case __Fund_ReActive__: {
 
 							// Define Register
 							Register QFUND_B {0x00, 0xFC, 23}; // Fundamental Reactive Power
@@ -1352,7 +1385,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harm_ReActive__:
+						}
+						case __Harm_ReActive__: {
 
 							// Define Register
 							Register QHARM_B {0x01, 0x05, 23}; // Harmonic Reactive Power
@@ -1363,7 +1397,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fund_VA__:
+						}
+						case __Fund_VA__: {
 
 							// Define Register
 							Register VAFUNDB {0x01, 0x5F, 23}; // Fundamental Volt Amperes
@@ -1374,19 +1409,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_T__:
+				}
+				case __Phase_T__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __Active__:
+						case __Active__: {
 
 							// Define Register
 							Register WATT_C {0x01, 0x23, 23}; // Active Power
@@ -1397,7 +1433,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive__:
+						}
+						case __ReActive__: {
 
 							// Define Register
 							Register VAR_C {0x01, 0x2C, 23}; // Reactive Power
@@ -1408,7 +1445,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Apparent__:
+						}
+						case __Apparent__: {
 
 							// Define Register
 							Register VA_C {0x01, 0x35, 23}; // Apparent Power
@@ -1419,7 +1457,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fundamental__:
+						}
+						case __Fundamental__: {
 
 							// Define Register
 							Register PFUND_C {0x01, 0x50, 23}; // Fundamental Power
@@ -1430,7 +1469,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harmonic__:
+						}
+						case __Harmonic__: {
 
 							// Define Register
 							Register PHARM_C {0x01, 0x59, 23}; // Harmonic Power
@@ -1441,7 +1481,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fund_ReActive__:
+						}
+						case __Fund_ReActive__: {
 
 							// Define Register
 							Register QFUND_C {0x00, 0xFF, 23}; // Fundamental Reactive Power
@@ -1452,7 +1493,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Harm_ReActive__:
+						}
+						case __Harm_ReActive__: {
 
 							// Define Register
 							Register QHARM_C {0x01, 0x08, 23}; // Harmonic Reactive Power
@@ -1463,7 +1505,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Fund_VA__:
+						}
+						case __Fund_VA__: {
 
 							// Define Register
 							Register VAFUNDC {0x01, 0x62, 23}; // Fundamental Volt Amperes
@@ -1474,14 +1517,15 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_Avg__:
+				}
+				case __Phase_Avg__: {
 
 					// Define Register
 					Register VT_RMS {0x00, 0x99, 23}; // RMS Voltage average (Total / 3)
@@ -1489,7 +1533,7 @@ class MAX78630 {
 					// Decide Type
 					switch (_Type) {
 
-						case __Active__:
+						case __Active__: {
 
 							// Define Register
 							Register WATT_T {0x01, 0x38, 23}; // Active Power average (Total / 3)
@@ -1500,7 +1544,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive__:
+						}
+						case __ReActive__: {
 
 							// Define Register
 							Register VAR_T {0x01, 0x3B, 23}; // Reactive Power average (Total / 3)
@@ -1511,7 +1556,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Apparent__:
+						}
+						case __Apparent__: {
 
 							// Define Register
 							Register VA_T {0x01, 0x3E, 23}; // Apparent Power average (Total / 3)
@@ -1522,15 +1568,15 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-			default:
-				break;
+				}
+
 			}
 
 			// End Function
@@ -1550,12 +1596,12 @@ class MAX78630 {
 			// Decide Phase
 			switch (_Phase) {
 
-				case __Phase_R__:
+				case __Phase_R__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __Active_Received__:
+						case __Active_Received__: {
 
 							// Define Register
 							Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter
@@ -1566,7 +1612,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Active_Delivered__:
+						}
+						case __Active_Delivered__: {
 
 							// Define Register
 							Register WHA_NEG {0x01, 0xE6, 0}; // Delivered Active Energy Counter
@@ -1577,7 +1624,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive_Received__:
+						}
+						case __ReActive_Received__: {
 
 							// Define Register
 							Register VARHA_POS {0x02, 0x13, 0};	// Reactive Energy Leading Counter
@@ -1588,7 +1636,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive_Delivered__:
+						}
+						case __ReActive_Delivered__: {
 
 							// Define Register
 							Register VARHA_NEG {0x02, 0x1C, 0};	// Reactive Energy Lagging Counter
@@ -1599,7 +1648,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Energy_Reset__:
+						}
+						case __Energy_Reset__: {
 
 							// Define Register
 							Register WHA_POS {0x01, 0xDD, 0}; // Received Active Energy Counter
@@ -1619,19 +1669,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_S__:
+				}
+				case __Phase_S__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __Active_Received__:
+						case __Active_Received__: {
 
 							// Define Register
 							Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter
@@ -1642,7 +1693,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Active_Delivered__:
+						}
+						case __Active_Delivered__: {
 
 							// Define Register
 							Register WHB_NEG {0x01, 0xF8, 0}; // Delivered Active Energy Counter
@@ -1653,7 +1705,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive_Received__:
+						}
+						case __ReActive_Received__: {
 
 							// Define Register
 							Register VARHB_POS {0x02, 0x25, 0};	// Reactive Energy Leading Counter
@@ -1664,7 +1717,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive_Delivered__:
+						}
+						case __ReActive_Delivered__: {
 
 							// Define Register
 							Register VARHB_NEG {0x02, 0x2E, 0};	// Reactive Energy Lagging Counter
@@ -1675,7 +1729,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Energy_Reset__:
+						}
+						case __Energy_Reset__: {
 
 							// Define Register
 							Register WHB_POS {0x01, 0xEF, 0}; // Received Active Energy Counter
@@ -1695,19 +1750,20 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-				case __Phase_T__:
+				}
+				case __Phase_T__: {
 
 					// Decide Type
 					switch (_Type) {
 
-						case __Active_Received__:
+						case __Active_Received__: {
 
 							// Define Register
 							Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter
@@ -1718,7 +1774,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Active_Delivered__:
+						}
+						case __Active_Delivered__: {
 
 							// Define Register
 							Register WHC_NEG {0x02, 0x0A, 0}; // Delivered Active Energy Counter
@@ -1729,7 +1786,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive_Received__:
+						}
+						case __ReActive_Received__: {
 
 							// Define Register
 							Register VARHC_POS {0x02, 0x37, 0};	// Reactive Energy Leading Counter
@@ -1740,7 +1798,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __ReActive_Delivered__:
+						}
+						case __ReActive_Delivered__: {
 
 							// Define Register
 							Register VARHC_NEG {0x02, 0x40, 0}; // Reactive Energy Lagging Counter
@@ -1751,7 +1810,8 @@ class MAX78630 {
 							// End Case
 							break;
 
-						case __Energy_Reset__:
+						}
+						case __Energy_Reset__: {
 
 							// Define Register
 							Register WHC_POS {0x02, 0x01, 0}; // Received Active Energy Counter
@@ -1771,15 +1831,15 @@ class MAX78630 {
 							// End Case
 							break;
 
-					default:
-						break;
+						}
+
 					}
 
 					// End Case
 					break;
 
-			default:
-				break;
+				}
+
 			}
 
 			// End Function
@@ -1798,7 +1858,7 @@ class MAX78630 {
 			// Decide Phase
 			switch (_Phase) {
 
-				case __Phase_R__:
+				case __Phase_R__: {
 
 					// Define Register
 					Register PFA {0x01, 0x65, 22}; // Power Factor
@@ -1809,7 +1869,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __Phase_S__:
+				}
+				case __Phase_S__: {
 
 					// Define Register
 					Register PFB {0x01, 0x68, 22}; // Power Factor
@@ -1820,7 +1881,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __Phase_T__:
+				}
+				case __Phase_T__: {
 
 					// Define Register
 					Register PFC {0x01, 0x6B, 22}; // Power Factor
@@ -1831,7 +1893,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __Phase_Avg__:
+				}
+				case __Phase_Avg__: {
 
 					// Define Register
 					Register PF_T {0x01, 0x6E, 22}; // T otal Power Factor
@@ -1842,8 +1905,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-			default:
-				break;
+				}
+
 			}
 
 			// End Function
@@ -2285,7 +2348,7 @@ class MAX78630 {
 			// Decide Type
 			switch (_Limit_Type) {
 
-				case __VRMS_MIN__:
+				case __VRMS_MIN__: {
 
 					// Define Register
 					Register VRMS_MIN {0x00, 0xB1, 23};	// Voltage lower alarm limit. Positive values only
@@ -2296,7 +2359,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __VRMS_MAX__:
+				}
+				case __VRMS_MAX__: {
 
 					// Define Register
 					Register VRMS_MAX {0x00, 0xB4, 23};	// Voltage upper alarm limit. Positive values only
@@ -2307,7 +2371,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __IRMS_MAX__:
+				}
+				case __IRMS_MAX__: {
 
 					// Define Register
 					Register IRMS_MAX {0x00, 0xF3, 23}; // Current upper alarm limit. Positive values only
@@ -2318,7 +2383,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __F_MIN__:
+				}
+				case __F_MIN__: {
 
 					// Define Register
 					Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
@@ -2329,7 +2395,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __F_MAX__:
+				}
+				case __F_MAX__: {
 
 					// Define Register
 					Register F_MAX {0x01, 0x86, 16}; // Frequency Alarm Upper Limit
@@ -2340,7 +2407,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __T_MIN__:
+				}
+				case __T_MIN__: {
 
 					// Define Register
 					Register T_MIN {0x01, 0x7A, 10}; // Temperature Alarm Lower Limit
@@ -2351,7 +2419,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __T_MAX__:
+				}
+				case __T_MAX__: {
 
 					// Define Register
 					Register T_MAX {0x01, 0x7D, 10}; // Temperature Alarm Upper Limit
@@ -2362,7 +2431,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __PF_MIN__:
+				}
+				case __PF_MIN__: {
 
 					// Define Register
 					Register PF_MIN {0x01, 0x71, 22}; // Power Factor lower alarm limit
@@ -2373,7 +2443,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __VSAG_LIM__:
+				}
+				case __VSAG_LIM__: {
 
 					// Define Register
 					Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold. Positive values only
@@ -2384,7 +2455,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __VIMB_MAX__:
+				}
+				case __VIMB_MAX__: {
 
 					// Define Register
 					Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit. Positive values only
@@ -2395,7 +2467,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __IIMB_MAX__:
+				}
+				case __IIMB_MAX__: {
 
 					// Define Register
 					Register I_IMB_MAX {0x00, 0x84, 23}; // Current imbalance alarm limit. Positive values only
@@ -2406,9 +2479,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
@@ -2427,7 +2499,7 @@ class MAX78630 {
 			// Decide Type
 			switch (_Limit_Type) {
 
-				case __VRMS_MIN__:
+				case __VRMS_MIN__: {
 
 					// Define Register
 					Register VRMS_MIN {0x00, 0xB1, 23};	// Voltage lower alarm limit. Positive values only
@@ -2438,7 +2510,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __VRMS_MAX__:
+				}
+				case __VRMS_MAX__: {
 
 					// Define Register
 					Register VRMS_MAX {0x00, 0xB4, 23};	// Voltage upper alarm limit. Positive values only
@@ -2449,7 +2522,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __IRMS_MAX__:
+				}
+				case __IRMS_MAX__: {
 
 					// Define Register
 					Register IRMS_MAX {0x00, 0xF3, 23}; // Current upper alarm limit. Positive values only
@@ -2460,7 +2534,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __F_MIN__:
+				}
+				case __F_MIN__: {
 
 					// Define Register
 					Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
@@ -2471,7 +2546,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __F_MAX__:
+				}
+				case __F_MAX__: {
 
 					// Define Register
 					Register F_MAX {0x01, 0x86, 16}; // Frequency Alarm Upper Limit
@@ -2482,7 +2558,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __T_MIN__:
+				}
+				case __T_MIN__: {
 
 					// Define Register
 					Register T_MIN {0x01, 0x7A, 10}; // Temperature Alarm Lower Limit
@@ -2493,7 +2570,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __T_MAX__:
+				}
+				case __T_MAX__: {
 
 					// Define Register
 					Register T_MAX {0x01, 0x7D, 10}; // Temperature Alarm Upper Limit
@@ -2504,7 +2582,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __PF_MIN__:
+				}
+				case __PF_MIN__: {
 
 					// Define Register
 					Register PF_MIN {0x01, 0x71, 22}; // Power Factor lower alarm limit
@@ -2515,7 +2594,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __VSAG_LIM__:
+				}
+				case __VSAG_LIM__: {
 
 					// Define Register
 					Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold. Positive values only
@@ -2526,7 +2606,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __VIMB_MAX__:
+				}
+				case __VIMB_MAX__: {
 
 					// Define Register
 					Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit. Positive values only
@@ -2537,7 +2618,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case __IIMB_MAX__:
+				}
+				case __IIMB_MAX__: {
 
 					// Define Register
 					Register I_IMB_MAX {0x00, 0x84, 23}; // Current imbalance alarm limit. Positive values only
@@ -2548,9 +2630,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
@@ -2573,7 +2654,7 @@ class MAX78630 {
 			// Decide Address
 			switch (_MM_ADDR) {
 
-				case 1:
+				case 1: {
 
 					// Define Register
 					Register MMADDR0 {0x01, 0xB9, 0}; // Min/Max Monitor address 1
@@ -2584,7 +2665,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 2:
+				}
+				case 2: {
 
 					// Define Register
 					Register MMADDR1 {0x01, 0xBC, 0}; // Min/Max Monitor address 2
@@ -2595,7 +2677,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 3:
+				}
+				case 3: {
 
 					// Define Register
 					Register MMADDR2 {0x01, 0xBF, 0}; // Min/Max Monitor address 3
@@ -2606,7 +2689,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 4:
+				}
+				case 4: {
 
 					// Define Register
 					Register MMADDR3 {0x01, 0xC2, 0}; // Min/Max Monitor address 4
@@ -2617,7 +2701,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 5:
+				}
+				case 5: {
 
 					// Define Register
 					Register MMADDR4 {0x01, 0xC5, 0}; // Min/Max Monitor address 5
@@ -2628,7 +2713,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 6:
+				}
+				case 6: {
 
 					// Define Register
 					Register MMADDR5 {0x01, 0xC8, 0}; // Min/Max Monitor address 6
@@ -2639,7 +2725,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 7:
+				}
+				case 7: {
 
 					// Define Register
 					Register MMADDR6 {0x01, 0xCB, 0}; // Min/Max Monitor address 7
@@ -2650,7 +2737,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 8:
+				}
+				case 8: {
 
 					// Define Register
 					Register MMADDR7 {0x01, 0xCE, 0}; // Min/Max Monitor address 8
@@ -2661,9 +2749,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
@@ -2682,7 +2769,7 @@ class MAX78630 {
 			// Decide Address
 			switch (_MM_ADDR) {
 
-				case 1:
+				case 1: {
 
 					// Define Register
 					Register MIN0 {0x01, 0x89, 23}; // Minimum Recorded Value 1
@@ -2693,7 +2780,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 2:
+				}
+				case 2: {
 
 					// Define Register
 					Register MIN1 {0x01, 0x8C, 23}; // Minimum Recorded Value 2
@@ -2704,7 +2792,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 3:
+				}
+				case 3: {
 
 					// Define Register
 					Register MIN2 {0x01, 0x8F, 23}; // Minimum Recorded Value 3
@@ -2715,7 +2804,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 4:
+				}
+				case 4: {
 
 					// Define Register
 					Register MIN3 {0x01, 0x92, 23}; // Minimum Recorded Value 4
@@ -2726,7 +2816,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 5:
+				}
+				case 5: {
 
 					// Define Register
 					Register MIN4 {0x01, 0x95, 23}; // Minimum Recorded Value 5
@@ -2737,7 +2828,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 6:
+				}
+				case 6: {
 
 					// Define Register
 					Register MIN5 {0x01, 0x98, 23}; // Minimum Recorded Value 6
@@ -2748,7 +2840,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 7:
+				}
+				case 7: {
 
 					// Define Register
 					Register MIN6 {0x01, 0x9B, 0}; // Minimum Recorded Value 7
@@ -2759,7 +2852,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 8:
+				}
+				case 8: {
 
 					// Define Register
 					Register MIN7 {0x01, 0x9E, 0}; // Minimum Recorded Value 8
@@ -2770,9 +2864,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
@@ -2791,7 +2884,7 @@ class MAX78630 {
 			// Decide Address
 			switch (_MM_ADDR) {
 
-				case 1:
+				case 1: {
 
 					// Define Register
 					Register MAX0 {0x01, 0xA1, 23}; // Maximum Recorded Value 1
@@ -2802,7 +2895,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 2:
+				}
+				case 2: {
 
 					// Define Register
 					Register MAX1 {0x01, 0xA4, 23}; // Maximum Recorded Value 2
@@ -2813,7 +2907,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 3:
+				}
+				case 3: {
 
 					// Define Register
 					Register MAX2 {0x01, 0xA7, 23}; // Maximum Recorded Value 3
@@ -2824,7 +2919,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 4:
+				}
+				case 4: {
 
 					// Define Register
 					Register MAX3 {0x01, 0xAA, 23}; // Maximum Recorded Value 4
@@ -2835,7 +2931,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 5:
+				}
+				case 5: {
 
 					// Define Register
 					Register MAX4 {0x01, 0xAD, 23}; // Maximum Recorded Value 5
@@ -2846,7 +2943,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 6:
+				}
+				case 6: {
 
 					// Define Register
 					Register MAX5 {0x01, 0xB0, 23}; // Maximum Recorded Value 6
@@ -2857,7 +2955,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 7:
+				}
+				case 7: {
 
 					// Define Register
 					Register MAX6 {0x01, 0xB3, 0}; // Maximum Recorded Value 7
@@ -2868,7 +2967,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 8:
+				}
+				case 8: {
 
 					// Define Register
 					Register MAX7 {0x01, 0xB6, 0}; // Maximum Recorded Value 8
@@ -2879,9 +2979,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
@@ -2901,7 +3000,7 @@ class MAX78630 {
 			// Decide Address
 			switch (_MM_ADDR) {
 
-				case 1:
+				case 1: {
 
 					// Define Register
 					Register MIN0 {0x01, 0x89, 23}; // Minimum Recorded Value 1
@@ -2915,7 +3014,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 2:
+				}
+				case 2: {
 
 					// Define Register
 					Register MIN1 {0x01, 0x8C, 23}; // Minimum Recorded Value 2
@@ -2929,7 +3029,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 3:
+				}
+				case 3: {
 
 					// Define Register
 					Register MIN2 {0x01, 0x8F, 23}; // Minimum Recorded Value 3
@@ -2943,7 +3044,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 4:
+				}
+				case 4: {
 
 					// Define Register
 					Register MIN3 {0x01, 0x92, 23}; // Minimum Recorded Value 4
@@ -2957,7 +3059,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 5:
+				}
+				case 5: {
 
 					// Define Register
 					Register MIN4 {0x01, 0x95, 23}; // Minimum Recorded Value 5
@@ -2971,7 +3074,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 6:
+				}
+				case 6: {
 
 					// Define Register
 					Register MIN5 {0x01, 0x98, 23}; // Minimum Recorded Value 6
@@ -2985,7 +3089,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 7:
+				}
+				case 7: {
 
 					// Define Register
 					Register MIN6 {0x01, 0x9B, 0}; // Minimum Recorded Value 7
@@ -2999,7 +3104,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 8:
+				}
+				case 8: {
 
 					// Define Register
 					Register MIN7 {0x01, 0x9E, 0}; // Minimum Recorded Value 8
@@ -3013,9 +3119,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
@@ -3035,7 +3140,7 @@ class MAX78630 {
 			// Decide Address
 			switch (_MM_ADDR) {
 
-				case 1:
+				case 1: {
 
 					// Define Register
 					Register MAX0 {0x01, 0xA1, 23}; // Maximum Recorded Value 1
@@ -3049,7 +3154,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 2:
+				}
+				case 2: {
 
 					// Define Register
 					Register MAX1 {0x01, 0xA4, 23}; // Maximum Recorded Value 2
@@ -3063,7 +3169,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 3:
+				}
+				case 3: {
 
 					// Define Register
 					Register MAX2 {0x01, 0xA7, 23}; // Maximum Recorded Value 3
@@ -3077,7 +3184,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 4:
+				}
+				case 4: {
 
 					// Define Register
 					Register MAX3 {0x01, 0xAA, 23}; // Maximum Recorded Value 4
@@ -3091,7 +3199,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 5:
+				}
+				case 5: {
 
 					// Define Register
 					Register MAX4 {0x01, 0xAD, 23}; // Maximum Recorded Value 5
@@ -3105,7 +3214,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 6:
+				}
+				case 6: {
 
 					// Define Register
 					Register MAX5 {0x01, 0xB0, 23}; // Maximum Recorded Value 6
@@ -3119,7 +3229,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 7:
+				}
+				case 7: {
 
 					// Define Register
 					Register MAX6 {0x01, 0xB3, 0}; // Maximum Recorded Value 7
@@ -3133,7 +3244,8 @@ class MAX78630 {
 					// End Case
 					break;
 
-				case 8:
+				}
+				case 8: {
 
 					// Define Register
 					Register MAX7 {0x01, 0xB6, 0}; // Maximum Recorded Value 8
@@ -3147,9 +3259,8 @@ class MAX78630 {
 					// End Case
 					break;
 
+				}
 
-			default:
-				break;
 			}
 
 			// End Function
