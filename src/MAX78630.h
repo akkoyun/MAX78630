@@ -3343,158 +3343,158 @@ class MAX78630 {
 
 			}
 
-			#ifdef __MAX78630_Scope_Utils__
+			/**
+			 * @brief Limit Read Function.
+			 * @version 01.00.00
+			 * @param _Limit_Type 
+			 * @return float Limit Value.
+			 */
+			float Get_Limit(const uint8_t _Limit_Type) {
 
-				/**
-				 * @brief Limit Read Function.
-				 * @version 01.00.00
-				 * @param _Limit_Type 
-				 * @return float Limit Value.
-				 */
-				float Get_Limit(const uint8_t _Limit_Type) {
+				// Decide Type
+				switch (_Limit_Type) {
 
-					// Decide Type
-					switch (_Limit_Type) {
+					case __VRMS_MIN__: {
 
-						case __VRMS_MIN__: {
+						// Define Register
+						Register VRMS_MIN {0x00, 0xB1, 23};	// Voltage lower alarm limit. Positive values only
 
-							// Define Register
-							Register VRMS_MIN {0x00, 0xB1, 23};	// Voltage lower alarm limit. Positive values only
+						// Get Register
+						return(this->Register_Pointer_Read(VRMS_MIN) * __MAX78630_Config_VScale__);
 
-							// Get Register
-							return(this->Register_Pointer_Read(VRMS_MIN) * __MAX78630_Config_VScale__);
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __VRMS_MAX__: {
 
-						}
-						case __VRMS_MAX__: {
+						// Define Register
+						Register VRMS_MAX {0x00, 0xB4, 23};	// Voltage upper alarm limit. Positive values only
 
-							// Define Register
-							Register VRMS_MAX {0x00, 0xB4, 23};	// Voltage upper alarm limit. Positive values only
+						// Get Register
+						return(this->Register_Pointer_Read(VRMS_MAX) * __MAX78630_Config_VScale__);
 
-							// Get Register
-							return(this->Register_Pointer_Read(VRMS_MAX) * __MAX78630_Config_VScale__);
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __IRMS_MAX__: {
 
-						}
-						case __IRMS_MAX__: {
+						// Define Register
+						Register IRMS_MAX {0x00, 0xF3, 23}; // Current upper alarm limit. Positive values only
 
-							// Define Register
-							Register IRMS_MAX {0x00, 0xF3, 23}; // Current upper alarm limit. Positive values only
+						// Get Register
+						return(this->Register_Pointer_Read(IRMS_MAX) * __MAX78630_Config_IScale__);
 
-							// Get Register
-							return(this->Register_Pointer_Read(IRMS_MAX) * __MAX78630_Config_IScale__);
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __F_MIN__: {
 
-						}
-						case __F_MIN__: {
+						// Define Register
+						Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
 
-							// Define Register
-							Register F_MIN {0x01, 0x83, 16}; // Frequency Alarm Lower Limit
+						// Get Register
+						return(this->Register_Pointer_Read(F_MIN));
 
-							// Get Register
-							return(this->Register_Pointer_Read(F_MIN));
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __F_MAX__: {
 
-						}
-						case __F_MAX__: {
+						// Define Register
+						Register F_MAX {0x01, 0x86, 16}; // Frequency Alarm Upper Limit
 
-							// Define Register
-							Register F_MAX {0x01, 0x86, 16}; // Frequency Alarm Upper Limit
+						// Get Register
+						return(this->Register_Pointer_Read(F_MAX));
 
-							// Get Register
-							return(this->Register_Pointer_Read(F_MAX));
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __T_MIN__: {
 
-						}
-						case __T_MIN__: {
+						// Define Register
+						Register T_MIN {0x01, 0x7A, 10}; // Temperature Alarm Lower Limit
 
-							// Define Register
-							Register T_MIN {0x01, 0x7A, 10}; // Temperature Alarm Lower Limit
+						// Get Register
+						return(this->Register_Pointer_Read(T_MIN));
 
-							// Get Register
-							return(this->Register_Pointer_Read(T_MIN));
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __T_MAX__: {
 
-						}
-						case __T_MAX__: {
+						// Define Register
+						Register T_MAX {0x01, 0x7D, 10}; // Temperature Alarm Upper Limit
 
-							// Define Register
-							Register T_MAX {0x01, 0x7D, 10}; // Temperature Alarm Upper Limit
+						// Get Register
+						return(this->Register_Pointer_Read(T_MAX));
 
-							// Get Register
-							return(this->Register_Pointer_Read(T_MAX));
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __PF_MIN__: {
 
-						}
-						case __PF_MIN__: {
+						// Define Register
+						Register PF_MIN {0x01, 0x71, 22}; // Power Factor lower alarm limit
 
-							// Define Register
-							Register PF_MIN {0x01, 0x71, 22}; // Power Factor lower alarm limit
+						// Get Register
+						return(this->Register_Pointer_Read(PF_MIN));
 
-							// Get Register
-							return(this->Register_Pointer_Read(PF_MIN));
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __VSAG_LIM__: {
 
-						}
-						case __VSAG_LIM__: {
+						// Define Register
+						Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold. Positive values only
 
-							// Define Register
-							Register VSAG_LIM {0x00, 0xB7, 23}; // RMS Voltage Sag threshold. Positive values only
+						// Get Register
+						return(this->Register_Pointer_Read(VSAG_LIM) * __MAX78630_Config_VScale__);
 
-							// Get Register
-							return(this->Register_Pointer_Read(VSAG_LIM) * __MAX78630_Config_VScale__);
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __VIMB_MAX__: {
 
-						}
-						case __VIMB_MAX__: {
+						// Define Register
+						Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit. Positive values only
 
-							// Define Register
-							Register V_IMB_MAX {0x00, 0x81, 23}; // Voltage imbalance alarm limit. Positive values only
+						// Get Register
+						return(this->Register_Pointer_Read(V_IMB_MAX));
 
-							// Get Register
-							return(this->Register_Pointer_Read(V_IMB_MAX));
+						// End Case
+						break;
 
-							// End Case
-							break;
+					}
+					case __IIMB_MAX__: {
 
-						}
-						case __IIMB_MAX__: {
+						// Define Register
+						Register I_IMB_MAX {0x00, 0x84, 23}; // Current imbalance alarm limit. Positive values only
 
-							// Define Register
-							Register I_IMB_MAX {0x00, 0x84, 23}; // Current imbalance alarm limit. Positive values only
+						// Get Register
+						return(this->Register_Pointer_Read(I_IMB_MAX));
 
-							// Get Register
-							return(this->Register_Pointer_Read(I_IMB_MAX));
-
-							// End Case
-							break;
-
-						}
+						// End Case
+						break;
 
 					}
 
-					// End Function
-					return(0);
-
 				}
+
+				// End Function
+				return(0);
+
+			}
+
+			#ifdef __MAX78630_Scope_Utils__
 
 				/**
 				 * @brief Set Sticky Function

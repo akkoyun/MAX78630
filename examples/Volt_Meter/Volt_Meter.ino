@@ -6,6 +6,7 @@
 // Library Console Definations
 #ifndef __Console__
 	#include <Console.h>
+	#define CONSOLE_TEMPLATE_VOLTMETER
 #endif
 
 // Define Libraries
