@@ -37,6 +37,10 @@
 #define __IIMB_MAX__ 				(uint8_t)10
 #define __VSAG_LIM__ 				(uint8_t)11
 
+// Mask Definitions
+#define __MASK_AL1__ 				(uint8_t)0x01
+#define __MASK_AL2__ 				(uint8_t)0x02
+
 // Defect Bit Definitions
 #define __BIT_OV_FREQ__ 			(uint8_t)22
 #define __BIT_UN_FREQ__ 			(uint8_t)21
