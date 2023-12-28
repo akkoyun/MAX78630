@@ -64,9 +64,7 @@
 #define __BIT_V_IMBAL__ 			(uint8_t)3
 #define __BIT_I_IMBAL__ 			(uint8_t)2
 
-/**
- * @brief IC Register Address Structure
- */
+// IC Register Address Structure
 struct Register {
     const uint8_t High_Address;
     const uint8_t Low_Address;

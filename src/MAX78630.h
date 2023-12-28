@@ -2934,19 +2934,28 @@ class MAX78630 {
 			this->Get_Status();
 
 			// Control for OV Temp
-			if (bitRead(this->Alarm_Status, __BIT_OV_TEMP__)) {
-				this->Set_Limit(__T_MAX__, (__MAX78630_Limit_Temperature_Max__ - 2));
-			} else {
-				this->Set_Limit(__T_MAX__, __MAX78630_Limit_Temperature_Max__);
-			}
+			if (bitRead(this->Alarm_Status, __BIT_OV_TEMP__)) {this->Set_Limit(__T_MAX__, (__MAX78630_Limit_Temperature_Max__ - __MAX78630_Limit_Temperature_Max_Diff__));} else {this->Set_Limit(__T_MAX__, __MAX78630_Limit_Temperature_Max__);}
 
 			// Control for OV Temp
-			if (bitRead(this->Alarm_Status, __BIT_UN_TEMP__)) {
-				this->Set_Limit(__T_MIN__, (__MAX78630_Limit_Temperature_Min__ + 2));
-			} else {
-				this->Set_Limit(__T_MIN__, __MAX78630_Limit_Temperature_Min__);
-			}
+			if (bitRead(this->Alarm_Status, __BIT_UN_TEMP__)) {this->Set_Limit(__T_MIN__, (__MAX78630_Limit_Temperature_Min__ + __MAX78630_Limit_Temperature_Min_Diff__));} else {this->Set_Limit(__T_MIN__, __MAX78630_Limit_Temperature_Min__);}
 
+			// Control for OV Voltage
+			if (bitRead(this->Alarm_Status, __BIT_OV_VRMSA__) or bitRead(this->Alarm_Status, __BIT_OV_VRMSB__) or bitRead(this->Alarm_Status, __BIT_OV_VRMSC__)) {this->Set_Limit(__VRMS_MAX__, (__MAX78630_Limit_Voltage_Max__ - __MAX78630_Limit_Voltage_Max_Diff__));} else {this->Set_Limit(__VRMS_MAX__, __MAX78630_Limit_Voltage_Max__);}
+
+			// Control for UV Voltage
+			if (bitRead(this->Alarm_Status, __BIT_UN_VRMSA__) or bitRead(this->Alarm_Status, __BIT_UN_VRMSB__) or bitRead(this->Alarm_Status, __BIT_UN_VRMSC__)) {this->Set_Limit(__VRMS_MIN__, (__MAX78630_Limit_Voltage_Min__ + __MAX78630_Limit_Voltage_Min_Diff__));} else {this->Set_Limit(__VRMS_MIN__, __MAX78630_Limit_Voltage_Min__);}
+
+			// Control for High Frequency
+			if (bitRead(this->Alarm_Status, __BIT_OV_FREQ__)) {this->Set_Limit(__F_MAX__, (__MAX78630_Limit_Frequency_Max__ - __MAX78630_Limit_Frequency_Max_Diff__));} else {this->Set_Limit(__F_MAX__, __MAX78630_Limit_Frequency_Max__);}
+			
+			// Control for Low Frequency
+			if (bitRead(this->Alarm_Status, __BIT_UN_FREQ__)) {this->Set_Limit(__F_MIN__, (__MAX78630_Limit_Frequency_Min__ + __MAX78630_Limit_Frequency_Min_Diff__));} else {this->Set_Limit(__F_MIN__, __MAX78630_Limit_Frequency_Min__);}
+
+			// Control for Voltage Imbalance
+			if (bitRead(this->Alarm_Status, __BIT_V_IMBAL__)) {this->Set_Limit(__VIMB_MAX__, (__MAX78630_Limit_VImb_Max__ - __MAX78630_Limit_VImb_Max_Diff__));} else {this->Set_Limit(__VIMB_MAX__, __MAX78630_Limit_VImb_Max__);}
+
+			// Control for Current Imbalance
+			if (bitRead(this->Alarm_Status, __BIT_I_IMBAL__)) {this->Set_Limit(__IIMB_MAX__, (__MAX78630_Limit_IImb_Max__ - __MAX78630_Limit_IImb_Max_Diff__));} else {this->Set_Limit(__IIMB_MAX__, __MAX78630_Limit_IImb_Max__);}
 
 		}
 
@@ -3242,5 +3251,4 @@ class MAX78630 {
 		}
 
 };
-
 #endif /* defined(__MAX78630__) */
