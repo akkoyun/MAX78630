@@ -96,3 +96,45 @@
 #ifndef __MAX78630_Limit_VSag_Lim__
     #define __MAX78630_Limit_VSag_Lim__			    (float)0.9
 #endif
+
+// Min Max Monitor Settings
+
+// Monitor 1
+#ifndef __MAX78630_Monitor_1_Type__
+    #define __MAX78630_Monitor_1_Type__		        (uint8_t)0x30   // 0x30 = VRMS_R
+#endif
+
+// Monitor 2
+#ifndef __MAX78630_Monitor_2_Type__
+    #define __MAX78630_Monitor_2_Type__		        (uint8_t)0x31   // 0x31 = VRMS_S
+#endif
+
+// Monitor 3
+#ifndef __MAX78630_Monitor_3_Type__
+    #define __MAX78630_Monitor_3_Type__		        (uint8_t)0x32   // 0x32 = VRMS_T
+#endif
+
+// Monitor 4
+#ifndef __MAX78630_Monitor_4_Type__
+    #define __MAX78630_Monitor_4_Type__		        (uint8_t)0x47   // 0x47 = IRMS_R
+#endif
+
+// Monitor 5
+#ifndef __MAX78630_Monitor_5_Type__
+    #define __MAX78630_Monitor_5_Type__		        (uint8_t)0x48   // 0x48 = IRMS_S
+#endif
+
+// Monitor 6
+#ifndef __MAX78630_Monitor_6_Type__
+    #define __MAX78630_Monitor_6_Type__		        (uint8_t)0x49   // 0x49 = IRMS_T
+#endif
+
+// Monitor 7
+#ifndef __MAX78630_Monitor_7_Type__
+    #define __MAX78630_Monitor_7_Type__		        (uint8_t)0x7A   // 0x7A = PF_T
+#endif
+
+// Monitor 8
+#ifndef __MAX78630_Monitor_8_Type__
+    #define __MAX78630_Monitor_8_Type__		        (uint8_t)0x80   // 0x80 = FREQ
+#endif

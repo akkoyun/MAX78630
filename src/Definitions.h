@@ -64,9 +64,16 @@
 #define __BIT_V_IMBAL__ 			(uint8_t)3
 #define __BIT_I_IMBAL__ 			(uint8_t)2
 
-// IC Register Address Structure
-struct Register {
-    const uint8_t High_Address;
-    const uint8_t Low_Address;
-    const uint8_t Data_Type;
-};
+// Monitor Address Definitions
+#define __MAX78630_MONITOR_1__ 		(uint8_t)1
+#define __MAX78630_MONITOR_2__ 		(uint8_t)2
+#define __MAX78630_MONITOR_3__ 		(uint8_t)3
+#define __MAX78630_MONITOR_4__ 		(uint8_t)4
+#define __MAX78630_MONITOR_5__ 		(uint8_t)5
+#define __MAX78630_MONITOR_6__ 		(uint8_t)6
+#define __MAX78630_MONITOR_7__ 		(uint8_t)7
+#define __MAX78630_MONITOR_8__ 		(uint8_t)8
+
+// Alarm Mask Definitions
+#define __MAX78630_ALARM_1__ 		(uint8_t)1
+#define __MAX78630_ALARM_2__ 		(uint8_t)2
