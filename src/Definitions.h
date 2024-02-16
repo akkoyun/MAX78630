@@ -1,3 +1,7 @@
+// Function Definitions
+#define __MAX78630_GET__ 			(bool)true
+#define __MAX78630_SET__ 			(bool)false
+
 // Phase Type
 #define __Phase_R__					(uint8_t)1
 #define __Phase_S__					(uint8_t)2

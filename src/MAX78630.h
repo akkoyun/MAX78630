@@ -112,14 +112,13 @@
 				uint8_t _Response_CheckSum = 0x100 - ((_Response[0] + _Response[1] + _Response[2] + _Response[3] + _Response[4]) % 256);
 
 				// Declare Raw Data Variable
-				uint32_t _Data_RAW = 0;
 				double _Data_SUM = 0;
 
 				// Control Received Data
 				if (_Response[0] == 0xAA and _Response[1] == 0x06 and _Response[5] == _Response_CheckSum) {
 
 					// Combine Read Bytes
-					_Data_RAW = ((uint32_t)(_Response[4]) << 16 | ((uint32_t)_Response[3]) << 8 | ((uint32_t)_Response[2]));
+					uint32_t _Data_RAW = ((uint32_t)(_Response[4]) << 16 | ((uint32_t)_Response[3]) << 8 | ((uint32_t)_Response[2]));
 
 					// Calculate Response
 					if (_Command.Data_Type == 0) {
@@ -612,20 +611,29 @@
 			}
 
 			// Set Sticky Function
-			bool Set_Sticky(const bool _Sticky) {
+			bool Set_Sticky(const bool _Sticky = false) {
 
 				// Define Register
-				Register STICKY {0x00, 0x2D, 0}; // Alarm/status bits to hold until cleared by host
+				Register STICKY {0x00, 0x2D, 0};
 
 				// Get Current Register
 				uint32_t _Current_Sticky = this->Register_Pointer_Read(STICKY);
 
-				// Return Result
-				if (!_Sticky) return(this->Register_Pointer_Set(STICKY, (_Current_Sticky & 0xFF800003)));
-				if (_Sticky) return(this->Register_Pointer_Set(STICKY, (_Current_Sticky | 0x7FFFFC)));
+				// Set Sticky Bit
+				if (_Sticky) {
+
+					// Set Register
+					_Current_Sticky |= 0x7FFFFC;
+
+				} else {
+
+					// Set Register
+					_Current_Sticky &= 0xFF800003;
+
+				}
 
 				// End Function
-				return(false);
+				return(this->Register_Pointer_Set(STICKY, _Current_Sticky));
 
 			}
 
@@ -751,7 +759,7 @@
 			} Limit;
 
 			// Constructor
-			MAX78630(Stream &_Serial) {
+			explicit MAX78630(Stream &_Serial) {
 				
 				// Set Serial Port
 				Serial_Energy = & _Serial;
@@ -1610,7 +1618,7 @@
 				Register HPF_COEF_V 	{0x00, 		0x3F, 		23};		// Voltage input HPF coefficient. Positive values only
 
 				// Declare Variable
-				float _Result = 0;
+				bool _Result = 0;
 
 				// Decide Workflow
 				if (_COEF == -999) {
@@ -1631,124 +1639,177 @@
 			}
 
 			// Current High Pass Filter Coefficient Function.
-			float Current_HPF_COEF(float _COEF) {
+			float Current_HPF_COEF(const bool _Function = __MAX78630_GET__, float _COEF = 0) {
 
-				Register HPF_COEF_I 	{0x00, 		0x3C, 		23};		// Current input HPF coefficient. Positive values only
+				// Define Register
+				Register HPF_COEF_I {0x00, 0x3C, 23};
 
-				// Declare Variable
-				float _Result = 0;
-
-				// Decide Workflow
-				if (_COEF == -999) {
+				// Control for Function
+				if (_Function == __MAX78630_GET__) {
 
 					// Read Register
-					_Result = this->Register_Pointer_Read(HPF_COEF_I); // Measure Phase R
+					return(this->Register_Pointer_Read(HPF_COEF_I));
 
 				} else {
 
 					// Set Register
-					_Result = this->Register_Pointer_Set(HPF_COEF_I, this->FtoS(_COEF, 23)); // Measure Phase R
+					bool _Result = this->Register_Pointer_Set(HPF_COEF_I, this->FtoS(_COEF, 23));
+
+					// End Function
+					if (_Result) return(1);
+					else return(0);
 
 				}
-				
+			
 				// End Function
-				return(_Result);
+				return(0);
 
 			}
 
 			// Current RMS Offset Set Function.
-			float Current_RMS_Offset(char Phase, float _Offset) {
+			float Current_RMS_Offset(const bool _Function = __MAX78630_GET__, uint8_t _Phase = __Phase_R__, const float _Offset = 0) {
 
-				Register IARMS_OFF 		{0x00, 		0xC3, 		23};		// RMS Current dynamic offset adjust. Positive values only
-				Register IBRMS_OFF 		{0x00, 		0xC6, 		23};		// RMS Current dynamic offset adjust. Positive values only
-				Register ICRMS_OFF 		{0x00, 		0xC9, 		23};		// RMS Current dynamic offset adjust. Positive values only
+				// Define Register
+				Register IARMS_OFF {0x00, 0xC3, 23};
+				Register IBRMS_OFF {0x00, 0xC6, 23};
+				Register ICRMS_OFF {0x00, 0xC9, 23};
 
-				// Declare Variable
-				float _Result = 0;
-
-				// Decide Workflow
-				if (_Offset == -999) {
+				// Control for Function
+				if (_Function == __MAX78630_GET__) {
 
 					// Read Register
-					if (Phase == 'R') _Result = this->Register_Pointer_Read(IARMS_OFF); // Measure Phase R
-					if (Phase == 'S') _Result = this->Register_Pointer_Read(IBRMS_OFF); // Measure Phase S
-					if (Phase == 'T') _Result = this->Register_Pointer_Read(ICRMS_OFF); // Measure Phase T
+					if (_Phase == __Phase_R__) return(this->Register_Pointer_Read(IARMS_OFF)); // Measure Phase R
+					if (_Phase == __Phase_S__) return(this->Register_Pointer_Read(IBRMS_OFF)); // Measure Phase S
+					if (_Phase == __Phase_T__) return(this->Register_Pointer_Read(ICRMS_OFF)); // Measure Phase T
 
 				} else {
 
 					// Set Register
-					if (Phase == 'R') _Result = this->Register_Pointer_Set(IARMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase R
-					if (Phase == 'S') _Result = this->Register_Pointer_Set(IBRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase S
-					if (Phase == 'T') _Result = this->Register_Pointer_Set(ICRMS_OFF, this->FtoS(_Offset, 23)); // Measure Phase T
+					if (_Phase == __Phase_R__) {
+
+						// Set Register
+						if (this->Register_Pointer_Set(IARMS_OFF, this->FtoS(_Offset, 23))) return(1);
+						else return(0);
+
+					} else if (_Phase == __Phase_S__) {
+						
+						// Set Register
+						if (this->Register_Pointer_Set(IBRMS_OFF, this->FtoS(_Offset, 23))) return(1);
+						else return(0);
+
+					} else if (_Phase == __Phase_T__) {
+						
+						// Set Register
+						if (this->Register_Pointer_Set(ICRMS_OFF, this->FtoS(_Offset, 23))) return(1);
+						else return(0);
+
+					}
+
+					// End Function
+					return(0);
 
 				}
 
 				// End Function
-				return(_Result);
+				return(0);
 
 			}
 
 			// Active Power Offset Set Function.
-			float Active_Power_Offset(char Phase, float _Offset) {
+			float Active_Power_Offset(const bool _Function = __MAX78630_GET__, uint8_t _Phase = __Phase_R__, const float _Offset = 0) {
 
-				Register PA_OFFS 		{0x01, 		0x14, 		23};		// Active Power dynamic offset adjust. Positive values only
-				Register PB_OFFS 		{0x01, 		0x17, 		23};		// Active Power dynamic offset adjust. Positive values only
-				Register PC_OFFS 		{0x01, 		0x1A, 		23};		// Active Power dynamic offset adjust. Positive values only
+				// Define Register
+				Register PA_OFFS {0x01, 0x14, 23};
+				Register PB_OFFS {0x01, 0x17, 23};
+				Register PC_OFFS {0x01, 0x1A, 23};
 
-				// Declare Variable
-				float _Result = 0;
-
-				// Decide Workflow
-				if (_Offset == -999) {
+				// Control for Function
+				if (_Function == __MAX78630_GET__) {
 
 					// Read Register
-					if (Phase == 'R') _Result = this->Register_Pointer_Read(PA_OFFS); // Measure Phase R
-					if (Phase == 'S') _Result = this->Register_Pointer_Read(PB_OFFS); // Measure Phase S
-					if (Phase == 'T') _Result = this->Register_Pointer_Read(PC_OFFS); // Measure Phase T
+					if (_Phase == __Phase_R__) return(this->Register_Pointer_Read(PA_OFFS)); // Measure Phase R
+					if (_Phase == __Phase_S__) return(this->Register_Pointer_Read(PB_OFFS)); // Measure Phase S
+					if (_Phase == __Phase_T__) return(this->Register_Pointer_Read(PC_OFFS)); // Measure Phase T
 
 				} else {
 
 					// Set Register
-					if (Phase == 'R') _Result = this->Register_Pointer_Set(PA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
-					if (Phase == 'S') _Result = this->Register_Pointer_Set(PB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
-					if (Phase == 'T') _Result = this->Register_Pointer_Set(PC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
+					if (_Phase == __Phase_R__) {
+
+						// Set Register
+						if (this->Register_Pointer_Set(PA_OFFS, this->FtoS(_Offset, PA_OFFS.Data_Type))) return(1);
+						else return(0);
+
+					} else if (_Phase == __Phase_S__) {
+						
+						// Set Register
+						if (this->Register_Pointer_Set(PB_OFFS, this->FtoS(_Offset, PB_OFFS.Data_Type))) return(1);
+						else return(0);
+
+					} else if (_Phase == __Phase_T__) {
+						
+						// Set Register
+						if (this->Register_Pointer_Set(PC_OFFS, this->FtoS(_Offset, PC_OFFS.Data_Type))) return(1);
+						else return(0);
+
+					}
+
+					// End Function
+					return(0);
 
 				}
-				
+
 				// End Function
-				return(_Result);
+				return(0);
 
 			}
 
 			// ReActive Power Offset Set Function.
-			float ReActive_Power_Offset(char Phase, float _Offset) {
+			float ReActive_Power_Offset(const bool _Function = __MAX78630_GET__, uint8_t _Phase = __Phase_R__, const float _Offset = 0) {
 
-				Register QA_OFFS 		{0x01, 		0x0B, 		23};		// Reactive Power dynamic offset adjust. Positive values only
-				Register QB_OFFS 		{0x01, 		0x0E, 		23};		// Reactive Power dynamic offset adjust. Positive values only
-				Register QC_OFFS 		{0x01, 		0x11, 		23};		// Reactive Power dynamic offset adjust. Positive values only
+				// Define Register
+				Register QA_OFFS {0x01, 0x0B, 23};
+				Register QB_OFFS {0x01, 0x0E, 23};
+				Register QC_OFFS {0x01, 0x11, 23};
 
-				// Declare Variable
-				float _Result = 0;
-
-				// Decide Workflow
-				if (_Offset == -999) {
+				// Control for Function
+				if (_Function == __MAX78630_GET__) {
 
 					// Read Register
-					if (Phase == 'R') _Result = this->Register_Pointer_Read(QA_OFFS); // Measure Phase R
-					if (Phase == 'S') _Result = this->Register_Pointer_Read(QB_OFFS); // Measure Phase S
-					if (Phase == 'T') _Result = this->Register_Pointer_Read(QC_OFFS); // Measure Phase T
+					if (_Phase == __Phase_R__) return(this->Register_Pointer_Read(QA_OFFS)); // Measure Phase R
+					if (_Phase == __Phase_S__) return(this->Register_Pointer_Read(QB_OFFS)); // Measure Phase S
+					if (_Phase == __Phase_T__) return(this->Register_Pointer_Read(QC_OFFS)); // Measure Phase T
 
 				} else {
 
 					// Set Register
-					if (Phase == 'R') _Result = this->Register_Pointer_Set(QA_OFFS, this->FtoS(_Offset, 23)); // Measure Phase R
-					if (Phase == 'S') _Result = this->Register_Pointer_Set(QB_OFFS, this->FtoS(_Offset, 23)); // Measure Phase S
-					if (Phase == 'T') _Result = this->Register_Pointer_Set(QC_OFFS, this->FtoS(_Offset, 23)); // Measure Phase T
+					if (_Phase == __Phase_R__) {
+
+						// Set Register
+						if (this->Register_Pointer_Set(QA_OFFS, this->FtoS(_Offset, QA_OFFS.Data_Type))) return(1);
+						else return(0);
+
+					} else if (_Phase == __Phase_S__) {
+						
+						// Set Register
+						if (this->Register_Pointer_Set(QB_OFFS, this->FtoS(_Offset, QB_OFFS.Data_Type))) return(1);
+						else return(0);
+
+					} else if (_Phase == __Phase_T__) {
+						
+						// Set Register
+						if (this->Register_Pointer_Set(QC_OFFS, this->FtoS(_Offset, QC_OFFS.Data_Type))) return(1);
+						else return(0);
+
+					}
+
+					// End Function
+					return(0);
 
 				}
 
 				// End Function
-				return(_Result);
+				return(0);
 
 			}
 
@@ -3450,16 +3511,13 @@
 			bool Get_Sticky(void) {
 
 				// Define Register
-				Register STICKY {0x00, 0x2D, 0}; // Alarm/status bits to hold until cleared by host
+				Register STICKY {0x00, 0x2D, 0};
 
 				// Return Result
 				uint32_t _Sticky = this->Register_Pointer_Read(STICKY);
 
-				// Decide Status
-				if (_Sticky != 0x800001) {return(true);} else {return(false);}
-
 				// End Function
-				return(false);
+				return(bitRead(_Sticky, 0) && bitRead(_Sticky, 23));
 
 			}
 

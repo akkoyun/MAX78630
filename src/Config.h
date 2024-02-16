@@ -1,3 +1,8 @@
+// UART Configuration
+#ifndef __MAX78630_Serial__
+    #define __MAX78630_Serial__                     Serial2
+#endif
+
 // Device Defaults
 #define __MAX78630_Firmware__			            (uint32_t)0x0004D912
 
