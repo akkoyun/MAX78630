@@ -108,38 +108,62 @@
 #ifndef __MAX78630_Monitor_1_Type__
     #define __MAX78630_Monitor_1_Type__		        (uint8_t)0x30   // 0x30 = VRMS_R
 #endif
+#ifndef __MAX78630_Monitor_1_Scale__
+    #define __MAX78630_Monitor_1_Scale__	        __MAX78630_Config_VScale__
+#endif
 
 // Monitor 2
 #ifndef __MAX78630_Monitor_2_Type__
     #define __MAX78630_Monitor_2_Type__		        (uint8_t)0x31   // 0x31 = VRMS_S
+#endif
+#ifndef __MAX78630_Monitor_2_Scale__
+    #define __MAX78630_Monitor_2_Scale__	        __MAX78630_Config_VScale__
 #endif
 
 // Monitor 3
 #ifndef __MAX78630_Monitor_3_Type__
     #define __MAX78630_Monitor_3_Type__		        (uint8_t)0x32   // 0x32 = VRMS_T
 #endif
+#ifndef __MAX78630_Monitor_3_Scale__
+    #define __MAX78630_Monitor_3_Scale__	        __MAX78630_Config_VScale__
+#endif
 
 // Monitor 4
 #ifndef __MAX78630_Monitor_4_Type__
     #define __MAX78630_Monitor_4_Type__		        (uint8_t)0x47   // 0x47 = IRMS_R
+#endif
+#ifndef __MAX78630_Monitor_4_Scale__
+    #define __MAX78630_Monitor_4_Scale__	        __MAX78630_Config_IScale__
 #endif
 
 // Monitor 5
 #ifndef __MAX78630_Monitor_5_Type__
     #define __MAX78630_Monitor_5_Type__		        (uint8_t)0x48   // 0x48 = IRMS_S
 #endif
+#ifndef __MAX78630_Monitor_5_Scale__
+    #define __MAX78630_Monitor_5_Scale__	        __MAX78630_Config_IScale__
+#endif
 
 // Monitor 6
 #ifndef __MAX78630_Monitor_6_Type__
     #define __MAX78630_Monitor_6_Type__		        (uint8_t)0x49   // 0x49 = IRMS_T
+#endif
+#ifndef __MAX78630_Monitor_6_Scale__
+    #define __MAX78630_Monitor_6_Scale__	        __MAX78630_Config_IScale__
 #endif
 
 // Monitor 7
 #ifndef __MAX78630_Monitor_7_Type__
     #define __MAX78630_Monitor_7_Type__		        (uint8_t)0x7A   // 0x7A = PF_T
 #endif
+#ifndef __MAX78630_Monitor_7_Scale__
+    #define __MAX78630_Monitor_7_Scale__	        (uint16_t)1
+#endif
 
 // Monitor 8
 #ifndef __MAX78630_Monitor_8_Type__
     #define __MAX78630_Monitor_8_Type__		        (uint8_t)0x80   // 0x80 = FREQ
+#endif
+#ifndef __MAX78630_Monitor_8_Scale__
+    #define __MAX78630_Monitor_8_Scale__	        (uint16_t)1
 #endif

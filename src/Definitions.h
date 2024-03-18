@@ -1,6 +1,7 @@
 // Function Definitions
-#define __MAX78630_GET__ 			(bool)true
-#define __MAX78630_SET__ 			(bool)false
+#define __MAX78630_CLEAR__ 			(uint8_t)0
+#define __MAX78630_GET__ 			(uint8_t)1
+#define __MAX78630_SET__ 			(uint8_t)2
 
 // Phase Type
 #define __Phase_R__					(uint8_t)1
@@ -26,7 +27,14 @@
 #define __ReActive_Received__ 		(uint8_t)14
 #define __ReActive_Delivered__ 		(uint8_t)15
 #define __Energy_Reset__ 			(uint8_t)16
-#define __Phase_Compensation__ 		(uint8_t)16
+#define __Phase_Compensation__ 		(uint8_t)17
+
+// Calibration Type
+#define __Voltage__ 			    (uint8_t)1
+#define __Current__ 			    (uint8_t)2
+#define __Temperature__ 		    (uint8_t)3
+#define __Active_Power__ 		    (uint8_t)4
+#define __ReActive_Power__ 		    (uint8_t)5
 
 // Limit Type
 #define __VRMS_MIN__ 				(uint8_t)1
