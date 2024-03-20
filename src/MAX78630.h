@@ -526,7 +526,7 @@
 			}
 
 			// Alarm Mask Function.
-			uint32_t Alarm_Mask(const uint8_t _Function = __MAX78630_GET__, const uint8_t _Mask, const uint8_t _Bit, const bool _Status) {
+			uint32_t Alarm_Mask(const uint8_t _Function, const uint8_t _Mask, const uint8_t _Bit, const bool _Status) {
 
 				// Control for Mask
 				if (_Mask == __MASK_AL1__) {
@@ -665,7 +665,7 @@
 			}
 
 			// Baud Rate Function
-			uint32_t Baud(const uint8_t _Function = __MAX78630_GET__, const uint32_t _Baud) {
+			uint32_t Baud(const uint8_t _Function, const uint32_t _Baud) {
 
 				// Define Register
 				Register BAUD {0x00, 0x51, 0}; // Baud rate for UART interface
@@ -746,7 +746,7 @@
 			/* Min Max Functions */
 
 			// Min Record Value Function
-			float Min_Value(const bool _Function = __MAX78630_GET__, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
+			float Min_Value(const uint8_t _Function, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
 
 				// Control for Function
 				if (_Function == __MAX78630_SET__) return(0);
@@ -886,7 +886,7 @@
 			}
 
 			// Max Record Value Function
-			float Max_Value(const bool _Function = __MAX78630_GET__, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
+			float Max_Value(const uint8_t _Function, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
 
 				// Control for Function
 				if (_Function == __MAX78630_SET__) return(0);
@@ -1190,7 +1190,7 @@
 			}
 
 			// Coefficients Function
-			float HPF_COEF(const bool _Function = __MAX78630_GET__, const uint8_t _Type, float _COEF) {
+			float HPF_COEF(const uint8_t _Function, const uint8_t _Type, float _COEF) {
 
 				// Control for Type
 				if (_Type == __Voltage__) {
@@ -1234,7 +1234,7 @@
 			}
 
 			// Offset Function
-			float Offset(const bool _Function = __MAX78630_GET__, const uint8_t _Type, const uint8_t _Phase, float _Offset) {
+			float Offset(const uint8_t _Function, const uint8_t _Type, const uint8_t _Phase, float _Offset) {
 
 				// Control for Type
 				if (_Type == __Current__) {
@@ -1408,7 +1408,7 @@
 			/* Limit Functions */
 
 			// Limit Function
-			float Limit(const uint8_t _Function = __MAX78630_GET__, const uint8_t _Limit_Type, float _Limit_Value) {
+			float Limit(const uint8_t _Function, const uint8_t _Limit_Type, float _Limit_Value) {
 
 				// Decide Type
 				switch (_Limit_Type) {
@@ -3075,7 +3075,7 @@
 			}
 
 			// Set Harmonic Channel Function. TODO: Not Tested.
-			uint8_t Harmonic(const bool _Function = __MAX78630_GET__, uint32_t _Harmonic) {
+			uint8_t Harmonic(const uint8_t _Function, uint32_t _Harmonic) {
 
 				// Define Register
 				Register HARM {0x00, 0x4B, 0}; // Harmonic Selector, default: 1 (fundamental)
