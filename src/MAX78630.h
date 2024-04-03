@@ -45,6 +45,32 @@
 				const uint8_t Data_Type;
 			};
 
+			// Calculate CheckSum Function
+			uint8_t CheckSum(const uint8_t _Low_Address, const uint8_t _High_Address) {
+
+				// Calculate CheckSum
+				return(0x100 - ((__MAX78630_HEADER__ + __MAX78630_7_BYTES__ + __MAX78630_RW_ADRS__ + _Low_Address + _High_Address + __MAX78630_READ_3_BYTES__) % 256));
+
+			}
+			uint8_t CheckSum(const uint8_t _Low_Address, const uint8_t _High_Address, const uint8_t _Data1, const uint8_t _Data2, const uint8_t _Data3) {
+
+				// Calculate CheckSum
+				return(0x100 - ((__MAX78630_HEADER__ + __MAX78630_10_BYTES__ + __MAX78630_RW_ADRS__ + _Low_Address + _High_Address + __MAX78630_WRITE_3_BYTES__ + _Data1 + _Data2 + _Data3) % 256));
+
+			}
+			uint8_t CheckSum(const uint8_t _Response[6]) {
+
+				// Calculate CheckSum
+				return(0x100 - ((_Response[0] + _Response[1] + _Response[2] + _Response[3] + _Response[4]) % 256));
+
+			}
+			uint8_t CheckSum(const uint8_t _Address) {
+
+				// Calculate CheckSum
+				return(0x100 - ((__MAX78630_HEADER__ + __MAX78630_4_BYTES__ + _Address) % 256));
+
+			}
+
 			// Clear Serial Buffer Function
 			void Clear_Buffer(void) {
 
@@ -58,7 +84,8 @@
 					Serial_Energy->read(); 
 					
 					// Stream Delay
-					delay(5);
+					delayMicroseconds(20);
+					//delay(5);
 
 				}
 
@@ -81,26 +108,17 @@
 					7. byte is the CRC correction byte (CHK)
 				*/
 
-				// Clear Serial Buffer
-				this->Clear_Buffer();
-
-				// Command Send Delay
-				delay(5);
-
-				// Calculate CheckSum
-				uint8_t _Request_CheckSum = 0x100 - ((0xAA + 0x07 + 0xA3 + _Command.Low_Address + _Command.High_Address + 0xE3) % 256);
-
 				// Send Command
-				Serial_Energy->write(0xAA);
-				Serial_Energy->write(0x07);
-				Serial_Energy->write(0xA3);
+				Serial_Energy->write(__MAX78630_HEADER__);
+				Serial_Energy->write(__MAX78630_7_BYTES__);
+				Serial_Energy->write(__MAX78630_RW_ADRS__);
 				Serial_Energy->write(_Command.Low_Address);
 				Serial_Energy->write(_Command.High_Address);
-				Serial_Energy->write(0xE3);
-				Serial_Energy->write(_Request_CheckSum);
+				Serial_Energy->write(__MAX78630_READ_3_BYTES__);
+				Serial_Energy->write(this->CheckSum(_Command.Low_Address, _Command.High_Address));
 
 				// Command Send Delay
-				delay(20);
+				delay(3);
 
 				// Declare Variable
 				uint8_t _Response[6];
@@ -117,18 +135,16 @@
 					_Response_Order++;
 					
 					// Stream Delay
-					delay(5);
+					delayMicroseconds(200);
+					//delay(1);
 					
 				}
-
-				// Calculate Response CheckSum
-				uint8_t _Response_CheckSum = 0x100 - ((_Response[0] + _Response[1] + _Response[2] + _Response[3] + _Response[4]) % 256);
 
 				// Declare Raw Data Variable
 				double _Data_SUM = 0;
 
 				// Control Received Data
-				if (_Response[0] == 0xAA and _Response[1] == 0x06 and _Response[5] == _Response_CheckSum) {
+				if (_Response[0] == __MAX78630_HEADER__ and _Response[1] == __MAX78630_6_BYTES__ and _Response[5] == this->CheckSum(_Response)) {
 
 					// Combine Read Bytes
 					uint32_t _Data_RAW = ((uint32_t)(_Response[4]) << 16 | ((uint32_t)_Response[3]) << 8 | ((uint32_t)_Response[2]));
@@ -166,22 +182,22 @@
 				uint8_t _Parameter3 = _Data >> 16;
 
 				// Send Command
-				Serial_Energy->write(0xAA);
-				Serial_Energy->write(0x0A);
-				Serial_Energy->write(0xA3);
+				Serial_Energy->write(__MAX78630_HEADER__);
+				Serial_Energy->write(__MAX78630_10_BYTES__);
+				Serial_Energy->write(__MAX78630_RW_ADRS__);
 				Serial_Energy->write(_Command.Low_Address);
 				Serial_Energy->write(_Command.High_Address);
-				Serial_Energy->write(0xD3);
+				Serial_Energy->write(__MAX78630_WRITE_3_BYTES__);
 				Serial_Energy->write(_Parameter1);
 				Serial_Energy->write(_Parameter2);
 				Serial_Energy->write(_Parameter3);
-				Serial_Energy->write(0x100 - ((0xAA + 0x0A + 0xA3 + _Command.Low_Address + _Command.High_Address + 0xD3 + _Parameter1 + _Parameter2 + _Parameter3) % 256));
+				Serial_Energy->write(this->CheckSum(_Command.Low_Address, _Command.High_Address, _Parameter1, _Parameter2, _Parameter3));
 
 				// Command Delay
-				delay(20);
+				delay(5);
 
 				// End Function
-				if (Serial_Energy->read() == 0xAD) return(true);
+				if (Serial_Energy->read() == __MAX78630_ACK_NO_DATA__) return(true);
 
 				// End Function
 				return(false);
@@ -189,7 +205,7 @@
 			}
 
 			// Data Converter Function
-			uint32_t FtoS(double _Variable, uint8_t _Data_Type) {
+			int32_t FtoS(double _Variable, uint8_t _Data_Type) {
 
 				// Declare Data Variable
 				uint32_t _Data = 0x00;
@@ -360,10 +376,6 @@
 						// Set Register
 						bool _Set = this->Register_Pointer_Set(MMADDR0, __MAX78630_Monitor_1_Type__);
 
-						// Clear Register
-						this->Min_Value(__MAX78630_CLEAR__, __MAX78630_MONITOR_1__, __MAX78630_Monitor_1_Scale__);
-						this->Max_Value(__MAX78630_CLEAR__, __MAX78630_MONITOR_1__, __MAX78630_Monitor_1_Scale__);
-
 						// End Function
 						return(_Set);
 
@@ -471,10 +483,6 @@
 
 						// Set Register
 						bool _Set = this->Register_Pointer_Set(MMADDR7, __MAX78630_Monitor_8_Type__);
-
-						// Clear Register
-						this->Min_Value(__MAX78630_CLEAR__, __MAX78630_MONITOR_8__, __MAX78630_Monitor_8_Scale__);
-						this->Max_Value(__MAX78630_CLEAR__, __MAX78630_MONITOR_8__, __MAX78630_Monitor_8_Scale__);
 
 						// End Function
 						return(_Set);
@@ -611,7 +619,6 @@
 
 			}
 
-
 		// Protected Context
 		protected:
 
@@ -644,20 +651,17 @@
 			// Select IC Function
 			bool Select_IC(uint8_t _Address) {
 
-				// Command Send Delay
-				delay(5);
-
 				// Send Command
-				Serial_Energy->write(0xAA);											// Header (0xAA)
-				Serial_Energy->write(0x04);											// Total Sended Byte (0x04)
-				Serial_Energy->write(_Address);										// IC Address (0xC1, 0xC2, 0xC3, 0xC4)
-				Serial_Energy->write(0x100 - ((0xAA + 0x04 + _Address) % 256));		// CheckSum (0x__)
+				Serial_Energy->write(__MAX78630_HEADER__);			// Header (0xAA)
+				Serial_Energy->write(__MAX78630_4_BYTES__);			// Total Sended Byte (0x04)
+				Serial_Energy->write(_Address);						// IC Address (0xC1, 0xC2, 0xC3, 0xC4)
+				Serial_Energy->write(this->CheckSum(_Address));		// CheckSum (0x__)
 
 				// Command Send Delay
-				delay(20);
+				delay(2);
 
 				// End Function
-				if (Serial_Energy->read() == 0xAD) return(true);
+				if (Serial_Energy->read() == __MAX78630_ACK_NO_DATA__) return(true);
 
 				// End Function
 				return(false);
@@ -740,288 +744,6 @@
 
 				// Return Register
 				return(this->Register_Pointer_Read(SYSSTAT));
-
-			}
-
-			/* Min Max Functions */
-
-			// Min Record Value Function
-			float Min_Value(const uint8_t _Function, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
-
-				// Control for Function
-				if (_Function == __MAX78630_SET__) return(0);
-
-				// Control for Mask
-				if (_MM_ADDR > 8) return(0);
-
-				// Decide Address
-				switch (_MM_ADDR) {
-
-					case __MAX78630_MONITOR_1__: {
-
-						// Define Register
-						Register MIN0 {0x01, 0x89, 23}; // Minimum Recorded Value 1
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN0) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN0, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_2__: {
-
-						// Define Register
-						Register MIN1 {0x01, 0x8C, 23}; // Minimum Recorded Value 2
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN1) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN1, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_3__: {
-
-						// Define Register
-						Register MIN2 {0x01, 0x8F, 23}; // Minimum Recorded Value 3
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN2) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN2, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_4__: {
-
-						// Define Register
-						Register MIN3 {0x01, 0x92, 23}; // Minimum Recorded Value 4
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN3) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN3, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_5__: {
-
-						// Define Register
-						Register MIN4 {0x01, 0x95, 23}; // Minimum Recorded Value 5
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN4) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN4, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_6__: {
-
-						// Define Register
-						Register MIN5 {0x01, 0x98, 23}; // Minimum Recorded Value 6
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN5) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN5, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_7__: {
-
-						// Define Register
-						Register MIN6 {0x01, 0x9B, 0}; // Minimum Recorded Value 7
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN6) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN6, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-					case __MAX78630_MONITOR_8__: {
-
-						// Define Register
-						Register MIN7 {0x01, 0x9E, 0}; // Minimum Recorded Value 8
-
-						// Return Register
-						float _Min_Value = this->Register_Pointer_Read(MIN7) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MIN7, 0x00);
-
-						// End Function
-						return(_Min_Value);
-
-					}
-
-				}
-
-				// End Function
-				return(0);
-
-			}
-
-			// Max Record Value Function
-			float Max_Value(const uint8_t _Function, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
-
-				// Control for Function
-				if (_Function == __MAX78630_SET__) return(0);
-
-				// Control for Mask
-				if (_MM_ADDR > 8) return(0);
-
-				// Decide Address
-				switch (_MM_ADDR) {
-
-					case __MAX78630_MONITOR_1__: {
-
-						// Define Register
-						Register MAX0 {0x01, 0xA1, 23}; // Maximum Recorded Value 1
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX0) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX0, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_2__: {
-
-						// Define Register
-						Register MAX1 {0x01, 0xA4, 23}; // Maximum Recorded Value 2
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX1) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX1, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_3__: {
-
-						// Define Register
-						Register MAX2 {0x01, 0xA7, 23}; // Maximum Recorded Value 3
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX2) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX2, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_4__: {
-
-						// Define Register
-						Register MAX3 {0x01, 0xAA, 23}; // Maximum Recorded Value 4
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX3) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX3, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_5__: {
-
-						// Define Register
-						Register MAX4 {0x01, 0xAD, 23}; // Maximum Recorded Value 5
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX4) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX4, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_6__: {
-
-						// Define Register
-						Register MAX5 {0x01, 0xB0, 23}; // Maximum Recorded Value 6
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX5) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX5, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_7__: {
-
-						// Define Register
-						Register MAX6 {0x01, 0xB3, 0}; // Maximum Recorded Value 7
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX6) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX6, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-					case __MAX78630_MONITOR_8__: {
-
-						// Define Register
-						Register MAX7 {0x01, 0xB6, 0}; // Maximum Recorded Value 8
-
-						// Return Register
-						float _Max_Value = this->Register_Pointer_Read(MAX7) * _Scale;
-
-						// Clear Register
-						if (_Function == __MAX78630_CLEAR__) Register_Pointer_Set(MAX7, 0x00);
-
-						// End Function
-						return(_Max_Value);
-
-					}
-
-				}
-
-				// End Function
-				return(0);
 
 			}
 
@@ -1592,7 +1314,6 @@
 
 			}
 
-
 		// Public Context
 		public:
 
@@ -1768,9 +1489,6 @@
 
 						// Set Low Temperature Alarm --> AL2
 						this->Alarm_Mask(__MAX78630_SET__, __MAX78630_ALARM_2__, __BIT_UN_TEMP__, true);
-
-						// Clear Status
-						this->Status(__MAX78630_GET__);
 
 					}
 
@@ -3100,16 +2818,295 @@
 
 			}
 
+			/* Min Max Functions */
+
+			// Min Record Value Function
+			float Min_Value(const uint8_t _Function, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
+
+				// Control for Function
+				if (_Function == __MAX78630_SET__) return(0);
+
+				// Control for Mask
+				if (_MM_ADDR > 8) return(0);
+
+				// Decide Address
+				switch (_MM_ADDR) {
+
+					case __MAX78630_MONITOR_1__: {
+
+						// Define Register
+						Register MIN0 {0x01, 0x89, 23}; // Minimum Recorded Value 1
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN0) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN0, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_2__: {
+
+						// Define Register
+						Register MIN1 {0x01, 0x8C, 23}; // Minimum Recorded Value 2
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN1) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN1, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_3__: {
+
+						// Define Register
+						Register MIN2 {0x01, 0x8F, 23}; // Minimum Recorded Value 3
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN2) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN2, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_4__: {
+
+						// Define Register
+						Register MIN3 {0x01, 0x92, 23}; // Minimum Recorded Value 4
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN3) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN3, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_5__: {
+
+						// Define Register
+						Register MIN4 {0x01, 0x95, 23}; // Minimum Recorded Value 5
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN4) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN4, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_6__: {
+
+						// Define Register
+						Register MIN5 {0x01, 0x98, 23}; // Minimum Recorded Value 6
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN5) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN5, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_7__: {
+
+						// Define Register
+						Register MIN6 {0x01, 0x9B, 0}; // Minimum Recorded Value 7
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN6) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN6, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+					case __MAX78630_MONITOR_8__: {
+
+						// Define Register
+						Register MIN7 {0x01, 0x9E, 16}; // Minimum Recorded Value 8
+
+						// Return Register
+						float _Min_Value = this->Register_Pointer_Read(MIN7) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MIN7, 0x00);
+
+						// End Function
+						return(_Min_Value);
+
+					}
+
+				}
+
+				// End Function
+				return(0);
+
+			}
+
+			// Max Record Value Function
+			float Max_Value(const uint8_t _Function, const uint8_t _MM_ADDR, const uint16_t _Scale = 1) {
+
+				// Control for Function
+				if (_Function == __MAX78630_SET__) return(0);
+
+				// Control for Mask
+				if (_MM_ADDR > 8) return(0);
+
+				// Decide Address
+				switch (_MM_ADDR) {
+
+					case __MAX78630_MONITOR_1__: {
+
+						// Define Register
+						Register MAX0 {0x01, 0xA1, 23}; // Maximum Recorded Value 1
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX0) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX0, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_2__: {
+
+						// Define Register
+						Register MAX1 {0x01, 0xA4, 23}; // Maximum Recorded Value 2
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX1) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX1, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_3__: {
+
+						// Define Register
+						Register MAX2 {0x01, 0xA7, 23}; // Maximum Recorded Value 3
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX2) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX2, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_4__: {
+
+						// Define Register
+						Register MAX3 {0x01, 0xAA, 23}; // Maximum Recorded Value 4
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX3) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX3, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_5__: {
+
+						// Define Register
+						Register MAX4 {0x01, 0xAD, 23}; // Maximum Recorded Value 5
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX4) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX4, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_6__: {
+
+						// Define Register
+						Register MAX5 {0x01, 0xB0, 23}; // Maximum Recorded Value 6
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX5) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX5, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_7__: {
+
+						// Define Register
+						Register MAX6 {0x01, 0xB3, 0}; // Maximum Recorded Value 7
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX6) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX6, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+					case __MAX78630_MONITOR_8__: {
+
+						// Define Register
+						Register MAX7 {0x01, 0xB6, 16}; // Maximum Recorded Value 8
+
+						// Return Register
+						float _Max_Value = this->Register_Pointer_Read(MAX7) * _Scale;
+
+						// Clear Register
+						Register_Pointer_Set(MAX7, 0x00);
+
+						// End Function
+						return(_Max_Value);
+
+					}
+
+				}
+
+				// End Function
+				return(0);
+
+			}
+
 			/* Limit Functions */
 
 			// Adjust Limit Parameters Function.
 			void Adjust_Limit(void) {
 
-				// Update Status
-				this->Status(__MAX78630_GET__);
-
-				// Control for OV Temp
-				if (bitRead(this->Device.Status, __BIT_OV_TEMP__)) {
+				// Control for High Temperature
+				if (this->Alarm(__ALARM_HIGH_TEMPERATURE__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __T_MAX__, (this->Limit_Variables.T_Max - __MAX78630_Limit_Temperature_Max_Diff__));
@@ -3121,8 +3118,8 @@
 					
 				}
 
-				// Control for OV Temp
-				if (bitRead(this->Device.Status, __BIT_UN_TEMP__)) {
+				// Control for Low Temperature
+				if (this->Alarm(__ALARM_LOW_TEMPERATURE__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __T_MIN__, (this->Limit_Variables.T_Min + __MAX78630_Limit_Temperature_Min_Diff__));
@@ -3134,8 +3131,8 @@
 					
 				}
 
-				// Control for OV Voltage
-				if (bitRead(this->Device.Status, __BIT_OV_VRMSA__) or bitRead(this->Device.Status, __BIT_OV_VRMSB__) or bitRead(this->Device.Status, __BIT_OV_VRMSC__)) {
+				// Control for High Voltage
+				if (this->Alarm(__ALARM_HIGH_VOLTAGE__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __VRMS_MAX__, (this->Limit_Variables.V_Max - __MAX78630_Limit_Voltage_Max_Diff__));
@@ -3147,8 +3144,8 @@
 					
 				}
 
-				// Control for UV Voltage
-				if (bitRead(this->Device.Status, __BIT_UN_VRMSA__) or bitRead(this->Device.Status, __BIT_UN_VRMSB__) or bitRead(this->Device.Status, __BIT_UN_VRMSC__)) {
+				// Control for Low Voltage
+				if (this->Alarm(__ALARM_LOW_VOLTAGE__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __VRMS_MIN__, (this->Limit_Variables.V_Min + __MAX78630_Limit_Voltage_Min_Diff__));
@@ -3161,7 +3158,7 @@
 				}
 
 				// Control for High Frequency
-				if (bitRead(this->Device.Status, __BIT_OV_FREQ__)) {
+				if (this->Alarm(__ALARM_HIGH_FREQUENCY__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __F_MAX__, (this->Limit_Variables.FQ_Max - __MAX78630_Limit_Frequency_Max_Diff__));
@@ -3172,9 +3169,9 @@
 					this->Limit(__MAX78630_SET__, __F_MAX__, this->Limit_Variables.FQ_Max);
 					
 				}
-				
+
 				// Control for Low Frequency
-				if (bitRead(this->Device.Status, __BIT_UN_FREQ__)) {
+				if (this->Alarm(__ALARM_LOW_FREQUENCY__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __F_MIN__, (this->Limit_Variables.FQ_Min + __MAX78630_Limit_Frequency_Min_Diff__));
@@ -3187,7 +3184,7 @@
 				}
 
 				// Control for Voltage Imbalance
-				if (bitRead(this->Device.Status, __BIT_V_IMBAL__)) {
+				if (this->Alarm(__ALARM_VOLTAGE_IMBAL__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __VIMB_MAX__, (this->Limit_Variables.VImb_Max + __MAX78630_Limit_VImb_Max_Diff__));
@@ -3200,7 +3197,7 @@
 				}
 
 				// Control for Current Imbalance
-				if (bitRead(this->Device.Status, __BIT_I_IMBAL__)) {
+				if (this->Alarm(__ALARM_CURRENT_IMBAL__)) {
 					
 					// Set Limit
 					this->Limit(__MAX78630_SET__, __IIMB_MAX__, (this->Limit_Variables.IImb_Max + __MAX78630_Limit_IImb_Max_Diff__));
@@ -3216,83 +3213,129 @@
 
 			/* Alarm Functions */
 
-			// Over Voltage Alarm
-			inline bool Alarm_OV(void) {
+			// Get Alarm Status Function.
+			bool Alarm(const uint16_t _Alarm_Type) {
+
+				// Get Device Status
+				this->Status(__MAX78630_GET__);
+
+				// Control for Alarm Type
+				switch (_Alarm_Type) {
+
+					// High Voltage Alarm
+					case __ALARM_HIGH_VOLTAGE__ : {
+
+						// Control for Over Voltage
+						if (bitRead(this->Device.Status, __BIT_OV_VRMSA__) || bitRead(this->Device.Status, __BIT_OV_VRMSB__) || bitRead(this->Device.Status, __BIT_OV_VRMSC__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// Low Voltage Alarm
+					case __ALARM_LOW_VOLTAGE__ : {
+
+						// Control for Under Voltage
+						if (bitRead(this->Device.Status, __BIT_UN_VRMSA__) || bitRead(this->Device.Status, __BIT_UN_VRMSB__) || bitRead(this->Device.Status, __BIT_UN_VRMSC__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// High Current Alarm
+					case __ALARM_HIGH_CURRENT__ : {
+
+						// Control for Over Current
+						if (bitRead(this->Device.Status, __BIT_OV_IRMSA__) || bitRead(this->Device.Status, __BIT_OV_IRMSB__) || bitRead(this->Device.Status, __BIT_OV_IRMSC__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// High Frequency Alarm
+					case __ALARM_HIGH_FREQUENCY__ : {
+
+						// Control for Over Frequency
+						if (bitRead(this->Device.Status, __BIT_OV_FREQ__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// Low Frequency Alarm
+					case __ALARM_LOW_FREQUENCY__ : {
+
+						// Control for Under Frequency
+						if (bitRead(this->Device.Status, __BIT_UN_FREQ__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// Voltage Imbalance Alarm
+					case __ALARM_VOLTAGE_IMBAL__ : {
+
+						// Control for Voltage Imbalance
+						if (bitRead(this->Device.Status, __BIT_V_IMBAL__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// Current Imbalance Alarm
+					case __ALARM_CURRENT_IMBAL__ : {
+
+						// Control for Current Imbalance
+						if (bitRead(this->Device.Status, __BIT_I_IMBAL__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// Low Power Factor Alarm
+					case __ALARM_LOW_POWERFACTOR__ : {
+
+						// Control for Low Power Factor
+						if (bitRead(this->Device.Status, __BIT_UN_PFA__) || bitRead(this->Device.Status, __BIT_UN_PFB__) || bitRead(this->Device.Status, __BIT_UN_PFC__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// High Temperature Alarm
+					case __ALARM_HIGH_TEMPERATURE__ : {
+
+						// Control for Over Temperature
+						if (bitRead(this->Device.Status, __BIT_OV_TEMP__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+					// Low Temperature Alarm
+					case __ALARM_LOW_TEMPERATURE__ : {
+
+						// Control for Under Temperature
+						if (bitRead(this->Device.Status, __BIT_UN_TEMP__)) return(true);
+
+						// End Switch
+						break;
+
+					}
+
+				}
 
 				// End Function
-				return(bitRead(this->Device.Status, __BIT_OV_VRMSA__) or bitRead(this->Device.Status, __BIT_OV_VRMSB__) or bitRead(this->Device.Status, __BIT_OV_VRMSC__));
-
-			}
-
-			// Under Voltage Alarm
-			inline bool Alarm_UV(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_UN_VRMSA__) or bitRead(this->Device.Status, __BIT_UN_VRMSB__) or bitRead(this->Device.Status, __BIT_UN_VRMSC__));
-
-			}
-
-			// Over Current Alarm
-			inline bool Alarm_OC(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_OV_IRMSA__) or bitRead(this->Device.Status, __BIT_OV_IRMSB__) or bitRead(this->Device.Status, __BIT_OV_IRMSC__));
-
-			}
-
-			// Over Frequency Alarm
-			inline bool Alarm_OFQ(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_OV_FREQ__));
-
-			}
-
-			// Under Frequency Alarm
-			inline bool Alarm_UFQ(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_UN_FREQ__));
-
-			}
-
-			// Voltage Imbalance Alarm
-			inline bool Alarm_VImb(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_V_IMBAL__));
-
-			}
-
-			// Current Imbalance Alarm
-			inline bool Alarm_IImb(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_I_IMBAL__));
-
-			}
-
-			// Under Power Factor Alarm
-			inline bool Alarm_UPF(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_UN_PFA__) or bitRead(this->Device.Status, __BIT_UN_PFB__) or bitRead(this->Device.Status, __BIT_UN_PFC__));
-
-			}
-
-			// Over Temperature Alarm
-			inline bool Alarm_OT(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_OV_TEMP__));
-
-			}
-
-			// Under Temperature Alarm
-			inline bool Alarm_UT(void) {
-
-				// End Function
-				return(bitRead(this->Device.Status, __BIT_UN_TEMP__));
+				return(false);
 
 			}
 
