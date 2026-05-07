@@ -1,169 +1,76 @@
-// UART Configuration
-#ifndef __MAX78630_Serial__
-    #define __MAX78630_Serial__                     Serial2
-#endif
+#ifndef __MAX78630_Config__
+#define __MAX78630_Config__
 
-// Device Defaults
-#define __MAX78630_Firmware__			            (uint32_t)0x0004D912
+	// UART Configuration (hardware object — must stay as #define)
+	#ifndef __MAX78630_Serial__
+		#define __MAX78630_Serial__ Serial2
+	#endif
 
-// Config Defaults
-#ifndef __MAX78630_Config_VScale__
-    #define __MAX78630_Config_VScale__			    (uint16_t)667
-#endif
-#ifndef __MAX78630_Config_IScale__
-    #define __MAX78630_Config_IScale__			    (uint16_t)7
-#endif
-#ifndef __MAX78630_Config_BucketH__
-    #define __MAX78630_Config_BucketH__			    (uint32_t)0x000821
-#endif
-#ifndef __MAX78630_Config_BucketL__
-    #define __MAX78630_Config_BucketL__			    (uint32_t)0xD0F4C2
-#endif
-#ifndef __MAX78630_Config_Status_Sticky__
-    #define __MAX78630_Config_Status_Sticky__	    (bool)false
-#endif
+	namespace MAX78630Config {
 
-// Limit Defaults
+		/* ── Device ──────────────────────────────────────────── */
+		constexpr uint32_t Firmware         = 0x0004D912;
 
-// Min Voltage
-#ifndef __MAX78630_Limit_Voltage_Min__
-    #define __MAX78630_Limit_Voltage_Min__		    (float)190
-#endif
-#ifndef __MAX78630_Limit_Voltage_Min_Diff__
-    #define __MAX78630_Limit_Voltage_Min_Diff__		(float)10
-#endif
+		/* ── Scale ───────────────────────────────────────────── */
+		constexpr uint16_t VScale           = 667;
+		constexpr uint16_t IScale           = 7;
 
-// Max Voltage
-#ifndef __MAX78630_Limit_Voltage_Max__
-    #define __MAX78630_Limit_Voltage_Max__		    (float)253
-#endif
-#ifndef __MAX78630_Limit_Voltage_Max_Diff__
-    #define __MAX78630_Limit_Voltage_Max_Diff__		(float)10
-#endif
+		/* ── Energy Bucket ───────────────────────────────────── */
+		constexpr uint32_t BucketH          = 0x000821;
+		constexpr uint32_t BucketL          = 0xD0F4C2;
 
-// Max Current
-#ifndef __MAX78630_Limit_Current_Max__
-    #define __MAX78630_Limit_Current_Max__		    (float)5
-#endif
-#ifndef __MAX78630_Limit_Current_Max_Diff__
-    #define __MAX78630_Limit_Current_Max_Diff__	    (float)0.5
-#endif
+		/* ── Alarm ───────────────────────────────────────────── */
+		constexpr bool     StatusSticky     = false;
 
-// Min Frequency
-#ifndef __MAX78630_Limit_Frequency_Min__
-    #define __MAX78630_Limit_Frequency_Min__	    (float)47
-#endif
-#ifndef __MAX78630_Limit_Frequency_Min_Diff__
-    #define __MAX78630_Limit_Frequency_Min_Diff__	(float)1
-#endif
+		/* ── Voltage Limits (V) ──────────────────────────────── */
+		constexpr float    VoltageMin       = 190.0f;
+		constexpr float    VoltageMinDiff   = 10.0f;
+		constexpr float    VoltageMax       = 253.0f;
+		constexpr float    VoltageMaxDiff   = 10.0f;
 
-// Max Frequency
-#ifndef __MAX78630_Limit_Frequency_Max__
-    #define __MAX78630_Limit_Frequency_Max__	    (float)52
-#endif
-#ifndef __MAX78630_Limit_Frequency_Max_Diff__
-    #define __MAX78630_Limit_Frequency_Max_Diff__	(float)1
-#endif
+		/* ── Current Limits (A) ──────────────────────────────── */
+		constexpr float    CurrentMax       = 5.0f;
+		constexpr float    CurrentMaxDiff   = 0.5f;
 
-// Min Temperature
-#ifndef __MAX78630_Limit_Temperature_Min__
-    #define __MAX78630_Limit_Temperature_Min__	    (float)10
-#endif
-#ifndef __MAX78630_Limit_Temperature_Min_Diff__
-    #define __MAX78630_Limit_Temperature_Min_Diff__	(float)2
-#endif
+		/* ── Frequency Limits (Hz) ───────────────────────────── */
+		constexpr float    FreqMin          = 47.0f;
+		constexpr float    FreqMinDiff      = 1.0f;
+		constexpr float    FreqMax          = 52.0f;
+		constexpr float    FreqMaxDiff      = 1.0f;
 
-// Max Temperature
-#ifndef __MAX78630_Limit_Temperature_Max__
-    #define __MAX78630_Limit_Temperature_Max__	    (float)35
-#endif
-#ifndef __MAX78630_Limit_Temperature_Max_Diff__
-    #define __MAX78630_Limit_Temperature_Max_Diff__	(float)2
-#endif
+		/* ── Temperature Limits (°C) ─────────────────────────── */
+		constexpr float    TempMin          = 10.0f;
+		constexpr float    TempMinDiff      = 2.0f;
+		constexpr float    TempMax          = 35.0f;
+		constexpr float    TempMaxDiff      = 2.0f;
 
-// Max Voltage Imbalance
-#ifndef __MAX78630_Limit_VImb_Max__
-    #define __MAX78630_Limit_VImb_Max__			    (float)0.06
-#endif
-#ifndef __MAX78630_Limit_VImb_Max_Diff__
-    #define __MAX78630_Limit_VImb_Max_Diff__		(float)0.01
-#endif
+		/* ── Imbalance Limits (fraction) ─────────────────────── */
+		constexpr float    VImbMax          = 0.06f;
+		constexpr float    VImbMaxDiff      = 0.01f;
+		constexpr float    IImbMax          = 0.06f;
+		constexpr float    IImbMaxDiff      = 0.01f;
 
-// Max Current Imbalance
-#ifndef __MAX78630_Limit_IImb_Max__
-    #define __MAX78630_Limit_IImb_Max__			    (float)0.06
-#endif
-#ifndef __MAX78630_Limit_IImb_Max_Diff__
-    #define __MAX78630_Limit_IImb_Max_Diff__		(float)0.01
-#endif
+		/* ── Voltage Sag ─────────────────────────────────────── */
+		constexpr float    VSagLim          = 0.9f;
 
-// Max Voltage Sag
-#ifndef __MAX78630_Limit_VSag_Lim__
-    #define __MAX78630_Limit_VSag_Lim__			    (float)0.9
-#endif
+		/* ── Min/Max Monitor Assignments ─────────────────────── */
+		constexpr uint8_t  Monitor1Type     = 0x30;  // VRMS_R
+		constexpr uint16_t Monitor1Scale    = VScale;
+		constexpr uint8_t  Monitor2Type     = 0x31;  // VRMS_S
+		constexpr uint16_t Monitor2Scale    = VScale;
+		constexpr uint8_t  Monitor3Type     = 0x32;  // VRMS_T
+		constexpr uint16_t Monitor3Scale    = VScale;
+		constexpr uint8_t  Monitor4Type     = 0x47;  // IRMS_R
+		constexpr uint16_t Monitor4Scale    = IScale;
+		constexpr uint8_t  Monitor5Type     = 0x48;  // IRMS_S
+		constexpr uint16_t Monitor5Scale    = IScale;
+		constexpr uint8_t  Monitor6Type     = 0x49;  // IRMS_T
+		constexpr uint16_t Monitor6Scale    = IScale;
+		constexpr uint8_t  Monitor7Type     = 0x7A;  // PF_T
+		constexpr uint16_t Monitor7Scale    = 1;
+		constexpr uint8_t  Monitor8Type     = 0x80;  // FREQ
+		constexpr uint16_t Monitor8Scale    = 1;
 
-// Min Max Monitor Settings
+	} // namespace MAX78630Config
 
-// Monitor 1
-#ifndef __MAX78630_Monitor_1_Type__
-    #define __MAX78630_Monitor_1_Type__		        (uint8_t)0x30   // 0x30 = VRMS_R
-#endif
-#ifndef __MAX78630_Monitor_1_Scale__
-    #define __MAX78630_Monitor_1_Scale__	        __MAX78630_Config_VScale__
-#endif
-
-// Monitor 2
-#ifndef __MAX78630_Monitor_2_Type__
-    #define __MAX78630_Monitor_2_Type__		        (uint8_t)0x31   // 0x31 = VRMS_S
-#endif
-#ifndef __MAX78630_Monitor_2_Scale__
-    #define __MAX78630_Monitor_2_Scale__	        __MAX78630_Config_VScale__
-#endif
-
-// Monitor 3
-#ifndef __MAX78630_Monitor_3_Type__
-    #define __MAX78630_Monitor_3_Type__		        (uint8_t)0x32   // 0x32 = VRMS_T
-#endif
-#ifndef __MAX78630_Monitor_3_Scale__
-    #define __MAX78630_Monitor_3_Scale__	        __MAX78630_Config_VScale__
-#endif
-
-// Monitor 4
-#ifndef __MAX78630_Monitor_4_Type__
-    #define __MAX78630_Monitor_4_Type__		        (uint8_t)0x47   // 0x47 = IRMS_R
-#endif
-#ifndef __MAX78630_Monitor_4_Scale__
-    #define __MAX78630_Monitor_4_Scale__	        __MAX78630_Config_IScale__
-#endif
-
-// Monitor 5
-#ifndef __MAX78630_Monitor_5_Type__
-    #define __MAX78630_Monitor_5_Type__		        (uint8_t)0x48   // 0x48 = IRMS_S
-#endif
-#ifndef __MAX78630_Monitor_5_Scale__
-    #define __MAX78630_Monitor_5_Scale__	        __MAX78630_Config_IScale__
-#endif
-
-// Monitor 6
-#ifndef __MAX78630_Monitor_6_Type__
-    #define __MAX78630_Monitor_6_Type__		        (uint8_t)0x49   // 0x49 = IRMS_T
-#endif
-#ifndef __MAX78630_Monitor_6_Scale__
-    #define __MAX78630_Monitor_6_Scale__	        __MAX78630_Config_IScale__
-#endif
-
-// Monitor 7
-#ifndef __MAX78630_Monitor_7_Type__
-    #define __MAX78630_Monitor_7_Type__		        (uint8_t)0x7A   // 0x7A = PF_T
-#endif
-#ifndef __MAX78630_Monitor_7_Scale__
-    #define __MAX78630_Monitor_7_Scale__	        (uint16_t)1
-#endif
-
-// Monitor 8
-#ifndef __MAX78630_Monitor_8_Type__
-    #define __MAX78630_Monitor_8_Type__		        (uint8_t)0x80   // 0x80 = FREQ
-#endif
-#ifndef __MAX78630_Monitor_8_Scale__
-    #define __MAX78630_Monitor_8_Scale__	        (uint16_t)1
-#endif
+#endif /* defined(__MAX78630_Config__) */

@@ -1,137 +1,146 @@
-// Command Codes
-#define __MAX78630_HEADER__				(uint8_t)0xAA
-#define __MAX78630_CLEAR_ADRS__			(uint8_t)0xA0
-#define __MAX78630_RW_ADRS_LO_BYTE__	(uint8_t)0xA1
-#define __MAX78630_RW_ADRS_HI_BYTE__	(uint8_t)0xA2
-#define __MAX78630_RW_ADRS__			(uint8_t)0xA3
-#define __MAX78630_DE_SELECT_DEVICE__	(uint8_t)0xC0
-#define __MAX78630_SELECT_DEVICE__		(uint8_t)0xCF
-#define __MAX78630_WRITE_BYTES__		(uint8_t)0xD0
-#define __MAX78630_WRITE_3_BYTES__		(uint8_t)0xD3
-#define __MAX78630_READ_BYTES__			(uint8_t)0xE0
-#define __MAX78630_READ_3_BYTES__		(uint8_t)0xE3
+#ifndef __MAX78630_Definitions__
+#define __MAX78630_Definitions__
 
-// Response Codes
-#define __MAX78630_ACK_DATA__			(uint8_t)0xAA
-#define __MAX78630_AUTO_REPORT__		(uint8_t)0xAE
-#define __MAX78630_ACK_NO_DATA__		(uint8_t)0xAD
-#define __MAX78630_NACK__				(uint8_t)0xB0
-#define __MAX78630_BAD_CMD__			(uint8_t)0xBC
-#define __MAX78630_CHK_SUM_BAD__		(uint8_t)0xBD
-#define __MAX78630_BUFF_OVRFLW__		(uint8_t)0xBF
+	namespace MAX78630Def {
 
-// Payload Size Codes
-#define __MAX78630_1_BYTE__				(uint8_t)0x01
-#define __MAX78630_2_BYTES__			(uint8_t)0x02
-#define __MAX78630_3_BYTES__			(uint8_t)0x03
-#define __MAX78630_4_BYTES__			(uint8_t)0x04
-#define __MAX78630_5_BYTES__			(uint8_t)0x05
-#define __MAX78630_6_BYTES__			(uint8_t)0x06
-#define __MAX78630_7_BYTES__			(uint8_t)0x07
-#define __MAX78630_8_BYTES__			(uint8_t)0x08
-#define __MAX78630_9_BYTES__			(uint8_t)0x09
-#define __MAX78630_10_BYTES__			(uint8_t)0x0A
+		/* ── SSI Protocol Bytes ───────────────────────────────── */
+		namespace Proto {
+			constexpr uint8_t Header        = 0xAA;
+			constexpr uint8_t ClearAddr     = 0xA0;
+			constexpr uint8_t RWAddrLo      = 0xA1;
+			constexpr uint8_t RWAddrHi      = 0xA2;
+			constexpr uint8_t RWAddr        = 0xA3;
+			constexpr uint8_t DeSelect      = 0xC0;
+			constexpr uint8_t Select        = 0xCF;
+			constexpr uint8_t WriteBytes    = 0xD0;
+			constexpr uint8_t Write3Bytes   = 0xD3;
+			constexpr uint8_t ReadBytes     = 0xE0;
+			constexpr uint8_t Read3Bytes    = 0xE3;
 
-// Function Definitions
-#define __MAX78630_CLEAR__ 				(uint8_t)0
-#define __MAX78630_GET__ 				(uint8_t)1
-#define __MAX78630_SET__ 				(uint8_t)2
+			constexpr uint8_t AckData       = 0xAA;
+			constexpr uint8_t AutoReport    = 0xAE;
+			constexpr uint8_t AckNoData     = 0xAD;
+			constexpr uint8_t Nack          = 0xB0;
+			constexpr uint8_t BadCmd        = 0xBC;
+			constexpr uint8_t ChkSumBad     = 0xBD;
+			constexpr uint8_t BufOverflow   = 0xBF;
 
-// Phase Type
-#define __Phase_R__						(uint8_t)1
-#define __Phase_S__						(uint8_t)2
-#define __Phase_T__						(uint8_t)3
-#define __Phase_Avg__					(uint8_t)4
-#define __Phase_Any__					(uint8_t)5
+			constexpr uint8_t Bytes1        = 0x01;
+			constexpr uint8_t Bytes2        = 0x02;
+			constexpr uint8_t Bytes3        = 0x03;
+			constexpr uint8_t Bytes4        = 0x04;
+			constexpr uint8_t Bytes5        = 0x05;
+			constexpr uint8_t Bytes6        = 0x06;
+			constexpr uint8_t Bytes7        = 0x07;
+			constexpr uint8_t Bytes8        = 0x08;
+			constexpr uint8_t Bytes9        = 0x09;
+			constexpr uint8_t Bytes10       = 0x0A;
+		}
 
-// Measurement Type
-#define __RMS__ 						(uint8_t)1
-#define __Instant__ 					(uint8_t)2
-#define __Fundamental__ 				(uint8_t)3
-#define __Harmonic__ 					(uint8_t)4
-#define __Peak__ 						(uint8_t)5
-#define __Active__ 						(uint8_t)6
-#define __ReActive__ 					(uint8_t)7
-#define __Apparent__ 					(uint8_t)8
-#define __Fund_ReActive__ 				(uint8_t)9
-#define __Harm_ReActive__ 				(uint8_t)10
-#define __Fund_VA__ 					(uint8_t)11
-#define __Active_Received__ 			(uint8_t)12
-#define __Active_Delivered__ 			(uint8_t)13
-#define __ReActive_Received__ 			(uint8_t)14
-#define __ReActive_Delivered__ 			(uint8_t)15
-#define __Energy_Reset__ 				(uint8_t)16
-#define __Phase_Compensation__ 			(uint8_t)17
+		/* ── Function Codes ──────────────────────────────────── */
+		constexpr uint8_t CLEAR             = 0;
+		constexpr uint8_t GET               = 1;
+		constexpr uint8_t SET               = 2;
 
-// Calibration Type
-#define __Voltage__ 					(uint8_t)1
-#define __Current__ 					(uint8_t)2
-#define __Temperature__ 				(uint8_t)3
-#define __Active_Power__ 				(uint8_t)4
-#define __ReActive_Power__ 				(uint8_t)5
+		/* ── Phase Types ─────────────────────────────────────── */
+		constexpr uint8_t Phase_R           = 1;
+		constexpr uint8_t Phase_S           = 2;
+		constexpr uint8_t Phase_T           = 3;
+		constexpr uint8_t Phase_Avg         = 4;
+		constexpr uint8_t Phase_Any         = 5;
 
-// Limit Type
-#define __VRMS_MIN__ 					(uint8_t)1
-#define __VRMS_MAX__ 					(uint8_t)2
-#define __T_MIN__ 						(uint8_t)3
-#define __T_MAX__ 						(uint8_t)4
-#define __F_MIN__ 						(uint8_t)5
-#define __F_MAX__ 						(uint8_t)6
-#define __IRMS_MAX__ 					(uint8_t)7
-#define __PF_MIN__ 						(uint8_t)8
-#define __VIMB_MAX__ 					(uint8_t)9
-#define __IIMB_MAX__ 					(uint8_t)10
-#define __VSAG_LIM__ 					(uint8_t)11
+		/* ── Measurement Types ───────────────────────────────── */
+		constexpr uint8_t RMS               = 1;
+		constexpr uint8_t Instant           = 2;
+		constexpr uint8_t Fundamental       = 3;
+		constexpr uint8_t Harmonic          = 4;
+		constexpr uint8_t Peak              = 5;
+		constexpr uint8_t Active            = 6;
+		constexpr uint8_t ReActive          = 7;
+		constexpr uint8_t Apparent          = 8;
+		constexpr uint8_t Fund_ReActive     = 9;
+		constexpr uint8_t Harm_ReActive     = 10;
+		constexpr uint8_t Fund_VA           = 11;
+		constexpr uint8_t Active_Received   = 12;
+		constexpr uint8_t Active_Delivered  = 13;
+		constexpr uint8_t ReActive_Received  = 14;
+		constexpr uint8_t ReActive_Delivered = 15;
+		constexpr uint8_t Energy_Reset      = 16;
+		constexpr uint8_t Phase_Compensation = 17;
 
-// Mask Definitions
-#define __MASK_AL1__ 					(uint8_t)0x01
-#define __MASK_AL2__ 					(uint8_t)0x02
+		/* ── Calibration Types ───────────────────────────────── */
+		constexpr uint8_t Voltage           = 1;
+		constexpr uint8_t Current           = 2;
+		constexpr uint8_t Temperature       = 3;
+		constexpr uint8_t Active_Power      = 4;
+		constexpr uint8_t ReActive_Power    = 5;
 
-// Alarm Type Definitions
-#define __ALARM_LOW_VOLTAGE__	 		(uint16_t)1
-#define __ALARM_HIGH_VOLTAGE__			(uint16_t)2
-#define __ALARM_HIGH_CURRENT__ 			(uint16_t)3
-#define __ALARM_LOW_FREQUENCY__ 		(uint16_t)4
-#define __ALARM_HIGH_FREQUENCY__		(uint16_t)5
-#define __ALARM_VOLTAGE_IMBAL__			(uint16_t)6
-#define __ALARM_CURRENT_IMBAL__ 		(uint16_t)7
-#define __ALARM_LOW_TEMPERATURE__		(uint16_t)8
-#define __ALARM_HIGH_TEMPERATURE__ 		(uint16_t)9
-#define __ALARM_LOW_POWERFACTOR__		(uint16_t)10
+		/* ── Limit Types ─────────────────────────────────────── */
+		constexpr uint8_t VRms_Min          = 1;
+		constexpr uint8_t VRms_Max          = 2;
+		constexpr uint8_t T_Min             = 3;
+		constexpr uint8_t T_Max             = 4;
+		constexpr uint8_t F_Min             = 5;
+		constexpr uint8_t F_Max             = 6;
+		constexpr uint8_t IRms_Max          = 7;
+		constexpr uint8_t PF_Min            = 8;
+		constexpr uint8_t VImb_Max          = 9;
+		constexpr uint8_t IImb_Max          = 10;
+		constexpr uint8_t VSag_Lim          = 11;
 
-// Defect Bit Definitions
-#define __BIT_OV_FREQ__ 				(uint8_t)22
-#define __BIT_UN_FREQ__ 				(uint8_t)21
-#define __BIT_OV_TEMP__ 				(uint8_t)20
-#define __BIT_UN_TEMP__ 				(uint8_t)19
-#define __BIT_OV_VRMSC__ 				(uint8_t)18
-#define __BIT_UN_VRMSC__ 				(uint8_t)17
-#define __BIT_OV_VRMSB__ 				(uint8_t)16
-#define __BIT_UN_VRMSB__ 				(uint8_t)15
-#define __BIT_OV_VRMSA__ 				(uint8_t)14
-#define __BIT_UN_VRMSA__ 				(uint8_t)13
-#define __BIT_UN_PFC__ 					(uint8_t)12
-#define __BIT_UN_PFB__ 					(uint8_t)11
-#define __BIT_UN_PFA__ 					(uint8_t)10
-#define __BIT_OV_IRMSC__ 				(uint8_t)9
-#define __BIT_OV_IRMSB__ 				(uint8_t)8
-#define __BIT_OV_IRMSA__ 				(uint8_t)7
-#define __BIT_VC_SAG__ 		   			(uint8_t)6
-#define __BIT_VB_SAG__ 		   			(uint8_t)5
-#define __BIT_VA_SAG__ 		   			(uint8_t)4
-#define __BIT_V_IMBAL__ 				(uint8_t)3
-#define __BIT_I_IMBAL__ 				(uint8_t)2
+		/* ── Alarm Mask Pins ─────────────────────────────────── */
+		constexpr uint8_t Mask_AL1          = 0x01;
+		constexpr uint8_t Mask_AL2          = 0x02;
 
-// Monitor Address Definitions
-#define __MAX78630_MONITOR_1__ 			(uint8_t)1
-#define __MAX78630_MONITOR_2__ 			(uint8_t)2
-#define __MAX78630_MONITOR_3__ 			(uint8_t)3
-#define __MAX78630_MONITOR_4__ 			(uint8_t)4
-#define __MAX78630_MONITOR_5__ 			(uint8_t)5
-#define __MAX78630_MONITOR_6__ 			(uint8_t)6
-#define __MAX78630_MONITOR_7__ 			(uint8_t)7
-#define __MAX78630_MONITOR_8__ 			(uint8_t)8
+		/* ── Alarm Types ─────────────────────────────────────── */
+		constexpr uint16_t Alarm_LowVoltage  = 1;
+		constexpr uint16_t Alarm_HighVoltage = 2;
+		constexpr uint16_t Alarm_HighCurrent = 3;
+		constexpr uint16_t Alarm_LowFreq    = 4;
+		constexpr uint16_t Alarm_HighFreq   = 5;
+		constexpr uint16_t Alarm_VImbal     = 6;
+		constexpr uint16_t Alarm_IImbal     = 7;
+		constexpr uint16_t Alarm_LowTemp    = 8;
+		constexpr uint16_t Alarm_HighTemp   = 9;
+		constexpr uint16_t Alarm_LowPF      = 10;
 
-// Alarm Mask Definitions
-#define __MAX78630_ALARM_1__ 			(uint8_t)1
-#define __MAX78630_ALARM_2__ 			(uint8_t)2
+		/* ── Status Register Bit Positions ───────────────────── */
+		constexpr uint8_t Bit_OV_Freq       = 22;
+		constexpr uint8_t Bit_UN_Freq       = 21;
+		constexpr uint8_t Bit_OV_Temp       = 20;
+		constexpr uint8_t Bit_UN_Temp       = 19;
+		constexpr uint8_t Bit_OV_VrmsC      = 18;
+		constexpr uint8_t Bit_UN_VrmsC      = 17;
+		constexpr uint8_t Bit_OV_VrmsB      = 16;
+		constexpr uint8_t Bit_UN_VrmsB      = 15;
+		constexpr uint8_t Bit_OV_VrmsA      = 14;
+		constexpr uint8_t Bit_UN_VrmsA      = 13;
+		constexpr uint8_t Bit_UN_PFC        = 12;
+		constexpr uint8_t Bit_UN_PFB        = 11;
+		constexpr uint8_t Bit_UN_PFA        = 10;
+		constexpr uint8_t Bit_OV_IrmsC      = 9;
+		constexpr uint8_t Bit_OV_IrmsB      = 8;
+		constexpr uint8_t Bit_OV_IrmsA      = 7;
+		constexpr uint8_t Bit_VC_Sag        = 6;
+		constexpr uint8_t Bit_VB_Sag        = 5;
+		constexpr uint8_t Bit_VA_Sag        = 4;
+		constexpr uint8_t Bit_V_Imbal       = 3;
+		constexpr uint8_t Bit_I_Imbal       = 2;
+
+		/* ── Monitor Numbers ─────────────────────────────────── */
+		constexpr uint8_t Monitor1          = 1;
+		constexpr uint8_t Monitor2          = 2;
+		constexpr uint8_t Monitor3          = 3;
+		constexpr uint8_t Monitor4          = 4;
+		constexpr uint8_t Monitor5          = 5;
+		constexpr uint8_t Monitor6          = 6;
+		constexpr uint8_t Monitor7          = 7;
+		constexpr uint8_t Monitor8          = 8;
+
+		/* ── Alarm Output Pins ───────────────────────────────── */
+		constexpr uint8_t Alarm1            = 1;
+		constexpr uint8_t Alarm2            = 2;
+
+	} // namespace MAX78630Def
+
+#endif /* defined(__MAX78630_Definitions__) */

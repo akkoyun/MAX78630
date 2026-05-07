@@ -1,1 +1,14 @@
+# Global owner — all files require review by @akkoyun
 * @akkoyun
+
+# Source code
+/src/     @akkoyun
+
+# Documentation
+/Documents/  @akkoyun
+README.md    @akkoyun
+
+# Library metadata
+library.properties  @akkoyun
+library.json        @akkoyun
+keywords.txt        @akkoyun

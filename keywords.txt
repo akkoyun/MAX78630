@@ -3,80 +3,93 @@
 #######################################
 
 #######################################
-# Datatype (KEYWORD1)
+# Class Name (KEYWORD1)
 #######################################
 
-Energy_Analyzer                KEYWORD1
+MAX78630                        KEYWORD1
 
 #######################################
-# Methods and Functions (KEYWORD2)
+# Public Methods (KEYWORD2)
 #######################################
 
-Begin                          KEYWORD2
-Get_Baud                       KEYWORD2
-Set_Baud                       KEYWORD2
-Get_Device_Address             KEYWORD2
-Get_System_Stat                KEYWORD2
-VScale                         KEYWORD2
-IScale                         KEYWORD2
-Harmonic                       KEYWORD2
-Set_Bucket                     KEYWORD2
-Get_Bucket_LOW                 KEYWORD2
-Get_Bucket_HIGH                KEYWORD2
-Set_Limit                      KEYWORD2
-Get_Limit                      KEYWORD2
-Get_Frame                      KEYWORD2
-Get_Cycle                      KEYWORD2
-Get_Divisor                    KEYWORD2
-Get_Samples                    KEYWORD2
-Get_Voltage_Gain               KEYWORD2
-Get_Voltage_Offset             KEYWORD2
-Get_Voltage_RMS_Offset         KEYWORD2
-Get_Current_Gain               KEYWORD2
-Get_Current_Offset             KEYWORD2
-Get_Temperature_Gain           KEYWORD2
-Get_Temperature_Offset         KEYWORD2
-Get_Active_Power_Offset        KEYWORD2
-Get_ReActive_Power_Offset      KEYWORD2
-Get_Voltage_HPF_COEF           KEYWORD2
-Get_Current_HPF_COEF           KEYWORD2
-IC_Temperature                 KEYWORD2
-Firmware                       KEYWORD2
-Voltage_RMS                    KEYWORD2
-Voltage_Instantaneous          KEYWORD2
-Voltage_Fundamental            KEYWORD2
-Voltage_Harmonic               KEYWORD2
-Voltage_SAG_Limit              KEYWORD2
-Frequency                      KEYWORD2
-Phase_Compensation             KEYWORD2
-Current_RMS                    KEYWORD2
-Current_Instantaneous          KEYWORD2
-Current_Peak                   KEYWORD2
-Current_Fundamental            KEYWORD2
-Current_Harmonic               KEYWORD2
-Active_Power                   KEYWORD2
-ReActive_Power                 KEYWORD2
-Apparent_Power                 KEYWORD2
-Fundamental_Power              KEYWORD2
-Harmonic_Power                 KEYWORD2
-Power_Factor                   KEYWORD2
-Fundamental_ReActive_Power     KEYWORD2
-Harmonic_ReActive_Power        KEYWORD2
-Fundamental_VA_Power           KEYWORD2
-Active_Energy_Received         KEYWORD2
-Active_Energy_Delivered        KEYWORD2
-ReActive_Energy_Received       KEYWORD2
-ReActive_Energy_Delivered      KEYWORD2
-Set_Min_Max_Address            KEYWORD2
-Get_Min_Value                  KEYWORD2
-Get_Max_Value                  KEYWORD2
-Control_Limits                 KEYWORD2
-Control_Clear                  KEYWORD2
+Begin                           KEYWORD2
+Status                          KEYWORD2
+Voltage                         KEYWORD2
+Current                         KEYWORD2
+Frequency                       KEYWORD2
+Power_Factor                    KEYWORD2
+Power                           KEYWORD2
+Energy                          KEYWORD2
+Temperature                     KEYWORD2
+Harmonic                        KEYWORD2
+Min_Value                       KEYWORD2
+Max_Value                       KEYWORD2
+Adjust_Limit                    KEYWORD2
+Alarm                           KEYWORD2
 
 #######################################
-# Constants (LITERAL1)
+# Phase Constants (LITERAL1)
 #######################################
 
-_VScale                        LITERAL1
-_IScale                        LITERAL1
-Limit                          LITERAL1
+Phase_R                         LITERAL1
+Phase_S                         LITERAL1
+Phase_T                         LITERAL1
+Phase_Avg                       LITERAL1
+
+#######################################
+# Measurement Type Constants (LITERAL1)
+#######################################
+
+RMS                             LITERAL1
+Instant                         LITERAL1
+Fundamental                     LITERAL1
+Harmonic_Type                   LITERAL1
+Peak                            LITERAL1
+Active                          LITERAL1
+ReActive                        LITERAL1
+Apparent                        LITERAL1
+Fund_ReActive                   LITERAL1
+Harm_ReActive                   LITERAL1
+Fund_VA                         LITERAL1
+Active_Received                 LITERAL1
+Active_Delivered                LITERAL1
+ReActive_Received               LITERAL1
+ReActive_Delivered              LITERAL1
+Energy_Reset                    LITERAL1
+Phase_Compensation              LITERAL1
+
+#######################################
+# Function Mode Constants (LITERAL1)
+#######################################
+
+GET                             LITERAL1
+SET                             LITERAL1
+CLEAR                           LITERAL1
+
+#######################################
+# Monitor Constants (LITERAL1)
+#######################################
+
+Monitor1                        LITERAL1
+Monitor2                        LITERAL1
+Monitor3                        LITERAL1
+Monitor4                        LITERAL1
+Monitor5                        LITERAL1
+Monitor6                        LITERAL1
+Monitor7                        LITERAL1
+Monitor8                        LITERAL1
+
+#######################################
+# Alarm Type Constants (LITERAL1)
+#######################################
+
+Alarm_LowVoltage                LITERAL1
+Alarm_HighVoltage               LITERAL1
+Alarm_HighCurrent               LITERAL1
+Alarm_LowFreq                   LITERAL1
+Alarm_HighFreq                  LITERAL1
+Alarm_VImbal                    LITERAL1
+Alarm_IImbal                    LITERAL1
+Alarm_LowTemp                   LITERAL1
+Alarm_HighTemp                  LITERAL1
+Alarm_LowPF                     LITERAL1
