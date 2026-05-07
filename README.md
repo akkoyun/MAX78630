@@ -4,17 +4,11 @@
 
 ---
 
-<center><img src="Documents/B201.png" alt="B201 three-phase energy measurement module" width="800"></center>
-
-
 ## Abstract
 
 The **B201** is a three-phase energy measurement module (EMM) built around the **MAX78630+PPM** polyphase energy-metering processor. It is designed for real-time monitoring in industrial three-phase applications and fits on a compact 3×4 cm PCB.
 
 The module provides six analog inputs for voltage and current sensors (current transformers, Rogowski coils, or resistive shunts). A 24-bit delta-sigma converter front-end feeds an embedded measurement processor that computes all energy parameters and communicates results to the host via a UART (SSI) interface.
-
-<center><img src="Documents/PinOut.jpg" alt="B201 module pinout diagram" width="600"></center>
-
 
 ---
 
